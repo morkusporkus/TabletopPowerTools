@@ -22,7 +22,6 @@ namespace DMPowerTools.Data
         {
             if (conn != null)
                 return;
-            // Create database and WeatherForecast Table
             conn = new SQLiteAsyncConnection(_dbPath);
             await conn.CreateTableAsync<Monster>();
         }
@@ -40,19 +39,19 @@ namespace DMPowerTools.Data
                 f.OpenReadStream();
             }
         }
-        public async Task<Monster> CreateForecastAsync(Monster monster)
+        public async Task<Monster> CreateMonsterAsync(Monster monster)
         {
             await conn.InsertAsync(monster);
             return monster;
         }
-        public async Task<Monster> UpdateForecastAsync(Monster monster)
+        public async Task<Monster> UpdateMonsterAsync(Monster monster)
         {
             // Update
             await conn.UpdateAsync(monster);
             // Return the updated object
             return monster;
         }
-        public async Task<Monster> DeleteForecastAsync(Monster monster)
+        public async Task<Monster> DeleteMonsterAsync(Monster monster)
         {
             // Delete
             await conn.DeleteAsync(monster);

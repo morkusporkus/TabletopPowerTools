@@ -28,7 +28,6 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
         builder.Services.AddSingleton<MonsterItemDatabase>();
-        //builder.Services.AddSingleton<MonsterService>();
         builder.Services.AddMudServices();
         return builder.Build();
 	}
