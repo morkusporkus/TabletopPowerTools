@@ -95,19 +95,3 @@ public class Monster
     public string name { get; set; }
         public string stat { get; set; }
     }
-public class MonsterService
-{
-    public Task<Monster[]> GetMonstersAsync()
-    {
-        return Task.FromResult(new Monster[] { });
-    }
-    public async Task UploadMonstersAsync(IList<IBrowserFile> files)
-    {
-        var monsters = new List<Monster>();
-        foreach (IBrowserFile f in files)
-        {
-            var monster = new Monster();
-            f.OpenReadStream();
-        }
-    }
-}

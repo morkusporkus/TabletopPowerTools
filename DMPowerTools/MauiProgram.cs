@@ -17,13 +17,18 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddMauiBlazorWebView();
-
+        var dbPath =
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                @"DMPowerTools.db");
+        builder.Services.AddSingleton<MonsterService>(
+            s => ActivatorUtilities.CreateInstance<MonsterService>(s, dbPath));
 #if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
+        builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
         builder.Services.AddSingleton<MonsterItemDatabase>();
-        builder.Services.AddSingleton<MonsterService>();
+        //builder.Services.AddSingleton<MonsterService>();
         builder.Services.AddMudServices();
         return builder.Build();
 	}
