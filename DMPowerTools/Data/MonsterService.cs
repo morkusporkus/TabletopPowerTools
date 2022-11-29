@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
+using Newtonsoft.Json;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,11 +34,20 @@ namespace DMPowerTools.Data
         }
         public async Task UploadMonstersAsync(IList<IBrowserFile> files)
         {
+
             var monsters = new List<Monster>();
             foreach (IBrowserFile f in files)
             {
-                var monster = new Monster();
-                f.OpenReadStream();
+                string line;
+               var test = f.Name;
+                using (StreamReader reader = new StreamReader(f.OpenReadStream(512000,default)))
+                {
+                    while ((line = reader.ReadLineAsync().ToString()) != null)
+                    {
+                        monsters.Add(JsonConvert.DeserializeObject<Monster>(line));
+                    }
+                }
+
             }
         }
         public async Task<Monster> CreateMonsterAsync(Monster monster)
