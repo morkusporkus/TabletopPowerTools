@@ -1,5 +1,4 @@
 ﻿@page "/"
-@using DMPowerTools.Data;
 
 <h1>DM Power Tools</h1>
 
@@ -21,28 +20,34 @@
 
 <InputFile id="fileInput2" OnChange="UploadFiles" hidden multiple />
 
-@if (files != null)
-{
-        <MudList>
-        @foreach (var file in files)
-        {
-                    <MudListItem Icon="@Icons.Filled.AttachFile">
-                @file.Name <code>@file.Size bytes</code>
-                    </MudListItem>
-        }
-        </MudList>
-}
 @code
 {
-    @inject MonsterService MonsterService
+    @inject ApplicationDbContext DbContext
+    @using DMPowerTools.Data;
+    @using System.Text.Json;
 
-    IList<IBrowserFile> files = new List<IBrowserFile>();
     private async void UploadFiles(InputFileChangeEventArgs e)
     {
-        foreach (var file in e.GetMultipleFiles())
+        var monsters = new List<Monster>();
+        foreach (IBrowserFile f in e.GetMultipleFiles())
         {
-            files.Add(file);
+            var monster = await JsonSerializer.DeserializeAsync<Monster>(f.OpenReadStream(512000, default), new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            monsters.Add(monster);
         }
-        await MonsterService.UploadMonstersAsync(files);
+        try
+        {
+            DbContext.Monsters.AddRange(monsters);
+            await DbContext.SaveChangesAsync();
+        }
+        catch (Exception tree)
+        {
+            var boo = tree.Message;
+
+        }
+
+        
     }
 }

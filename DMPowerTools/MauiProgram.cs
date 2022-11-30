@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using DMPowerTools.Data;
 using MudBlazor.Services;
+using System.Linq.Expressions;
+using System;
 
 namespace DMPowerTools;
 
@@ -17,18 +19,26 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddMauiBlazorWebView();
-        var dbPath =
-            Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                @"DMPowerTools.db");
-        builder.Services.AddSingleton<MonsterService>(
-            s => ActivatorUtilities.CreateInstance<MonsterService>(s, dbPath));
+		builder.Services.AddDbContext<ApplicationDbContext>();
+
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
-        builder.Services.AddSingleton<MonsterItemDatabase>();
         builder.Services.AddMudServices();
-        return builder.Build();
+        var app = builder.Build();
+
+		using var scope = app.Services.CreateScope();
+
+		var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+		try
+		{ dbContext.Database.EnsureCreated(); }
+		catch (Exception e)
+		{
+		var a=	e.Message;
+		
+		}
+
+		return app;
 	}
 }
