@@ -31,14 +31,7 @@ public static class MauiProgram
 		using var scope = app.Services.CreateScope();
 
 		var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-		try
-		{ dbContext.Database.EnsureCreated(); }
-		catch (Exception e)
-		{
-		var a=	e.Message;
-		
-		}
-
+		 dbContext.Database.EnsureCreated(); 
 		return app;
 	}
 }
