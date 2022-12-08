@@ -4,21 +4,30 @@
 @*    <MudItem xs="12" sm="6" md="4">
         <MudAutocomplete T="string" Label="Creatures" @bind-Value="value1" SearchFunc="@Search" CoerceText="true" />
     </MudItem>*@
-    @foreach(var creature in creatures)
-    {
-        <text>@creature.Name></text>
-    }
+    <MudSelect T="Monster" Label="Creatures" @bind-Value="@returnMonster" Required="true">
+        @foreach (var item in creatures)
+        {
+            <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+        }
+    </MudSelect>
+
+@*    <MudSelect Label="Position" AnchorOrigin="Origin.BottomCenter"  For="@(() => _addPlayerForm.Position)" id="@nameof(_addPlayerForm.Position)" OnBlur=MapToHeadshotForm>
+        @foreach (Position pos in Position.List)
+        {
+                                <MudSelectItem Value="@pos.Name">@pos.Name</MudSelectItem>
+        }
+ </MudSelect>*@
 </MudGrid>
 @code {
     @page "/creatures"
     @using DMPowerTools.Data;
 
     @inject ApplicationDbContext DBContext;
+    Monster returnMonster { get; set; }
+    List<Monster> creatures = new();
 
-    private List<Monster> creatures = new();
+    protected override async Task OnInitializedAsync() => creatures = DBContext.Monsters.ToList();
 
-    protected override async Task OnInitializedAsync()
-    {
-        creatures =  DBContext.Monsters.ToList();
-    }
 }
+
+  
