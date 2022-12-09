@@ -18,11 +18,15 @@
                             <MudMenuItem>@action.Name</MudMenuItem>
                 }
             </MudMenu>
-            <MudText Typo="Typo.body1">Hit Points: @selectedMonster.CustomHP || Speed: @selectedMonster.CustomSpeed</MudText>
+            <MudText Typo="Typo.body1">STR:@selectedMonster.StrPoints (@StatModifier(selectedMonster.StrPoints))
+                                      |DEX: @selectedMonster.DexPoints (@StatModifier(selectedMonster.DexPoints))
+                                      |CON: @selectedMonster.ConPoints (@StatModifier(selectedMonster.ConPoints))
+                                      |WIS: @selectedMonster.WisPoints (@StatModifier(selectedMonster.WisPoints))
+                                      |INT: @selectedMonster.IntPoints (@StatModifier(selectedMonster.IntPoints))
+                                      |CHA: @selectedMonster.ChaPoints (@StatModifier(selectedMonster.ChaPoints))
+            </MudText>
+
             <MudText Typo="Typo.body1">Alignment: @selectedMonster.Alignment</MudText>
-            <MudText Typo="Typo.body1">Armor Bonus: @selectedMonster.NatArmorBonus || @selectedMonster.NatArmorBonus</MudText>
-            <MudText Typo="Typo.body1">HP: @selectedMonster.CustomHP</MudText>
-            <MudText Typo="Typo.body1">STR:@selectedMonster.StrPoints|DEX: @selectedMonster.DexPoints|CON: @selectedMonster.ConPoints|WIS: @selectedMonster.WisPoints|INT: @selectedMonster.IntPoints|CHA: @selectedMonster.ChaPoints </MudText>
        
         </MudExpansionPanel>
 </MudExpansionPanels>
@@ -62,18 +66,22 @@
         if (returnMonster == string.Empty) selectedMonster=  new Monster();
 
         selectedMonster = DBContext.Monsters.Where(a => a.Name == returnMonster).First();
-        monsterHeader = $"{selectedMonster.Name} || {selectedMonster.CustomCr} || {DiceRoll(selectedMonster.HitDice,selectedMonster.ConPoints)}";
+        monsterHeader = $"{selectedMonster.Name} || {selectedMonster.CustomCr} || {DiceRoll()}";
     }
-    public string DiceRoll(int numberOfDice,int con)
+    public string DiceRoll()
     {
         Random random = new Random();
         var totalRolls = 0;
-        for (int j = 0; j < numberOfDice; j++)
+        for (int j = 0; j < selectedMonster.HitDice; j++)
         {
             totalRolls = totalRolls + random.Next(1, 8);
         }
-        var additionalHP = ((con - 10) / 2) * numberOfDice;
-        return $"HP: {totalRolls + additionalHP} ({numberOfDice}d8 + {additionalHP}) ";
+        var additionalHP = ((selectedMonster.ConPoints - 10) / 2) * selectedMonster.HitDice;
+        return $"HP: {totalRolls + additionalHP} ({selectedMonster.HitDice}d8 + {additionalHP}) ";
+    }
+    public int StatModifier(int stat)
+    {
+        return (stat - 10) / 2;
     }
 
 }
