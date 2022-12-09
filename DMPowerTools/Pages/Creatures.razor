@@ -3,6 +3,29 @@
         <MudItem xs="12" sm="6" md="4">
         <MudAutocomplete T="string" Label="Creature" @bind-Value="@returnMonster" SearchFunc="@Filter" Variant="Variant.Outlined" Immediate="true" CoerceValue="@coerceValue" ResetValueOnEmptyText="true" />
     </MudItem>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ButtonOnClick">Test</MudButton>
+    <MudExpansionPanels>
+    <MudExpansionPanel Text="@monsterHeader" MaxHeight="150">
+            <MudMenu Label="Abilities">
+                @foreach (Ability ability in selectedMonster.Abilities)
+                {
+                    <MudMenuItem>@ability.Name</MudMenuItem>
+                }
+            </MudMenu>
+            <MudMenu Label="Actions">
+                @foreach (Data.Action action in selectedMonster.Actions)
+                {
+                            <MudMenuItem>@action.Name</MudMenuItem>
+                }
+            </MudMenu>
+            <MudText Typo="Typo.body1">Hit Points: @selectedMonster.CustomHP || Speed: @selectedMonster.CustomSpeed</MudText>
+            <MudText Typo="Typo.body1">Alignment: @selectedMonster.Alignment</MudText>
+            <MudText Typo="Typo.body1">Armor Bonus: @selectedMonster.NatArmorBonus || @selectedMonster.NatArmorBonus</MudText>
+            <MudText Typo="Typo.body1">HP: @selectedMonster.CustomHP</MudText>
+            <MudText Typo="Typo.body1">STR:@selectedMonster.StrPoints|DEX: @selectedMonster.DexPoints|CON: @selectedMonster.ConPoints|WIS: @selectedMonster.WisPoints|INT: @selectedMonster.IntPoints|CHA: @selectedMonster.ChaPoints </MudText>
+       
+        </MudExpansionPanel>
+</MudExpansionPanels>
 </MudGrid>
 
 
@@ -13,7 +36,8 @@
     @inject ApplicationDbContext DBContext;
     string returnMonster { get; set; }
     IEnumerable<Monster> creatures;
-
+    Monster selectedMonster = new();
+    string monsterHeader= "";
     private bool resetValueOnEmptyText;
     private bool coerceText;
     private bool coerceValue;
@@ -26,13 +50,30 @@
 
     private async Task<IEnumerable<string>> Filter(string value)
     {
-        
         if (string.IsNullOrEmpty(value))
         {
             return creatures.Select(n => n.Name).ToList();
         }
         var lowerCaseSearchTerm = value.Trim().ToLower();
         return creatures.Select(n => n.Name).Where(p => p.ToLower().Contains(lowerCaseSearchTerm));
+    }
+    public void ButtonOnClick()
+    {
+        if (returnMonster == string.Empty) selectedMonster=  new Monster();
+
+        selectedMonster = DBContext.Monsters.Where(a => a.Name == returnMonster).First();
+        monsterHeader = $"{selectedMonster.Name} || {selectedMonster.CustomCr} || {DiceRoll(selectedMonster.HitDice,selectedMonster.ConPoints)}";
+    }
+    public string DiceRoll(int numberOfDice,int con)
+    {
+        Random random = new Random();
+        var totalRolls = 0;
+        for (int j = 0; j < numberOfDice; j++)
+        {
+            totalRolls = totalRolls + random.Next(1, 8);
+        }
+        var additionalHP = ((con - 10) / 2) * numberOfDice;
+        return $"HP: {totalRolls + additionalHP} ({numberOfDice}d8 + {additionalHP}) ";
     }
 
 }
