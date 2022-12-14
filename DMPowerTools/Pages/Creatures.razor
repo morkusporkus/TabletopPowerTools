@@ -6,30 +6,43 @@
     </MudItem>
      <MudItem xs="12">
     <MudExpansionPanels>
-    <MudExpansionPanel Text="@monsterHeader" MaxHeight="150">
+            <MudExpansionPanel>
+             <TitleContent>
+                <div class="d-flex">
+                    <MudAvatar Image="" Size="Size.Large" />
+                        <MudText> <strong>@selectedMonster.Name</strong>  <small> @selectedMonster.CustomCr </small><em>@DiceRoll()</em>  </MudText>
+                </div>
+            </TitleContent>
+            <ChildContent>
+        <MudStack Row="true">
+            <MudPaper Class="pa-2">
             <MudMenu Label="Abilities">
                 @foreach (Ability ability in selectedMonster.Abilities)
                 {
                     <MudMenuItem>@ability.Name</MudMenuItem>
                 }
             </MudMenu>
+            </MudPaper>
+              <MudPaper Class="pa-2">
             <MudMenu Label="Actions">
                 @foreach (Data.Action action in selectedMonster.Actions)
                 {
                             <MudMenuItem>@action.Name</MudMenuItem>
                 }
             </MudMenu>
-            <MudText Typo="Typo.body1">STR:@selectedMonster.StrPoints (@StatModifier(selectedMonster.StrPoints))
-                                      |DEX: @selectedMonster.DexPoints (@StatModifier(selectedMonster.DexPoints))
-                                      |CON: @selectedMonster.ConPoints (@StatModifier(selectedMonster.ConPoints))
-                                      |WIS: @selectedMonster.WisPoints (@StatModifier(selectedMonster.WisPoints))
-                                      |INT: @selectedMonster.IntPoints (@StatModifier(selectedMonster.IntPoints))
-                                      |CHA: @selectedMonster.ChaPoints (@StatModifier(selectedMonster.ChaPoints))
-            </MudText>
+             </MudPaper>
+           </MudStack>
+            <MudStack Row="true">
+                    <MudPaper Class="pa-3">STR: @selectedMonster.StrPoints (@StatModifier(selectedMonster.StrPoints))</MudPaper>
+                    <MudPaper Class="pa-3">DEX: @selectedMonster.DexPoints (@StatModifier(selectedMonster.DexPoints))</MudPaper>
+                    <MudPaper Class="pa-3">CON: @selectedMonster.ConPoints (@StatModifier(selectedMonster.ConPoints))</MudPaper>
+                    <MudPaper Class="pa-3">WIS: @selectedMonster.WisPoints (@StatModifier(selectedMonster.WisPoints))</MudPaper>
+                    <MudPaper Class="pa-3">INT: @selectedMonster.IntPoints (@StatModifier(selectedMonster.IntPoints))</MudPaper>
+                    <MudPaper Class="pa-3">CHA: @selectedMonster.ChaPoints (@StatModifier(selectedMonster.ChaPoints))</MudPaper>
 
-            <MudText Typo="Typo.body1">Alignment: @selectedMonster.Alignment</MudText>
-       
-        </MudExpansionPanel>
+            </MudStack>
+            </ChildContent>
+                </MudExpansionPanel>
 </MudExpansionPanels>
     </MudItem>
 </MudGrid>
@@ -69,7 +82,7 @@
 
         selectedMonster = DBContext.Monsters. 
         Where(a => a.Name == returnMonster).First();
-        monsterHeader = $"{selectedMonster.Name} || {selectedMonster.CustomCr} || {DiceRoll()}";
+        monsterHeader = $"{selectedMonster.Name} || {selectedMonster.CustomCr} || {DiceRoll()} || {selectedMonster.Alignment}";
     }
     public string DiceRoll()
     {
