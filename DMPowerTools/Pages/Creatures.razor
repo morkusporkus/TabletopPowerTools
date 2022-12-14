@@ -1,9 +1,10 @@
 ﻿
 <MudGrid>
-        <MudItem xs="12" sm="6" md="4">
+        <MudItem xs="12">
         <MudAutocomplete T="string" Label="Creature" @bind-Value="@returnMonster" SearchFunc="@Filter" Variant="Variant.Outlined" Immediate="true" CoerceValue="@coerceValue" ResetValueOnEmptyText="true" />
-    </MudItem>
     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ButtonOnClick">Test</MudButton>
+    </MudItem>
+     <MudItem xs="12">
     <MudExpansionPanels>
     <MudExpansionPanel Text="@monsterHeader" MaxHeight="150">
             <MudMenu Label="Abilities">
@@ -30,6 +31,7 @@
        
         </MudExpansionPanel>
 </MudExpansionPanels>
+    </MudItem>
 </MudGrid>
 
 
@@ -65,7 +67,8 @@
     {
         if (returnMonster == string.Empty) selectedMonster=  new Monster();
 
-        selectedMonster = DBContext.Monsters.Where(a => a.Name == returnMonster).First();
+        selectedMonster = DBContext.Monsters. 
+        Where(a => a.Name == returnMonster).First();
         monsterHeader = $"{selectedMonster.Name} || {selectedMonster.CustomCr} || {DiceRoll()}";
     }
     public string DiceRoll()
@@ -83,5 +86,4 @@
     {
         return (stat - 10) / 2;
     }
-
 }
