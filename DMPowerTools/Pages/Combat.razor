@@ -7,6 +7,8 @@
      <MudItem xs="12">
     <MudExpansionPanels>
             <MudExpansionPanel>
+
+            
              <TitleContent>
                 <div class="d-flex">
                     <MudAvatar Image="" Size="Size.Large" />
@@ -14,6 +16,17 @@
                 </div>
             </TitleContent>
             <ChildContent>
+                 <MudExpansionPanel>
+                      <TitleContent>
+                <div class="d-flex">
+                        <MudText> <strong>Abilities</strong>
+                                    <MudBadge Content="@NumberOfActions()" Color="Color.Primary" Overlap="true" Class="d-flex ml-auto">
+                                <MudIcon Icon="@Icons.Filled.Construction" Color="Color.Default" />
+                            </MudBadge>
+                        </MudText>
+                </div>
+            </TitleContent>
+                    </MudExpansionPanel>
         <MudStack Row="true">
             <MudPaper Class="pa-2">
             <MudMenu Label="Abilities">
@@ -39,7 +52,6 @@
                     <MudPaper Class="pa-3">WIS: @selectedMonster.WisPoints (@StatModifier(selectedMonster.WisPoints))</MudPaper>
                     <MudPaper Class="pa-3">INT: @selectedMonster.IntPoints (@StatModifier(selectedMonster.IntPoints))</MudPaper>
                     <MudPaper Class="pa-3">CHA: @selectedMonster.ChaPoints (@StatModifier(selectedMonster.ChaPoints))</MudPaper>
-
             </MudStack>
             </ChildContent>
                 </MudExpansionPanel>
@@ -49,7 +61,7 @@
 
 
 @code {
-    @page "/creatures"
+    @page "/combat"
     @using DMPowerTools.Data;
 
     @inject ApplicationDbContext DBContext;
@@ -98,5 +110,13 @@
     public int StatModifier(int stat)
     {
         return (stat - 10) / 2;
+    }
+    public int NumberOfActions()
+    {
+        if (selectedMonster.Actions == null)
+        {
+            return 0;    
+        }
+        return selectedMonster.Actions.Count();
     }
 }
