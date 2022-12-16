@@ -3,7 +3,7 @@
 
 <MudGrid>
         <MudItem xs="12">
-        <MudAutocomplete T="string" Label="Creature" @bind-Value="@returnMonster" SearchFunc="@Filter" Variant="Variant.Outlined" Immediate="true" CoerceValue="@coerceValue" ResetValueOnEmptyText="true" />
+        <MudAutocomplete T="string" Label="Creature" @bind-Value="@returnMonster" SearchFunc="@Filter" Variant="Variant.Outlined" Immediate="true" ResetValueOnEmptyText="true" />
     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ButtonOnClick">Test</MudButton>
     </MudItem>
      <MudItem xs="12">
@@ -71,10 +71,6 @@
     IEnumerable<Monster> creatures;
     Monster selectedMonster = new();
     string monsterHeader= "";
-    private bool resetValueOnEmptyText;
-    private bool coerceText;
-    private bool coerceValue;
-    private string value;
 
     protected override async Task OnInitializedAsync()
     {
