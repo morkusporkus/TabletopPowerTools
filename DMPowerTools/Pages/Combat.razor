@@ -1,6 +1,4 @@
-﻿<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
-
+﻿
 <MudGrid>
         <MudItem xs="12">
         <MudAutocomplete T="string" Label="Creature" @bind-Value="@returnMonster" SearchFunc="@Filter" Variant="Variant.Outlined" Immediate="true" ResetValueOnEmptyText="true" />
@@ -14,21 +12,11 @@
              <TitleContent>
                 <div class="d-flex">
                     <MudAvatar Image="" Size="Size.Large" />
-                        <MudText> <strong>@selectedMonster.Name</strong>  <small> @selectedMonster.CustomCr </small><em>@DiceRoll()</em>  </MudText>
+                        <MudText> <strong>@selectedMonster.Name</strong>  <small>   @selectedMonster.CustomCr   </small><em>@DiceRoll()</em>    </MudText>
                 </div>
             </TitleContent>
             <ChildContent>
-                 <MudExpansionPanel>
-                      <TitleContent>
-                <div class="d-flex">
-                        <MudText> <strong>Abilities</strong>
-                                    <MudBadge Content="@NumberOfActions()" Color="Color.Primary" Overlap="true" Class="d-flex ml-auto">
-                                <MudIcon Icon="@Icons.Filled.Construction" Color="Color.Default" />
-                            </MudBadge>
-                        </MudText>
-                </div>
-            </TitleContent>
-                    </MudExpansionPanel>
+                
         <MudStack Row="true">
             <MudPaper Class="pa-2">
             <MudMenu Label="Abilities">
@@ -65,16 +53,17 @@
 @code {
     @page "/combat"
     @using DMPowerTools.Data;
+    @using Microsoft.EntityFrameworkCore;
 
     @inject ApplicationDbContext DBContext;
     string returnMonster { get; set; }
-    IEnumerable<Monster> creatures;
-    Monster selectedMonster = new();
+    IEnumerable<Creature> creatures;
+    Creature selectedMonster = new();
     string monsterHeader= "";
 
     protected override async Task OnInitializedAsync()
     {
-        creatures = DBContext.Monsters.ToList();
+        creatures =  DBContext.Creatures.Include(a => a.Abilities).Include(b => b.Actions).ToList();
     }
 
     private async Task<IEnumerable<string>> Filter(string value)
@@ -88,9 +77,9 @@
     }
     public void ButtonOnClick()
     {
-        if (returnMonster == string.Empty) selectedMonster=  new Monster();
+        if (returnMonster == string.Empty) selectedMonster=  new Creature();
 
-        selectedMonster = DBContext.Monsters. 
+        selectedMonster = DBContext.Creatures. 
         Where(a => a.Name == returnMonster).First();
         monsterHeader = $"{selectedMonster.Name} || {selectedMonster.CustomCr} || {DiceRoll()} || {selectedMonster.Alignment}";
     }

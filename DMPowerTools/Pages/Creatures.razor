@@ -1,0 +1,41 @@
+﻿<MudGrid>
+<MudTable Items="@creatures" Dense="true" Hover="true" Bordered="true" Striped="true" @bind-SelectedItem="selectedItem">
+    <HeaderContent>
+        <MudTh></MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>CR</MudTh>
+        <MudTh>HP</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => DeleteCreature(context.Id))"> Delete</MudButton></MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="CR">@context.cr</MudTd>
+        <MudTd DataLabel="HP">@context.HpText</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+</MudGrid>
+@code {
+    @page "/creatures"
+    @using DMPowerTools.Data;
+    @inject ApplicationDbContext DBContext;
+
+    private string searchString = "";
+    private Creature selectedItem = null;
+    private List<Creature> creatures;
+
+    protected override async Task OnInitializedAsync()
+    {
+        creatures = DBContext.Creatures.ToList();
+    }
+    private void DeleteCreature(int id)
+    {
+        Creature m = new Creature() { Id = id };
+        DBContext.Creatures.Attach(m);
+        DBContext.Creatures.Remove(m);
+        DBContext.SaveChanges();
+    }
+}
+

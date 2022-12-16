@@ -17,7 +17,7 @@
         padding:16px;
         background-color: #4caf50;"         
        for="fileInput2">
-    Upload Monster <MudIcon Icon="@Icons.Filled.CloudUpload"/>
+    Upload Creature <MudIcon Icon="@Icons.Filled.CloudUpload"/>
 </label>
 
 <InputFile id="fileInput2" OnChange="UploadFiles" hidden multiple />
@@ -30,18 +30,18 @@
 
     private async void UploadFiles(InputFileChangeEventArgs e)
     {
-        var monsters = new List<Monster>();
+        var creatures = new List<Creature>();
         foreach (IBrowserFile f in e.GetMultipleFiles())
         {
-            var monster = await JsonSerializer.DeserializeAsync<Monster>(f.OpenReadStream(512000, default), new JsonSerializerOptions
+            var creature = await JsonSerializer.DeserializeAsync<Creature>(f.OpenReadStream(512000, default), new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
-            monsters.Add(monster);
+            creatures.Add(creature);
         }
         try
         {
-            DbContext.Monsters.AddRange(monsters);
+            DbContext.Creatures.AddRange(creatures);
             await DbContext.SaveChangesAsync();
         }
         catch (Exception tree)

@@ -4,7 +4,7 @@ namespace DMPowerTools.Data;
 
 public class ApplicationDbContext : DbContext
 {
-    public DbSet<Monster> Monsters { get; set; }
+    public DbSet<Creature> Creatures { get; set; }
     public DbSet<Ability> Abilities { get; set; }
     public DbSet<Skill> Skills { get; set; }
     public DbSet<Action> Actions { get; set; }
@@ -15,14 +15,14 @@ public class ApplicationDbContext : DbContext
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
-        DbPath = Path.Join(path, "DMPowerTools.db");
+        DbPath = Path.Join(path, "DM_PowerTools.db");
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
 }
 
-public class Monster
+public class Creature
 {
     public int Id { get; set; }
     public string Name { get; set; }
