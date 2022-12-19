@@ -27,6 +27,7 @@
     @inject ApplicationDbContext DbContext
     @using DMPowerTools.Data;
     @using System.Text.Json;
+    @using DMPowerTools.Data.Extensions;
 
     private async void UploadFiles(InputFileChangeEventArgs e)
     {
@@ -37,19 +38,17 @@
             {
                 PropertyNameCaseInsensitive = true
             });
-            creatures.Add(creature);
-        }
-        try
-        {
-            DbContext.Creatures.AddRange(creatures);
+         try
+            {
+            DbContext.Creatures.AddIfNotExists(creature);
             await DbContext.SaveChangesAsync();
-        }
-        catch (Exception tree)
-        {
+            }
+         catch (Exception tree)
+            {
             var boo = tree.Message;
 
+            }
         }
-
-        
+   
     }
 }
