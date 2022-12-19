@@ -12,10 +12,12 @@ namespace DMPowerTools.Data.Extensions
     public static class DbSetExtensions
     {
 
-        public static EntityEntry<T> AddIfNotExists<T>(this DbSet<T> dbSet, T entity, Expression<Func<T, bool>> predicate = null) where T : class, new()
+        public static EntityEntry<TEnt> AddIfNotExists<TEnt, TKey>(this DbSet<TEnt> dbSet, TEnt entity, Func<TEnt, TKey> predicate) where TEnt : class
         {
-            var exists = predicate != null ? dbSet.Any(predicate) : dbSet.Any();
-            return !exists ? dbSet.Add(entity) : null;
+            var exists = dbSet.Any(c => predicate(entity).Equals(predicate(c)));
+            return exists
+                ? null
+                : dbSet.Add(entity);
         }
     }
 }

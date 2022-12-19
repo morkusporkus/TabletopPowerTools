@@ -38,16 +38,9 @@
             {
                 PropertyNameCaseInsensitive = true
             });
-         try
-            {
-            DbContext.Creatures.AddIfNotExists(creature);
-            await DbContext.SaveChangesAsync();
-            }
-         catch (Exception tree)
-            {
-            var boo = tree.Message;
 
-            }
+            DbContext.Creatures.AddIfNotExists(creature, c=> c.Name);
+            await DbContext.SaveChangesAsync();
         }
    
     }
