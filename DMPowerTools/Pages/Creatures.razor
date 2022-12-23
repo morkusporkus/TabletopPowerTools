@@ -7,7 +7,7 @@
         <MudTh>HP</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => DeleteCreature(context.Id))"> Delete</MudButton></MudTd>
+        <MudTd><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => DeleteCreature(context))"> Delete</MudButton></MudTd>
         <MudTd DataLabel="Name">@context.Name</MudTd>
         <MudTd DataLabel="CR">@context.cr</MudTd>
         <MudTd DataLabel="HP">@context.HpText</MudTd>
@@ -20,6 +20,7 @@
 @code {
     @page "/creatures"
     @using DMPowerTools.Data;
+    @using Microsoft.EntityFrameworkCore;
     @inject ApplicationDbContext DBContext;
 
     private string searchString = "";
@@ -28,13 +29,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        creatures = DBContext.Creatures.ToList();
+        creatures = DBContext.Creatures.Include(c=> c.Abilities).Include(i=>i.Actions).Include(s=>s.Skills).ToList();
     }
-    private void DeleteCreature(int id)
+    private void DeleteCreature(Creature c)
     {
-        Creature m = new Creature() { Id = id };
-        DBContext.Creatures.Attach(m);
-        DBContext.Creatures.Remove(m);
+        DBContext.Creatures.Remove(c);
         DBContext.SaveChanges();
     }
 }

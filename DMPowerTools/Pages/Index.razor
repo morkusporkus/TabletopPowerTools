@@ -24,10 +24,12 @@
 
 @code
 {
-    @inject ApplicationDbContext DbContext
+    @inject ApplicationDbContext DbContext;
+    @inject IDialogService DialogService;
     @using DMPowerTools.Data;
     @using System.Text.Json;
     @using DMPowerTools.Data.Extensions;
+    @using DMPowerTools.Pages.Dialogs;
 
     private async void UploadFiles(InputFileChangeEventArgs e)
     {
@@ -38,10 +40,26 @@
             {
                 PropertyNameCaseInsensitive = true
             });
-
-            DbContext.Creatures.AddIfNotExists(creature, c=> c.Name);
-            await DbContext.SaveChangesAsync();
+            if (DbContext.Creatures.Where(c => c.Name == creature.Name).FirstOrDefault() != null)
+            {
+                var parameters = new DialogParameters
+                {
+                   {"DuplicateCreature", creature}
+                };
+                await OpenDialog(creature.Name,parameters);
+            }
+            else
+            {
+                DbContext.Creatures.Add(creature);
+                await DbContext.SaveChangesAsync();
+            }
         }
-   
+
+    }
+    private async Task<IDialogReference> OpenDialog(string name,DialogParameters parameters)
+    {    
+        DialogOptions closeOnEscapeKey = new DialogOptions() { CloseOnEscapeKey = true };
+
+        return await DialogService.ShowAsync<UpdateNameDialog>($"Create Variant {name} or skip",parameters, closeOnEscapeKey);
     }
 }
