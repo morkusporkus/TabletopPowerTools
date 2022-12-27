@@ -16,25 +16,33 @@
                 </div>
             </TitleContent>
             <ChildContent>
-                
-        <MudStack Row="true">
-            <MudPaper Class="pa-2">
-            <MudMenu Label="Abilities">
-                @foreach (Ability ability in selectedMonster.Abilities)
-                {
-                    <MudMenuItem>@ability.Name</MudMenuItem>
-                }
-            </MudMenu>
-            </MudPaper>
-              <MudPaper Class="pa-2">
-            <MudMenu Label="Actions">
-                @foreach (Data.Action action in selectedMonster.Actions)
-                {
-                            <MudMenuItem>@action.Name</MudMenuItem>
-                }
-            </MudMenu>
-             </MudPaper>
-           </MudStack>
+                    <MudChipSet @bind-SelectedChip="selected" Filter="true">
+                        <MudChip Text="Actions" Color="Color.Primary">Actions</MudChip>
+                        <MudChip Text="Abilities" Color="Color.Secondary">Abilities</MudChip>
+                    </MudChipSet>
+                    <div class="d-flex flex-column align-center">
+                        @if (selected != null)
+                        {
+                     @if (selected.Text == "Actions")
+                      {
+                          @foreach (Data.Action action in selectedMonster.Actions)
+                                {
+                                    <MudText>@action.Name</MudText>
+                                    <MudText>@action.Desc</MudText>
+                            }
+                        }
+                        else if(selected.Text == "Abilities")
+                        {
+                               @foreach (Data.Ability ability in selectedMonster.Abilities)
+                                {
+                                <MudText>@ability.Name</MudText>
+                                <MudText>@ability.Desc</MudText>
+                            }                   
+  
+                        }
+                        }
+
+                      </div>
             <MudStack Row="true">
                     <MudPaper Class="pa-3">STR: @selectedMonster.StrPoints (@StatModifier(selectedMonster.StrPoints))</MudPaper>
                     <MudPaper Class="pa-3">DEX: @selectedMonster.DexPoints (@StatModifier(selectedMonster.DexPoints))</MudPaper>
@@ -60,10 +68,12 @@
     IEnumerable<Creature> creatures;
     Creature selectedMonster = new();
     string monsterHeader= "";
+    MudChip selected;
 
     protected override async  Task OnInitializedAsync()
     {
         creatures =  DBContext.Creatures.Include(a => a.Abilities).Include(b => b.Actions).ToList();
+        selectedMonster.Actions = new List<Data.Action>();
     }
 
     private async Task<IEnumerable<string>> Filter(string value)
