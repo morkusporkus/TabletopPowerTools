@@ -61,7 +61,7 @@
     Creature selectedMonster = new();
     string monsterHeader= "";
 
-    protected override async Task OnInitializedAsync()
+    protected override async  Task OnInitializedAsync()
     {
         creatures =  DBContext.Creatures.Include(a => a.Abilities).Include(b => b.Actions).ToList();
     }
