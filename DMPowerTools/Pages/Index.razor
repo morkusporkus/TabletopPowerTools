@@ -24,9 +24,11 @@
 
 @code
 {
-    @inject ApplicationDbContext DbContext
+    @inject ApplicationDbContext DbContext;
+    @inject IDialogService DialogService;
     @using DMPowerTools.Data;
     @using System.Text.Json;
+    @using DMPowerTools.Data.Extensions;
 
     private async void UploadFiles(InputFileChangeEventArgs e)
     {
@@ -37,19 +39,15 @@
             {
                 PropertyNameCaseInsensitive = true
             });
-            creatures.Add(creature);
+            if (DbContext.Creatures.Where(c => c.Name == creature.Name).FirstOrDefault() != null)
+            {
+                await DialogService.ShowMessageBox("Duplicate", $"{creature.Name} already exists");
+            }
+            else
+            {
+                DbContext.Creatures.Add(creature);
+                await DbContext.SaveChangesAsync();
+            }
         }
-        try
-        {
-            DbContext.Creatures.AddRange(creatures);
-            await DbContext.SaveChangesAsync();
-        }
-        catch (Exception tree)
-        {
-            var boo = tree.Message;
-
-        }
-
-        
     }
 }
