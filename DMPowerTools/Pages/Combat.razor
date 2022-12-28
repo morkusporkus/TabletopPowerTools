@@ -19,6 +19,7 @@
                     <MudChipSet @bind-SelectedChip="selected" Filter="true">
                         <MudChip Text="Actions" Color="Color.Primary">Actions</MudChip>
                         <MudChip Text="Abilities" Color="Color.Secondary">Abilities</MudChip>
+                        <MudChip Text="Skills" Color="Color.Dark">Skills</MudChip>
                     </MudChipSet>
                     <div class="d-flex flex-column align-center">
                         @if (selected != null)
@@ -39,6 +40,14 @@
                                 <MudText>@ability.Desc</MudText>
                             }                   
   
+                        }
+                         else if(selected.Text == "Skills")
+                        {
+                               @foreach (Data.Skill skill in selectedMonster.Skills)
+                                {
+                                <MudText>@skill.Name</MudText>
+                                <MudText>@skill.Stat</MudText>
+                            }                   
                         }
                         }
 
