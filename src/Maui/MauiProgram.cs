@@ -1,6 +1,6 @@
 ﻿using DMPowerTools.Maui.Data;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MudBlazor.Services;
 
 namespace DMPowerTools.Maui;
 
@@ -16,20 +16,31 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             });
 
+        // Non-test configuration/services.
+        var folder = Environment.SpecialFolder.LocalApplicationData;
+        var path = Environment.GetFolderPath(folder);
+        var dbPath = Path.Join(path, "DMPowerTools.db");
+        builder.Configuration.AddInMemoryCollection(new List<KeyValuePair<string, string>>
+        {
+            new("ConnectionStrings:DMPowerTools", "DataSource=" + dbPath)
+        });
         builder.Services.AddMauiBlazorWebView();
-        builder.Services.AddDbContext<ApplicationDbContext>();
+
+        var startup = new Startup(builder.Configuration);
+        startup.ConfigureServices(builder.Services);
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-        builder.Services.AddMudServices();
+
         var app = builder.Build();
 
         using var scope = app.Services.CreateScope();
 
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         dbContext.Database.EnsureCreated();
+
         return app;
     }
 }

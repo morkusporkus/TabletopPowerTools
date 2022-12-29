@@ -4,22 +4,12 @@ namespace DMPowerTools.Maui.Data;
 
 public class ApplicationDbContext : DbContext
 {
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
     public DbSet<Creature> Creatures { get; set; }
     public DbSet<Ability> Abilities { get; set; }
     public DbSet<Skill> Skills { get; set; }
     public DbSet<Action> Actions { get; set; }
-
-    public string DbPath { get; }
-
-    public ApplicationDbContext()
-    {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
-        DbPath = Path.Join(path, "DM_PowerTools.db");
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={DbPath}");
 }
 
 public class Creature
