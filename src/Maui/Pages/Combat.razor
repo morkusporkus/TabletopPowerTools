@@ -13,7 +13,7 @@
              <TitleContent>
                 <div class="d-flex">
                     <MudAvatar Image="" Size="Size.Large" />
-                            <MudText> <strong>@activeCreature.Creature.Name</strong>  <small>   @activeCreature.Creature.CustomCr   </small><em>@DiceRoll()</em> : Initiative Roll:@activeCreature.InititiveRoll  </MudText>
+                            <MudText> <strong>@activeCreature.Creature.Name</strong>  <small>   @activeCreature.Creature.CustomCr   </small><em>@activeCreature.HitPointsDisplay</em> : Initiative Roll:@activeCreature.InititiveRoll  </MudText>
                 </div>
             </TitleContent>
             <ChildContent>
@@ -98,11 +98,6 @@
         selectedMonster = DBContext.Creatures. 
         Where(a => a.Name == returnMonster).First();
         InitiatedCreatures.Add(new InitiatedCreature(0, selectedMonster));
-    }
-    public string DiceRoll()
-    {
-       var hpRolled = diceRoller.RollHitPoints(selectedMonster);
-        return $"HP: {hpRolled} ({selectedMonster.HitDice}d{diceRoller.SizeToDiceConverter(selectedMonster.Size)} + {diceRoller.AdditionalHitPoints(selectedMonster)}) ";
     }
     public void InitiativeRoll()
     {

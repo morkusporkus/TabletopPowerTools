@@ -29,19 +29,19 @@ namespace DMPowerTools.DataModels
         }
         public int SizeToDiceConverter(string size)
         {
-            switch (size)
+            switch (size.ToLower())
             {
-                case "Tiny":
+                case "tiny":
                     return 4;
-                case "Small":
+                case "small":
                     return 6;
-                case "Medium":
+                case "medium":
                     return 8;
-                case "Large":
+                case "large":
                     return 10;
-                case "Huge":
+                case "huge":
                     return 12;
-                case "Gargantuan":
+                case "gargantuan":
                     return 20;
                 default:
                     return 8;
