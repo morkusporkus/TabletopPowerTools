@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace DMPowerTools.Data;
+namespace DMPowerTools.Maui.Data;
 
 public class ApplicationDbContext : DbContext
 {

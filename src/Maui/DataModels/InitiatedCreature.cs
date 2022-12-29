@@ -1,6 +1,6 @@
-﻿using DMPowerTools.Data;
+﻿using DMPowerTools.Maui.Data;
 
-namespace DMPowerTools.DataModels
+namespace DMPowerTools.Maui.DataModels
 {
     public class InitiatedCreature
     {

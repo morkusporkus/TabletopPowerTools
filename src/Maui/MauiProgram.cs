@@ -1,8 +1,8 @@
-﻿using DMPowerTools.Data;
+﻿using DMPowerTools.Maui.Data;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 
-namespace DMPowerTools;
+namespace DMPowerTools.Maui;
 
 public static class MauiProgram
 {
