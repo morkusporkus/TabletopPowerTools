@@ -18,7 +18,7 @@ Ensure you've installed all necessary prerequisites before running the project. 
   - Open the _Visual Studio Installer_ application by searching your installed programs.
   - Modify your Visual Studio installation.
     ![Step 1](docs/vs-step1.png)
-  - Then install the _.NET Maui platform App UI Development_ workload.
+  - Under the _Workloads_ tab install the _.NET Maui platform App UI Development_ **and** the _.NET Desktop Environment_ workloads.
     ![Step 2](docs/vs-step2.png)
 - In Windows, search for _Privacy & security_ and turn `Developer Mode` to _On_.
   ![Step 1](docs/privacy-step1.png)
