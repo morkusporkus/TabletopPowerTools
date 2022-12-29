@@ -1,7 +1,7 @@
 ﻿
 <MudGrid>
         <MudItem xs="12">
-        <MudAutocomplete T="string" Label="Creature" @bind-Value="@returnMonster" SearchFunc="@Filter" Variant="Variant.Outlined" Immediate="true" ResetValueOnEmptyText="true" />
+        <MudAutocomplete T="string" Label="Creature" @bind-Value="@returnCreature" SearchFunc="@Filter" Variant="Variant.Outlined" Immediate="true" ResetValueOnEmptyText="true" />
     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="InitiateCreature">Add To Combat</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="InitiativeRoll">Initiative Roll</MudButton>
     </MudItem>
@@ -13,7 +13,10 @@
              <TitleContent>
                 <div class="d-flex">
                     <MudAvatar Image="" Size="Size.Large" />
-                            <MudText> <strong>@activeCreature.Creature.Name</strong>  <small>   @activeCreature.Creature.CustomCr   </small><em>@DiceRoll()</em> : Initiative Roll:@activeCreature.InititiveRoll  </MudText>
+                    <MudStack>
+                            <MudText> <strong>@activeCreature.Creature.Name</strong>  <small>   @activeCreature.Creature.CustomCr   </small><em>@activeCreature.HitPointsDisplay()</em> : Initiative Roll:@activeCreature.InititiveRoll  </MudText>
+                            <MudText Color="Color.Error">HP: @activeCreature.HitPoints  </MudText>
+                            </MudStack>
                 </div>
             </TitleContent>
             <ChildContent>
@@ -40,18 +43,17 @@
                                 <MudText>@ability.Name</MudText>
                                 <MudText>@ability.Desc</MudText>
                             }                   
-  
                         }
                         }
 
                       </div>
             <MudStack Row="true">
-                            <MudPaper Class="pa-3">STR: @activeCreature.Creature.StrPoints (@StatModifier(activeCreature.Creature.StrPoints))</MudPaper>
-                            <MudPaper Class="pa-3">DEX: @activeCreature.Creature.DexPoints (@StatModifier(activeCreature.Creature.DexPoints))</MudPaper>
-                            <MudPaper Class="pa-3">CON: @activeCreature.Creature.ConPoints (@StatModifier(activeCreature.Creature.ConPoints))</MudPaper>
-                            <MudPaper Class="pa-3">WIS: @activeCreature.Creature.WisPoints (@StatModifier(activeCreature.Creature.WisPoints))</MudPaper>
-                            <MudPaper Class="pa-3">INT: @activeCreature.Creature.IntPoints (@StatModifier(activeCreature.Creature.IntPoints))</MudPaper>
-                            <MudPaper Class="pa-3">CHA: @activeCreature.Creature.ChaPoints (@StatModifier(activeCreature.Creature.ChaPoints))</MudPaper>
+                            <MudPaper Class="pa-3">STR: @activeCreature.Creature.StrPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.StrPoints))</MudPaper>
+                            <MudPaper Class="pa-3">DEX: @activeCreature.Creature.DexPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.DexPoints))</MudPaper>
+                            <MudPaper Class="pa-3">CON: @activeCreature.Creature.ConPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.ConPoints))</MudPaper>
+                            <MudPaper Class="pa-3">WIS: @activeCreature.Creature.WisPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.WisPoints))</MudPaper>
+                            <MudPaper Class="pa-3">INT: @activeCreature.Creature.IntPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.IntPoints))</MudPaper>
+                            <MudPaper Class="pa-3">CHA: @activeCreature.Creature.ChaPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.ChaPoints))</MudPaper>
             </MudStack>
             </ChildContent>
                 </MudExpansionPanel>
@@ -69,18 +71,17 @@
     @using Markdig;
 
     @inject ApplicationDbContext DBContext;
-    string returnMonster { get; set; }
+    string returnCreature { get; set; }
     IEnumerable<Creature> creatures;
+    DiceRoller diceRoller = new();
     List<InitiatedCreature> InitiatedCreatures = new();
-    Creature selectedMonster = new();
-    string monsterHeader= "";
-    int combatId=0;
+    Creature selectedCreature = new();
     MudChip selected;
 
     protected override async  Task OnInitializedAsync()
     {
         creatures =  DBContext.Creatures.Include(a => a.Abilities).Include(b => b.Actions).ToList();
-        selectedMonster.Actions = new List<Data.Action>();
+        selectedCreature.Actions = new List<Data.Action>();
     }
 
     private async Task<IEnumerable<string>> Filter(string value)
@@ -94,41 +95,22 @@
     }
     public void InitiateCreature()
     {
-        if (returnMonster == string.Empty || returnMonster is null) return;
+        if (returnCreature == string.Empty || returnCreature is null) return;
 
-        selectedMonster = DBContext.Creatures. 
-        Where(a => a.Name == returnMonster).First();
-        combatId += 1;
-        InitiatedCreatures.Add(new InitiatedCreature(combatId, 0, selectedMonster));
-    }
-    public string DiceRoll()
-    {
-        Random random = new Random();
-        var totalRolls = 0;
-        for (int j = 0; j < selectedMonster.HitDice; j++)
-        {
-            totalRolls = totalRolls + random.Next(1, 8);
-        }
-        var additionalHP = ((selectedMonster.ConPoints - 10) / 2) * selectedMonster.HitDice;
-        return $"HP: {totalRolls + additionalHP} ({selectedMonster.HitDice}d8 + {additionalHP}) ";
-    }
-    public int StatModifier(int stat)
-    {
-        return (stat - 10) / 2; 
+        selectedCreature = DBContext.Creatures. 
+        Where(a => a.Name == returnCreature).First();
+        InitiatedCreatures.Add(new InitiatedCreature(0, selectedCreature));
     }
     public void InitiativeRoll()
     {
-        Random random = new Random();
         foreach (InitiatedCreature a in InitiatedCreatures)
         {
-            var roll = random.Next(1, 20);
-            a.InititiveRoll = roll + StatModifier(a.Creature.DexPoints);
+            a.InititiveRoll = diceRoller.RollForInitiative(a.Creature.DexPoints);
         }
         InitiatedCreatures = InitiatedCreatures.OrderByDescending(x => x.InititiveRoll).ToList();
     }
     public MarkupString DisplayAction(string actionDesc)
     {
     return  (MarkupString)Markdown.ToHtml(actionDesc);
-        
     }
 }
