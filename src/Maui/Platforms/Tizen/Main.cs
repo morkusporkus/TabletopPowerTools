@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace DMPowerTools;
+namespace DMPowerTools.Maui;
 
 class Program : MauiApplication
 {

@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace DMPowerTools;
+namespace DMPowerTools.Maui;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

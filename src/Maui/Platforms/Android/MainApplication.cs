@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace DMPowerTools;
+namespace DMPowerTools.Maui;
 
 [Application]
 public class MainApplication : MauiApplication

@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace DMPowerTools;
+namespace DMPowerTools.Maui;
 
 public class Program
 {
