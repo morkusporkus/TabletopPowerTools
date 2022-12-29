@@ -1,21 +1,16 @@
 ﻿using DMPowerTools.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DMPowerTools.DataModels
 {
     public class DiceRoller
     {
-        private Random _random= new Random();
+        private Random _random = new Random();
         public int RollHitPoints(Creature creature)
         {
             var totalRolls = 0;
             for (int j = 0; j < creature.HitDice; j++)
             {
-                totalRolls = totalRolls + _random.Next(1,SizeToDiceConverter(creature.Size));
+                totalRolls = totalRolls + _random.Next(1, SizeToDiceConverter(creature.Size));
             }
             return totalRolls + (CalculateAbilityScoreModifer(creature.ConPoints) * creature.HitDice);
         }
@@ -25,12 +20,12 @@ namespace DMPowerTools.DataModels
         }
         public int RollForInitiative(int dex)
         {
-            var roll =_random.Next(1, 20);
+            var roll = _random.Next(1, 20);
             return roll + CalculateAbilityScoreModifer(dex);
         }
         public int AdditionalHitPoints(Creature creature)
         {
-           return CalculateAbilityScoreModifer(creature.ConPoints) * creature.HitDice;
+            return CalculateAbilityScoreModifer(creature.ConPoints) * creature.HitDice;
         }
         public int SizeToDiceConverter(string size)
         {
