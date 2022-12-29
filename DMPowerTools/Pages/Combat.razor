@@ -32,7 +32,7 @@
                                     @foreach (Data.Action action in a.Creature.Actions)
                                 {
                                     <MudText>@action.Name</MudText>
-                                    <MudText>@action.Desc</MudText>
+                                    @DisplayAction(action.Desc)
                             }
                         }
                         else if(selected.Text == "Abilities")
@@ -68,6 +68,7 @@
     @page "/combat"
     @using DMPowerTools.Data;
     @using Microsoft.EntityFrameworkCore;
+    @using Markdig;
 
     @inject ApplicationDbContext DBContext;
     string returnMonster { get; set; }
@@ -134,5 +135,10 @@
             a.InititiveRoll = roll + StatModifier(a.Creature.DexPoints);
         }
        ActiveCreatrues = ActiveCreatrues.OrderByDescending(x => x.InititiveRoll).ToList();
+    }
+    public MarkupString DisplayAction(string actionDesc)
+    {
+    return  (MarkupString)Markdown.ToHtml(actionDesc);
+        
     }
 }
