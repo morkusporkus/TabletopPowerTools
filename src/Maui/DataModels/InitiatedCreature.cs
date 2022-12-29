@@ -9,7 +9,7 @@ namespace DMPowerTools.DataModels
         {
             InititiveRoll = inititiveRoll;
             Creature = creature;
-            HitPoints= diceRoller.RollHitPoints(creature);
+            HitPoints = diceRoller.RollHitPoints(creature);
             HitPointsDisplay = $"HP: {HitPoints} ({creature.HitDice}d{diceRoller.SizeToDiceConverter(creature.Size)} + {diceRoller.AdditionalHitPoints(creature)}) ";
         }
 
