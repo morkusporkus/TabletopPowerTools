@@ -1,15 +1,15 @@
-﻿using DMPowerTools.Maui.Data;
+﻿using DMPowerTools.DataModels;
+using DMPowerTools.Maui.Data;
 
 namespace DMPowerTools.Maui.DataModels
 {
     public class InitiatedCreature
     {
-        DiceRoller diceRoller = new();
         public InitiatedCreature(int inititiveRoll, Creature creature)
         {
             InititiveRoll = inititiveRoll;
             Creature = creature;
-            HitPoints = diceRoller.RollHitPoints(creature);
+            HitPoints = DiceRoller.RollHitPoints(creature);
         }
 
         public int InititiveRoll { get; set; }
@@ -17,7 +17,7 @@ namespace DMPowerTools.Maui.DataModels
         public int HitPoints { get; set; }
         public string HitPointsDisplay()
         {
-            return $"HP: {HitPoints} ({Creature.HitDice}d{diceRoller.SizeToDiceConverter(Creature.Size)} + {diceRoller.AdditionalHitPoints(Creature)}) ";
+            return $"HP: {HitPoints} ({Creature.HitDice}d{DiceRoller.CalculateHitDieFromSize(Creature.Size)} + {DiceRoller.AdditionalHitPoints(Creature)}) ";
         }
     }
 }
