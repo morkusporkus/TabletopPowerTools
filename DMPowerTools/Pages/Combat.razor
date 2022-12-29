@@ -6,7 +6,7 @@
         <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="InitiativeRoll">Initiative Roll</MudButton>
     </MudItem>
      <MudItem xs="12">
-        @foreach (ActiveCreature activeCreature in ActiveCreatures)
+        @foreach (InitiatedCreature activeCreature in InitiatedCreatures)
         {
     <MudExpansionPanels>
             <MudExpansionPanel>
@@ -71,7 +71,7 @@
     @inject ApplicationDbContext DBContext;
     string returnMonster { get; set; }
     IEnumerable<Creature> creatures;
-    List<ActiveCreature> ActiveCreatures = new();
+    List<InitiatedCreature> InitiatedCreatures = new();
     Creature selectedMonster = new();
     string monsterHeader= "";
     int combatId=0;
@@ -99,7 +99,7 @@
         selectedMonster = DBContext.Creatures. 
         Where(a => a.Name == returnMonster).First();
         combatId += 1;
-        ActiveCreatures.Add(new ActiveCreature(combatId, 0, selectedMonster));
+        InitiatedCreatures.Add(new InitiatedCreature(combatId, 0, selectedMonster));
     }
     public string DiceRoll()
     {
@@ -127,12 +127,12 @@
     public void InitiativeRoll()
     {
         Random random = new Random();
-        foreach (ActiveCreature a in ActiveCreatures)
+        foreach (InitiatedCreature a in InitiatedCreatures)
         {
             var roll = random.Next(1, 20);
             a.InititiveRoll = roll + StatModifier(a.Creature.DexPoints);
         }
-        ActiveCreatures = ActiveCreatures.OrderByDescending(x => x.InititiveRoll).ToList();
+        InitiatedCreatures = InitiatedCreatures.OrderByDescending(x => x.InititiveRoll).ToList();
     }
     public MarkupString DisplayAction(string actionDesc)
     {
