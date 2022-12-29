@@ -101,7 +101,6 @@
     }
     public void InitiativeRoll()
     {
-        Random random = new Random();
         foreach (InitiatedCreature a in InitiatedCreatures)
         {
             a.InititiveRoll = diceRoller.RollForInitiative(a.Creature.DexPoints);
