@@ -13,7 +13,10 @@
              <TitleContent>
                 <div class="d-flex">
                     <MudAvatar Image="" Size="Size.Large" />
-                            <MudText> <strong>@activeCreature.Creature.Name</strong>  <small>   @activeCreature.Creature.CustomCr   </small><em>@activeCreature.HitPointsDisplay</em> : Initiative Roll:@activeCreature.InititiveRoll  </MudText>
+                    <MudStack>
+                            <MudText> <strong>@activeCreature.Creature.Name</strong>  <small>   @activeCreature.Creature.CustomCr   </small><em>@activeCreature.HitPointsDisplay()</em> : Initiative Roll:@activeCreature.InititiveRoll  </MudText>
+                            <MudText Color="Color.Error">HP: @activeCreature.HitPoints  </MudText>
+                            </MudStack>
                 </div>
             </TitleContent>
             <ChildContent>
