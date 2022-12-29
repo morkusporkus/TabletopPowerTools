@@ -4,7 +4,7 @@ namespace DMPowerTools.DataModels
 {
     public class InitiatedCreature
     {
-        public InitiatedCreature(int id, int inititiveRoll, Creature creature)
+        public InitiatedCreature(int inititiveRoll, Creature creature)
         {
             InititiveRoll = inititiveRoll;
             Creature = creature;
