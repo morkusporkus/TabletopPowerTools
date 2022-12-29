@@ -2,7 +2,7 @@
 <MudGrid>
         <MudItem xs="12">
         <MudAutocomplete T="string" Label="Creature" @bind-Value="@returnMonster" SearchFunc="@Filter" Variant="Variant.Outlined" Immediate="true" ResetValueOnEmptyText="true" />
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ButtonOnClick">Add To Combat</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="InitiateCreature">Add To Combat</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="InitiativeRoll">Initiative Roll</MudButton>
     </MudItem>
      <MudItem xs="12">
@@ -92,9 +92,9 @@
         var lowerCaseSearchTerm = value.Trim().ToLower();
         return creatures.Select(n => n.Name).Where(p => p.ToLower().Contains(lowerCaseSearchTerm));
     }
-    public void ButtonOnClick()
+    public void InitiateCreature()
     {
-        if (returnMonster == string.Empty) selectedMonster=  new Creature();
+        if (returnMonster == string.Empty || returnMonster is null) return;
 
         selectedMonster = DBContext.Creatures. 
         Where(a => a.Name == returnMonster).First();
@@ -115,14 +115,6 @@
     public int StatModifier(int stat)
     {
         return (stat - 10) / 2; 
-    }
-    public int NumberOfActions()
-    {
-        if (selectedMonster.Actions == null)
-        {
-            return 0;    
-        }
-        return selectedMonster.Actions.Count();
     }
     public void InitiativeRoll()
     {
