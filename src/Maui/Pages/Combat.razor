@@ -48,12 +48,11 @@
 
                       </div>
             <MudStack Row="true">
-                            <MudPaper Class="pa-3">STR: @activeCreature.Creature.StrPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.StrPoints))</MudPaper>
-                            <MudPaper Class="pa-3">DEX: @activeCreature.Creature.DexPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.DexPoints))</MudPaper>
-                            <MudPaper Class="pa-3">CON: @activeCreature.Creature.ConPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.ConPoints))</MudPaper>
-                            <MudPaper Class="pa-3">WIS: @activeCreature.Creature.WisPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.WisPoints))</MudPaper>
-                            <MudPaper Class="pa-3">INT: @activeCreature.Creature.IntPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.IntPoints))</MudPaper>
-                            <MudPaper Class="pa-3">CHA: @activeCreature.Creature.ChaPoints (@diceRoller.CalculateAbilityScoreModifer(activeCreature.Creature.ChaPoints))</MudPaper>
+                            <MudPaper Class="pa-3">STR: @activeCreature.Creature.StrPoints (@DiceRoller.CalculateAbilityScoreModifier(activeCreature.Creature.StrPoints))</MudPaper>
+                            <MudPaper Class="pa-3">DEX: @activeCreature.Creature.DexPoints (@DiceRoller.CalculateAbilityScoreModifier(activeCreature.Creature.ConPoints))</MudPaper>
+                            <MudPaper Class="pa-3">WIS: @activeCreature.Creature.WisPoints (@DiceRoller.CalculateAbilityScoreModifier(activeCreature.Creature.WisPoints))</MudPaper>
+                            <MudPaper Class="pa-3">INT: @activeCreature.Creature.IntPoints (@DiceRoller.CalculateAbilityScoreModifier(activeCreature.Creature.IntPoints))</MudPaper>
+                            <MudPaper Class="pa-3">CHA: @activeCreature.Creature.ChaPoints (@DiceRoller.CalculateAbilityScoreModifier(activeCreature.Creature.ChaPoints))</MudPaper>
             </MudStack>
             </ChildContent>
                 </MudExpansionPanel>
@@ -62,10 +61,10 @@
     </MudItem>
 </MudGrid>
 
-
-@using DMPowerTools.Maui.DataModels;
 @code {
     @page "/combat"
+    @using DMPowerTools.DataModels;
+    @using DMPowerTools.Maui.DataModels;
     @using DMPowerTools.Maui.Data;
     @using Microsoft.EntityFrameworkCore;
     @using Markdig;
@@ -73,7 +72,6 @@
     @inject ApplicationDbContext DBContext;
     string returnCreature { get; set; }
     IEnumerable<Creature> creatures;
-    DiceRoller diceRoller = new();
     List<InitiatedCreature> InitiatedCreatures = new();
     Creature selectedCreature = new();
     MudChip selected;
@@ -105,7 +103,7 @@
     {
         foreach (InitiatedCreature a in InitiatedCreatures)
         {
-            a.InititiveRoll = diceRoller.RollForInitiative(a.Creature.DexPoints);
+            a.InititiveRoll = DiceRoller.RollForInitiative(a.Creature.DexPoints);
         }
         InitiatedCreatures = InitiatedCreatures.OrderByDescending(x => x.InititiveRoll).ToList();
     }

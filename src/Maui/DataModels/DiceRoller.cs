@@ -1,52 +1,50 @@
-﻿using DMPowerTools.Data;
+﻿using DMPowerTools.Maui.Data;
 
 namespace DMPowerTools.DataModels
 {
     public class DiceRoller
     {
-        private Random _random = new Random();
-        public int RollHitPoints(Creature creature)
+        private static readonly Random _random = new();
+
+        public static int RollHitPoints(Creature creature)
         {
-            var totalRolls = 0;
+            var totalHitPoints = 0;
             for (int j = 0; j < creature.HitDice; j++)
             {
-                totalRolls = totalRolls + _random.Next(1, SizeToDiceConverter(creature.Size));
+                totalHitPoints += _random.Next(1, CalculateHitDieFromSize(creature.Size));
             }
-            return totalRolls + (CalculateAbilityScoreModifer(creature.ConPoints) * creature.HitDice);
+
+            return totalHitPoints + (CalculateAbilityScoreModifier(creature.ConPoints) * creature.HitDice);
         }
-        public int CalculateAbilityScoreModifer(int abilityScore)
+
+        public static int CalculateAbilityScoreModifier(int abilityScore)
         {
             return (abilityScore - 10) / 2;
         }
-        public int RollForInitiative(int dex)
+
+        public static int RollForInitiative(int dex)
         {
             var roll = _random.Next(1, 20);
-            return roll + CalculateAbilityScoreModifer(dex);
+            return roll + CalculateAbilityScoreModifier(dex);
         }
-        public int AdditionalHitPoints(Creature creature)
-        {
-            return CalculateAbilityScoreModifer(creature.ConPoints) * creature.HitDice;
-        }
-        public int SizeToDiceConverter(string size)
-        {
-            switch (size.ToLower())
-            {
-                case "tiny":
-                    return 4;
-                case "small":
-                    return 6;
-                case "medium":
-                    return 8;
-                case "large":
-                    return 10;
-                case "huge":
-                    return 12;
-                case "gargantuan":
-                    return 20;
-                default:
-                    return 8;
-            }
 
+        public static int AdditionalHitPoints(Creature creature)
+        {
+            return CalculateAbilityScoreModifier(creature.ConPoints) * creature.HitDice;
+        }
+
+        public static int CalculateHitDieFromSize(string size)
+        {
+            return size.ToLowerInvariant() switch
+            {
+                "tiny" => 4,
+                "small" => 6,
+                "medium" => 8,
+                "large" => 10,
+                "huge" => 12,
+                "gargantuan" => 20,
+                _ => 8,
+            };
         }
 
     }
