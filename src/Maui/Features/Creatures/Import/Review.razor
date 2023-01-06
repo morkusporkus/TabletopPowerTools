@@ -1,0 +1,22 @@
+﻿<MudGrid>
+    <MudItem xs="12">
+        <MudButtonGroup>
+            <MudButton Color="Color.Success" StartIcon="@Icons.Outlined.Done" OnClick="AcceptAsync">
+                Accept 
+            </MudButton>
+            <MudButton Color="Color.Error" StartIcon="@Icons.Outlined.Delete" OnClick="Deny">
+                Deny
+            </MudButton>
+        </MudButtonGroup>
+        <MudButton Color="Color.Success" StartIcon="@Icons.Outlined.DoneAll" Variant="Variant.Outlined" OnClick="AcceptAllAsync">
+            Accept All
+        </MudButton>
+    </MudItem>
+    <MudItem xs="12">
+        <MudDivider />
+    </MudItem>
+    <MudItem xs="12">
+        @* TODO: Rest of this stuff. *@
+        @_inReviewCreature.Name
+    </MudItem>
+</MudGrid>
