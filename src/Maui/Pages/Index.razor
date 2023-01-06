@@ -1,10 +1,4 @@
-﻿@page "/"
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
-
-<h1>DM Power Tools</h1>
-
-<label  style="
+﻿<label  style="
         box-shadow: 0 2px 7px #4caf50;
         display: inline-flex;
         width: 150px;
@@ -24,6 +18,7 @@
 
 @code
 {
+    @page "/"
     @inject ApplicationDbContext DbContext;
     @inject IDialogService DialogService;
     @using DMPowerTools.Maui.Data;
