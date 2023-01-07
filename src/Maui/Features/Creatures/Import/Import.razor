@@ -1,0 +1,13 @@
+﻿@page "/import"
+
+<CascadingValue Value="_importState">
+    @if (_importState.ImportStatus == ImportStatus.Upload)
+    {
+        <Upload />
+    }
+    else if(_importState.ImportStatus == ImportStatus.Review)
+    {
+        <Review />
+    }
+</CascadingValue>
+
