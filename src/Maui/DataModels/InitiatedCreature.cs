@@ -11,7 +11,12 @@ namespace DMPowerTools.Maui.DataModels
             Creature = creature;
             HitPoints = DiceRoller.RollHitPoints(creature);
         }
-
+        public InitiatedCreature()
+        {
+            Creature = new();
+            Creature.Abilities = new List<Ability>();
+            Creature.Actions = new List<Data.Action>();
+        }
         public int InititiveRoll { get; set; }
         public Creature Creature { get; set; }
         public int HitPoints { get; set; }
