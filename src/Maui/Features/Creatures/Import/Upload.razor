@@ -1,24 +1,16 @@
-﻿
-<MudGrid>
-    <MudItem xs="6">
-        <MudText Typo="Typo.h3">
-            Creatures
-        </MudText>
-    </MudItem>
-    <MudItem xs="6" Class="d-flex justify-end align-center">
-        <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="UploadFilesAsync">
-            <ButtonTemplate>
-                <MudButton HtmlTag="label"
-                           Variant="Variant.Outlined"
-                           Color="Color.Info"
-                           StartIcon="@Icons.Material.Outlined.ImportContacts"
-                           for="@context">
-                    Import
-                </MudButton>
-            </ButtonTemplate>
-        </MudFileUpload>
-    </MudItem>
-    <MudItem xs="12">
-        <MudDivider />
-    </MudItem>
-</MudGrid>
+﻿<MudAlert Severity="Severity.Info" Icon="@Icons.Outlined.HelpOutline">
+    Use the button below to import one or more monsters from external sources.
+    Only <b>https://tetra-cube.com</b> files (.monster) are supported at this time.
+</MudAlert>
+
+<MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="UploadFilesAsync">
+    <ButtonTemplate>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Outlined"
+                   Color="Color.Info"
+                   StartIcon="@Icons.Material.Outlined.ImportContacts"
+                   for="@context">
+            Import
+        </MudButton>
+    </ButtonTemplate>
+</MudFileUpload>

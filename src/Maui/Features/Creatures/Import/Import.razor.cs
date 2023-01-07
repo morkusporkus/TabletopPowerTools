@@ -2,6 +2,7 @@
 public partial class Import : IDisposable
 {
     [Inject] private ISnackbar Snackbar { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; }
 
     private readonly ImportState _importState = new();
 
@@ -14,8 +15,9 @@ public partial class Import : IDisposable
     {
         if (_importState.ImportStatus == ImportStatus.Done)
         {
-            Snackbar.Add("Done! Upload more creatures to begin again.", Severity.Success);
-            _importState.TransitionStatus();
+            Snackbar.Add("Finished importing all creatures.", Severity.Success);
+
+            NavigationManager.NavigateTo("/");
         }
 
         StateHasChanged();
