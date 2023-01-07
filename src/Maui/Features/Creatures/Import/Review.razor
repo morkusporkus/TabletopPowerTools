@@ -1,22 +1,33 @@
-﻿<MudGrid>
+﻿@using DMPowerTools.Maui.Features.Creatures.Shared.CreatureDetail;
+
+<MudGrid>
     <MudItem xs="12">
-        <MudButtonGroup>
-            <MudButton Color="Color.Success" StartIcon="@Icons.Outlined.Done" OnClick="AcceptAsync">
-                Accept 
-            </MudButton>
-            <MudButton Color="Color.Error" StartIcon="@Icons.Outlined.Delete" OnClick="Deny">
-                Deny
-            </MudButton>
-        </MudButtonGroup>
-        <MudButton Color="Color.Success" StartIcon="@Icons.Outlined.DoneAll" Variant="Variant.Outlined" OnClick="AcceptAllAsync">
-            Accept All
-        </MudButton>
+        <MudText Typo="Typo.h3">
+            Review
+        </MudText>
+    </MudItem>
+    <MudItem md="6" xs="12">
+        <MudStack Row=true>
+            <MudButton StartIcon="@Icons.Outlined.Done" Color=Color.Success OnClick="AcceptAsync" Variant="Variant.Outlined">Accept</MudButton>
+            <MudButton StartIcon="@Icons.Outlined.Delete" Color=Color.Error OnClick="Deny" Variant="Variant.Outlined">Deny</MudButton>
+            @if (_isDuplicate)
+            {
+                <div class="d-flex align-center">
+                    <MudIcon Icon="@Icons.Outlined.Warning" Color="Color.Warning" Size="Size.Large" />
+                    <MudText Color="Color.Warning">
+                        Duplicate Creature
+                    </MudText>
+                </div>
+            }
+        </MudStack>
+    </MudItem>
+    <MudItem md="6" xs=12 Class="d-flex justify-md-end">
+        <MudButton StartIcon="@Icons.Outlined.DoneAll" Color="Color.Success" Variant=Variant.Filled OnClick="AcceptAllAsync">Accept All</MudButton>
     </MudItem>
     <MudItem xs="12">
         <MudDivider />
     </MudItem>
     <MudItem xs="12">
-        @* TODO: Rest of this stuff. *@
-        @_inReviewCreature.Name
+        <CreatureDetail Creature="@_inReviewCreature"/>
     </MudItem>
 </MudGrid>

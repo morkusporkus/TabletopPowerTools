@@ -1,17 +1,24 @@
-﻿<label style="
-        box-shadow: 0 2px 7px #4caf50;
-        display: inline-flex;
-        width: 150px;
-        justify-content: space-around;
-        border-radius: 2em;
-        color: white;
-        border:2px solid;
-        cursor: pointer;
-        align-items: center;
-        padding:16px;
-        background-color: #4caf50;"
-       for="fileInput2">
-    Upload Creature <MudIcon Icon="@Icons.Filled.CloudUpload" />
-</label>
-
-<InputFile id="fileInput2" OnChange="UploadFilesAsync" hidden multiple />
+﻿
+<MudGrid>
+    <MudItem xs="6">
+        <MudText Typo="Typo.h3">
+            Creatures
+        </MudText>
+    </MudItem>
+    <MudItem xs="6" Class="d-flex justify-end align-center">
+        <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="UploadFilesAsync">
+            <ButtonTemplate>
+                <MudButton HtmlTag="label"
+                           Variant="Variant.Outlined"
+                           Color="Color.Info"
+                           StartIcon="@Icons.Material.Outlined.ImportContacts"
+                           for="@context">
+                    Import
+                </MudButton>
+            </ButtonTemplate>
+        </MudFileUpload>
+    </MudItem>
+    <MudItem xs="12">
+        <MudDivider />
+    </MudItem>
+</MudGrid>

@@ -7,12 +7,11 @@ public partial class Upload
     [Inject] public ApplicationDbContext DbContext { get; set; }
     [CascadingParameter] public ImportState ImportState { get; set; }
 
-    private async Task UploadFilesAsync(InputFileChangeEventArgs e)
+    private async Task UploadFilesAsync(IReadOnlyList<IBrowserFile> files)
     {
-        // TODO: the way this is importing seems incorrect.
-        foreach (IBrowserFile f in e.GetMultipleFiles())
+        foreach (var file in files)
         {
-            var creature = await JsonSerializer.DeserializeAsync<Creature>(f.OpenReadStream(512000, default), new JsonSerializerOptions
+            var creature = await JsonSerializer.DeserializeAsync<Creature>(file.OpenReadStream(512000, default), new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });

@@ -6,6 +6,7 @@ public partial class Review
     [CascadingParameter] public ImportState ImportState { get; set; }
 
     private Creature _inReviewCreature;
+    private bool _isDuplicate;
 
     protected override void OnInitialized()
     {
@@ -43,9 +44,9 @@ public partial class Review
         {
             ImportState.TransitionStatus();
         }
-        else if (DbContext.Creatures.Where(c => c.Name == _inReviewCreature.Name).FirstOrDefault() != null)
+        else
         {
-            Snackbar.Add($"Duplicate {_inReviewCreature.Name} already exists", Severity.Warning);
+            _isDuplicate = DbContext.Creatures.Any(c => c.Name == _inReviewCreature.Name);
         }
     }
 }
