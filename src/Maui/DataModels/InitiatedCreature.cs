@@ -20,6 +20,7 @@ namespace DMPowerTools.Maui.DataModels
         public int InititiveRoll { get; set; }
         public Creature Creature { get; set; }
         public int HitPoints { get; set; }
+    
         public string HitPointsDisplay()
         {
             return $"HP: {HitPoints} ({Creature.HitDice}d{DiceRoller.CalculateHitDieFromSize(Creature.Size)} + {DiceRoller.AdditionalHitPoints(Creature)}) ";
