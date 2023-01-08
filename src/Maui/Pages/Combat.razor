@@ -1,4 +1,4 @@
-﻿
+﻿@using DMPowerTools.Maui.Features.Creatures.Shared.CreatureDetail;
 <MudGrid>
     <MudItem xs="12">
         <MudAutocomplete T="string" Label="Creature" @bind-Value="@returnCreature" SearchFunc="@Filter" Variant="Variant.Outlined" Immediate="true" ResetValueOnEmptyText="true" />
@@ -31,17 +31,7 @@
         <MudDrawerHeader>
             <MudText Typo="Typo.h6">@clickedCreature.Creature.Name</MudText>
         </MudDrawerHeader>
-
-        @foreach (Data.Ability ability in clickedCreature.Creature.Abilities)
-        {
-            <MudText>@ability.Name</MudText>
-            @DisplayAction(ability.Desc)
-        }
-        @foreach (Data.Action action in clickedCreature.Creature.Actions)
-        {
-            <MudText>@action.Name</MudText>
-            @DisplayAction(action.Desc)
-        }
+       <CreatureDetail Creature="@clickedCreature.Creature"/>
         <MudButton Text="Close" Color="Color.Error" OnClick="@(() => CloseDrawer())">Close</MudButton>
     </MudDrawer>
 
@@ -95,10 +85,7 @@
         }
         InitiatedCreatures = InitiatedCreatures.OrderByDescending(x => x.InititiveRoll).ToList();
     }
-    public MarkupString DisplayAction(string actionDesc)
-    {
-        return (MarkupString)Markdown.ToHtml(actionDesc);
-    }
+  
     void OpenDrawer(InitiatedCreature creature)
     {
         clickedCreature = creature;
