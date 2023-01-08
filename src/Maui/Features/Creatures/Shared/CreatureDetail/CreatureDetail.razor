@@ -2,7 +2,18 @@
     <MudItem xs="12">
         <MudText Typo="Typo.h4">@Creature.Name</MudText>
     </MudItem>
-    <MudItem lg="2" xs="6">
+    <MudItem xs="12">
+
+        @foreach (Data.Ability ability in Creature.Abilities)
+        {
+            <MudText>@ability.Name</MudText>
+            @MarkdownDisplay(ability.Desc)
+        }
+        @foreach (Data.Action action in Creature.Actions)
+        {
+            <MudText>@action.Name</MudText>
+            @MarkdownDisplay(action.Desc)
+        }
         <MudText Typo="Typo.h6">Attributes</MudText>
         <MudGrid>
             <AttributeScore Name="STR" RawPoints="@Creature.StrPoints"/>

@@ -1,70 +1,47 @@
-﻿<MudGrid>
-        <MudItem xs="12">
+﻿@using DMPowerTools.Maui.Features.Creatures.Shared.CreatureDetail;
+<MudGrid>
+    <MudItem xs="12">
         <MudAutocomplete T="string" Label="Creature" @bind-Value="@returnCreature" SearchFunc="@Filter" Variant="Variant.Outlined" Immediate="true" ResetValueOnEmptyText="true" />
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="InitiateCreature">Add To Combat</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="InitiateCreature">Add To Combat</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="InitiativeRoll">Initiative Roll</MudButton>
     </MudItem>
-     <MudItem xs="12">
-        @foreach (InitiatedCreature activeCreature in InitiatedCreatures)
-        {
-    <MudExpansionPanels>
-            <MudExpansionPanel>
-             <TitleContent>
-                <div class="d-flex">
-                    <MudAvatar Image="" Size="Size.Large" />
-                    <MudStack>
-                            <MudText> <strong>@activeCreature.Creature.Name</strong>  <small>   @activeCreature.Creature.CustomCr   </small><em>@activeCreature.HitPointsDisplay()</em> : Initiative Roll:@activeCreature.InititiveRoll  </MudText>
-                            <MudText Color="Color.Error">HP: @activeCreature.HitPoints  </MudText>
-                            </MudStack>
-                </div>
-            </TitleContent>
-            <ChildContent>
-                    <MudChipSet @bind-SelectedChip="selected" Filter="true">
-                        <MudChip Text="Actions" Color="Color.Primary">Actions</MudChip>
-                        <MudChip Text="Abilities" Color="Color.Secondary">Abilities</MudChip>
-                        <MudChip Text="Skills" Color="Color.Dark">Skills</MudChip>
-                    </MudChipSet>
-                    <div class="d-flex flex-column align-center">
-                        @if (selected != null)
-                        {
-                     @if (selected.Text == "Actions")
-                      {
-                                    @foreach (Data.Action action in activeCreature.Creature.Actions)
-                                {
-                                    <MudText>@action.Name</MudText>
-                                    @DisplayAction(action.Desc)
-                            }
-                        }
-                        else if(selected.Text == "Abilities")
-                        {
-                                    @foreach (Data.Ability ability in activeCreature.Creature.Abilities)
-                                {
-                                <MudText>@ability.Name</MudText>
-                                <MudText>@ability.Desc</MudText>
-                            }                   
-                        }
-                        }
 
-                      </div>
-            <MudStack Row="true">
-                            <MudPaper Class="pa-3">STR: @activeCreature.Creature.StrPoints (@DiceRoller.CalculateAbilityScoreModifier(activeCreature.Creature.StrPoints))</MudPaper>
-                            <MudPaper Class="pa-3">DEX: @activeCreature.Creature.DexPoints (@DiceRoller.CalculateAbilityScoreModifier(activeCreature.Creature.ConPoints))</MudPaper>
-                            <MudPaper Class="pa-3">WIS: @activeCreature.Creature.WisPoints (@DiceRoller.CalculateAbilityScoreModifier(activeCreature.Creature.WisPoints))</MudPaper>
-                            <MudPaper Class="pa-3">INT: @activeCreature.Creature.IntPoints (@DiceRoller.CalculateAbilityScoreModifier(activeCreature.Creature.IntPoints))</MudPaper>
-                            <MudPaper Class="pa-3">CHA: @activeCreature.Creature.ChaPoints (@DiceRoller.CalculateAbilityScoreModifier(activeCreature.Creature.ChaPoints))</MudPaper>
-            </MudStack>
-            </ChildContent>
-                </MudExpansionPanel>
-</MudExpansionPanels>
-}
-    </MudItem>
+    @foreach (InitiatedCreature activeCreature in InitiatedCreatures)
+    {
+        <MudItem lg="3" xs="12">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Image="" Size="Size.Large" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h5">@activeCreature.Creature.Name</MudText>
+                        <MudText Typo="Typo.caption"><b>CR:</b>@activeCreature.Creature.cr  <b>HP:</b>@activeCreature.HitPoints</MudText>
+
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.caption"><b>Initiative Roll:</b>:@activeCreature.InititiveRoll</MudText>
+                    <MudButton Text="Details" Color="Color.Secondary" OnClick="@(() => OpenDrawer(activeCreature))">Details</MudButton>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    }
+    <MudDrawer Width="100%" Height="80%" @bind-Open="@open" Anchor="Anchor.Bottom" Elevation="1" Variant="@DrawerVariant.Temporary">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6">@clickedCreature.Creature.Name</MudText>
+        </MudDrawerHeader>
+       <CreatureDetail Creature="@clickedCreature.Creature"/>
+        <MudButton Text="Close" Color="Color.Error" OnClick="@(() => CloseDrawer())">Close</MudButton>
+    </MudDrawer>
+
 </MudGrid>
 
+
+@using DMPowerTools.DataModels;
+@using DMPowerTools.Maui.DataModels;
 @code {
     @page "/combat"
-    @using DMPowerTools.DataModels;
-    @using DMPowerTools.Maui.DataModels;
-    @using DMPowerTools.Maui.Data;
     @using Microsoft.EntityFrameworkCore;
     @using Markdig;
 
@@ -72,12 +49,14 @@
     string returnCreature { get; set; }
     IEnumerable<Creature> creatures;
     List<InitiatedCreature> InitiatedCreatures = new();
+    InitiatedCreature clickedCreature = new();
     Creature selectedCreature = new();
     MudChip selected;
+    bool open;
 
-    protected override async  Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        creatures =  DBContext.Creatures.Include(a => a.Abilities).Include(b => b.Actions).ToList();
+        creatures = DBContext.Creatures.Include(a => a.Abilities).Include(b => b.Actions).ToList();
         selectedCreature.Actions = new List<Data.Action>();
     }
 
@@ -94,7 +73,7 @@
     {
         if (returnCreature == string.Empty || returnCreature is null) return;
 
-        selectedCreature = DBContext.Creatures. 
+        selectedCreature = DBContext.Creatures.
         Where(a => a.Name == returnCreature).First();
         InitiatedCreatures.Add(new InitiatedCreature(0, selectedCreature));
     }
@@ -106,8 +85,14 @@
         }
         InitiatedCreatures = InitiatedCreatures.OrderByDescending(x => x.InititiveRoll).ToList();
     }
-    public MarkupString DisplayAction(string actionDesc)
+  
+    void OpenDrawer(InitiatedCreature creature)
     {
-    return  (MarkupString)Markdown.ToHtml(actionDesc);
+        clickedCreature = creature;
+        open = true;
+    }
+    void CloseDrawer()
+    {
+        open = false;
     }
 }
