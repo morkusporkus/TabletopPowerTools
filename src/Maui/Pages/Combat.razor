@@ -15,9 +15,17 @@
                         <MudAvatar Image="" Size="Size.Large" />
                     </CardHeaderAvatar>
                     <CardHeaderContent>
-                        <MudText Typo="Typo.h5">@activeCreature.Creature.Name</MudText>
-                        <MudText Typo="Typo.caption"><b>CR:</b>@activeCreature.Creature.cr  <b>HP:</b>@activeCreature.HitPoints</MudText>
-
+                        <MudGrid>
+                            <MudItem xs="12">
+                                <MudText Typo="Typo.h5">@activeCreature.Creature.Name</MudText>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudTextField Label="CR:" @bind-Value="activeCreature.Creature.cr" Disabled="true"></MudTextField>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudNumericField Label="HP:" @bind-Value="activeCreature.HitPoints" Min="0"></MudNumericField>
+                            </MudItem>
+                        </MudGrid>                    
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
