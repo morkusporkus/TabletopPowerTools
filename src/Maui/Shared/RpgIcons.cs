@@ -1,8 +1,8 @@
 ﻿namespace DMPowerTools.Maui.Shared;
 
-public class RpgIcon
+public class RpgIcons
 {
-    public class DamageTypes
+    public class DamageType
     {
         public const string Acid = Icons.Material.TwoTone.Science;
         public const string Bludgeoning = Icons.Material.TwoTone.Gavel;
@@ -24,7 +24,7 @@ public class RpgIcon
         public const string Movement = Icons.Material.TwoTone.MoveUp;
         public const string HitPoints = Icons.Material.TwoTone.Bloodtype;
 
-        public class Attributes
+        public class Attribute
         {
             public const string Strength = "";
             public const string Dexterity = "";
@@ -34,7 +34,7 @@ public class RpgIcon
             public const string Charisma = "";
         }
 
-        public class Skills
+        public class Skill
         {
             public const string Acrobatics = "";
             public const string AnimalHandling = "";
@@ -57,7 +57,7 @@ public class RpgIcon
         }
     }
 
-    public class Misc
+    public class Miscellaneous
     {
         public const string Dice = Icons.Material.TwoTone.Casino;
     }
