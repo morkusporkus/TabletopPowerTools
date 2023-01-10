@@ -2,6 +2,7 @@
 
 namespace DMPowerTools.Core.Models;
 
+// TODO: shim? don't want to keep this if possible.
 public interface ICreature
 {
     public int Id { get; set; }
