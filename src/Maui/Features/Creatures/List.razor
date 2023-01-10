@@ -1,4 +1,6 @@
-﻿<MudGrid>
+﻿@page "/"
+
+<MudGrid>
     <MudItem xs="6">
         <MudText Typo="Typo.h3">
             Creatures
@@ -13,7 +15,7 @@
         <MudDivider />
     </MudItem>
     <MudItem xs="12">
-        <MudTable Items="@creatures" Dense="true" @bind-SelectedItem="selectedItem">
+        <MudTable Items="@_response.Creatures" Dense="true">
             <HeaderContent>
                 <MudTh></MudTh>
                 <MudTh>Name</MudTh>
@@ -21,9 +23,13 @@
                 <MudTh>HP</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd><MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => DeleteCreature(context))"> Delete</MudButton></MudTd>
+                <MudTd>
+                    <MudButton Variant="Variant.Outlined" Size="Size.Small" Color="Color.Error" StartIcon="@Icons.Material.Outlined.Delete" OnClick="@(() => DeleteCreatureAsync(context.Id))">
+                        Delete
+                    </MudButton>
+                </MudTd>
                 <MudTd DataLabel="Name">@context.Name</MudTd>
-                <MudTd DataLabel="CR">@context.cr</MudTd>
+                <MudTd DataLabel="CR">@context.Cr</MudTd>
                 <MudTd DataLabel="HP">@context.HpText</MudTd>
             </RowTemplate>
             <PagerContent>
@@ -32,25 +38,3 @@
         </MudTable>
     </MudItem>
 </MudGrid>
-
-@code {
-    @page "/"
-    @using DMPowerTools.Maui.Data;
-    @using Microsoft.EntityFrameworkCore;
-    @using DMPowerTools.Maui.Features.Creatures.Import
-    @inject ApplicationDbContext DBContext;
-
-    private Creature selectedItem = null;
-    private List<Creature> creatures = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        creatures = DBContext.Creatures.Include(c => c.Abilities).Include(i => i.Actions).Include(s => s.Skills).ToList();
-    }
-
-    private void DeleteCreature(Creature c)
-    {
-        DBContext.Creatures.Remove(c);
-        DBContext.SaveChanges();
-    }
-}

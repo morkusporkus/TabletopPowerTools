@@ -1,4 +1,4 @@
-﻿@using DMPowerTools.DataModels;
+﻿@using DMPowerTools.Core.Models;
 
 <MudItem lg="6" md="3" Class="d-flex align-center justify-center">
     <MudText Typo="Typo.h5">@Name</MudText>
@@ -12,6 +12,6 @@
     [Parameter, EditorRequired] public int RawPoints { get; set; }
     [Parameter, EditorRequired] public string Name { get; set; }
 
-    private int Modifier => DiceRoller.CalculateAbilityScoreModifier(RawPoints);
+    private int Modifier => Creature.CalculateAbilityScoreModifier(RawPoints);
     private Color ModifierColor => Modifier >= 0 ? Color.Success : Color.Error;
 }

@@ -1,5 +1,5 @@
-﻿using DMPowerTools.Maui;
-using DMPowerTools.Maui.Data;
+﻿using DMPowerTools.Core.Infrastructure;
+using DMPowerTools.Maui;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
