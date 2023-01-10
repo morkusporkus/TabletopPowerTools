@@ -4,7 +4,6 @@
         <MudText Typo="Typo.h4">@_response.Creature.Name</MudText>
     </MudItem>
     <MudItem xs="12">
-
         @foreach (var ability in _response.Creature.Abilities)
         {
             <MudText>@ability.Name</MudText>

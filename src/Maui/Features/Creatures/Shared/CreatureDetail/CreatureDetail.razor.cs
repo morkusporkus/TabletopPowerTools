@@ -5,7 +5,7 @@ using Markdig;
 namespace DMPowerTools.Maui.Features.Creatures.Shared.CreatureDetail;
 public partial class CreatureDetail
 {
-    [Inject] private Mediator Mediator { get; set; } = null!;
+    [Inject] private IMediator Mediator { get; set; } = null!;
 
     [Parameter] public int CreatureId { get; set; }
     [Parameter] public Creature Creature { get; set; }
