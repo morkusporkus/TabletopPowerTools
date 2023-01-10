@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Maui\DMPowerTools.Maui.csproj" />
+    <ProjectReference Include="..\Maui\DMPowerTools.Maui.csproj" />
   </ItemGroup>
 
   <ItemGroup>

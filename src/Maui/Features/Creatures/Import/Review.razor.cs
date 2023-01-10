@@ -1,37 +1,38 @@
-﻿namespace DMPowerTools.Maui.Features.Creatures.Import;
+﻿using DMPowerTools.Core.Features.Creatures;
+using DMPowerTools.Core.Models;
+
+namespace DMPowerTools.Maui.Features.Creatures.Import;
 public partial class Review
 {
     [Inject] public ISnackbar Snackbar { get; set; }
-    [Inject] public ApplicationDbContext DbContext { get; set; }
+    [Inject] public IMediator Mediator { get; set; }
     [CascadingParameter] public ImportState ImportState { get; set; }
 
     private Creature _inReviewCreature;
     private bool _isDuplicate;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        AssignNextCreature();
+        await AssignNextCreatureAsync();
     }
 
     private async Task AcceptAsync()
     {
-        DbContext.Creatures.Add(_inReviewCreature);
-        await DbContext.SaveChangesAsync();
+        await Mediator.Send(new AcceptCreatureCommand { Creature = _inReviewCreature });
 
-        AssignNextCreature();
+        await AssignNextCreatureAsync();
     }
 
-    private void Deny() => AssignNextCreature();
+    private async Task DenyAsync() => await AssignNextCreatureAsync();
 
     private async Task AcceptAllAsync()
     {
-        DbContext.Creatures.AddRange(ImportState.InReviewCreatures);
-        await DbContext.SaveChangesAsync();
+        await Mediator.Send(new AcceptAllCreaturesCommand { Creatures = ImportState.InReviewCreatures });
 
         ImportState.TransitionStatus();
     }
 
-    private void AssignNextCreature()
+    private async Task AssignNextCreatureAsync()
     {
         if (_inReviewCreature != null)
         {
@@ -46,7 +47,7 @@ public partial class Review
         }
         else
         {
-            _isDuplicate = DbContext.Creatures.Any(c => c.Name == _inReviewCreature.Name);
+            _isDuplicate = await Mediator.Send(new IsDuplicateCreatureQuery { Name = _inReviewCreature.Name });
         }
     }
 }

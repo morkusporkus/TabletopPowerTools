@@ -1,4 +1,6 @@
-﻿namespace DMPowerTools.Maui.Features.Creatures.Import;
+﻿using DMPowerTools.Core.Models;
+
+namespace DMPowerTools.Maui.Features.Creatures.Import;
 public partial class Import : IDisposable
 {
     [Inject] private ISnackbar Snackbar { get; set; }

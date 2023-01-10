@@ -1,18 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Json.Serialization;
 
-namespace DMPowerTools.Maui.Data;
+namespace DMPowerTools.Core.Models;
 
-public class ApplicationDbContext : DbContext
+public interface ICreature
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
-    public DbSet<Creature> Creatures { get; set; }
-    public DbSet<Ability> Abilities { get; set; }
-    public DbSet<Skill> Skills { get; set; }
-    public DbSet<Action> Actions { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int HitDice { get; set; }
+    public string Size { get; set; }
+    public int DexPoints { get; set; }
+    public int ConPoints { get; set; }
+    public string Cr { get; set; }
 }
 
-public class Creature
+public class Creature : ICreature
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -47,7 +48,8 @@ public class Creature
     public int Tremorsense { get; set; }
     public int Truesight { get; set; }
     public int Telepathy { get; set; }
-    public string cr { get; set; }
+    [JsonPropertyName("cr")]
+    public string Cr { get; set; }
     public string CustomCr { get; set; }
     public int CustomProf { get; set; }
     public bool IsLegendary { get; set; }
@@ -61,8 +63,8 @@ public class Creature
     public string RegionalDescription { get; set; }
     public string RegionalDescriptionEnd { get; set; }
     //public object[] Properties { get; set; }
-    public ICollection<Ability> Abilities { get; set; }
-    public ICollection<Action> Actions { get; set; }
+    public ICollection<Ability> Abilities { get; set; } = Array.Empty<Ability>();
+    public ICollection<Action> Actions { get; set; } = Array.Empty<Action>();
     //public object[] BonusActions { get; set; }
     //public object[] Reactions { get; set; }
     //public object[] Legendaries { get; set; }
@@ -70,7 +72,7 @@ public class Creature
     //public object[] Lairs { get; set; }
     //public object[] Regionals { get; set; }
     //public object[] Sthrows { get; set; }
-    public ICollection<Skill> Skills { get; set; }
+    public ICollection<Skill> Skills { get; set; } = Array.Empty<Skill>();
     //public object[] Damagetypes { get; set; }
     //public object[] Specialdamage { get; set; }
     //public object[] Conditions { get; set; }
@@ -81,25 +83,46 @@ public class Creature
     public bool DoubleColumns { get; set; }
     public int SeparationPoint { get; set; }
     //public object[] Damage { get; set; }
+
+    public static int CalculateAbilityScoreModifier(int abilityScore)
+    {
+        return (abilityScore - 10) / 2;
+    }
 }
 
-public class Ability
+public static class CreatureExtensions
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Desc { get; set; }
-}
+    private static readonly Random _random = new();
 
-public class Action
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Desc { get; set; }
-}
+    public static int RollHitPoints(this ICreature creature)
+    {
+        var totalHitPoints = 0;
+        for (int j = 0; j < creature.HitDice; j++)
+        {
+            totalHitPoints += _random.Next(1, CalculateHitDieFromSize(creature.Size));
+        }
 
-public class Skill
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Stat { get; set; }
+        return totalHitPoints + Creature.CalculateAbilityScoreModifier(creature.ConPoints) * creature.HitDice;
+    }
+
+    public static int RollInitiative(this ICreature creature)
+    {
+        var roll = _random.Next(1, 20);
+
+        return roll + Creature.CalculateAbilityScoreModifier(creature.DexPoints);
+    }
+
+    private static int CalculateHitDieFromSize(string size)
+    {
+        return size.ToLowerInvariant() switch
+        {
+            "tiny" => 4,
+            "small" => 6,
+            "medium" => 8,
+            "large" => 10,
+            "huge" => 12,
+            "gargantuan" => 20,
+            _ => 8,
+        };
+    }
 }

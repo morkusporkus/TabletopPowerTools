@@ -1,27 +1,28 @@
-﻿<MudGrid>
+﻿
+<MudGrid>
     <MudItem xs="12">
-        <MudText Typo="Typo.h4">@Creature.Name</MudText>
+        <MudText Typo="Typo.h4">@_response.Creature.Name</MudText>
     </MudItem>
     <MudItem xs="12">
 
-        @foreach (Data.Ability ability in Creature.Abilities)
+        @foreach (var ability in _response.Creature.Abilities)
         {
             <MudText>@ability.Name</MudText>
             @MarkdownDisplay(ability.Desc)
         }
-        @foreach (Data.Action action in Creature.Actions)
+        @foreach (var action in _response.Creature.Actions)
         {
             <MudText>@action.Name</MudText>
             @MarkdownDisplay(action.Desc)
         }
         <MudText Typo="Typo.h6">Attributes</MudText>
         <MudGrid>
-            <AttributeScore Name="STR" RawPoints="@Creature.StrPoints"/>
-            <AttributeScore Name="DEX" RawPoints="@Creature.DexPoints" />
-            <AttributeScore Name="CON" RawPoints="@Creature.ConPoints" />
-            <AttributeScore Name="WIS" RawPoints="@Creature.WisPoints" />
-            <AttributeScore Name="INT" RawPoints="@Creature.IntPoints" />
-            <AttributeScore Name="CHA" RawPoints="@Creature.ChaPoints" />
+            <AttributeScore Name="STR" RawPoints="@_response.Creature.StrPoints" />
+            <AttributeScore Name="DEX" RawPoints="@_response.Creature.DexPoints" />
+            <AttributeScore Name="CON" RawPoints="@_response.Creature.ConPoints" />
+            <AttributeScore Name="WIS" RawPoints="@_response.Creature.WisPoints" />
+            <AttributeScore Name="INT" RawPoints="@_response.Creature.IntPoints" />
+            <AttributeScore Name="CHA" RawPoints="@_response.Creature.ChaPoints" />
         </MudGrid>
     </MudItem>
 </MudGrid>

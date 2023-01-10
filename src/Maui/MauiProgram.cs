@@ -1,4 +1,4 @@
-﻿using DMPowerTools.Maui.Data;
+﻿using DMPowerTools.Core.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -39,6 +39,7 @@ public static class MauiProgram
         using var scope = app.Services.CreateScope();
 
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        dbContext.Database.EnsureDeleted();
         dbContext.Database.EnsureCreated();
 
         return app;

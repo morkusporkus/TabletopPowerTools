@@ -1,4 +1,6 @@
-﻿using DMPowerTools.Maui.Data;
+﻿using DMPowerTools.Core.Features.Combat;
+using DMPowerTools.Core.Infrastructure;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MudBlazor.Services;
@@ -17,6 +19,8 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddMudServices();
+        services.AddMediatR(typeof(ManageCombatQueryHandler));
+        services.AddAutoMapper(typeof(ManageCombatQueryResponse));
         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(_configuration.GetConnectionString("DMPowerTools")));
     }
 }

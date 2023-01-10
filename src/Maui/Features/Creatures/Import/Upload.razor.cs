@@ -1,10 +1,10 @@
-﻿using System.Text.Json;
+﻿using DMPowerTools.Core.Models;
+using System.Text.Json;
 
 namespace DMPowerTools.Maui.Features.Creatures.Import;
 
 public partial class Upload
 {
-    [Inject] public ApplicationDbContext DbContext { get; set; }
     [CascadingParameter] public ImportState ImportState { get; set; }
 
     private async Task UploadFilesAsync(IReadOnlyList<IBrowserFile> files)
