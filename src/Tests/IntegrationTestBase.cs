@@ -1,5 +1,7 @@
 ﻿using DMPowerTools.Core.Infrastructure;
 using DMPowerTools.Maui;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,15 +10,18 @@ namespace DMPowerTools.Tests;
 [Collection(nameof(Maui))]
 public class IntegrationTestBase : IAsyncLifetime
 {
+    public async Task InitializeAsync() => await ResetStateAsync();
+
     public Task DisposeAsync() => Task.CompletedTask;
 
-    public async Task InitializeAsync() => await ResetStateAsync();
+    public static T GetRequiredService<T>() where T : class =>
+        _serviceProvider.GetRequiredService<T>();
 }
 
 [CollectionDefinition(nameof(Maui))]
 public class IntegrationTesting : ICollectionFixture<IntegrationTesting>, IAsyncLifetime
 {
-    private static IServiceScope _serviceScope = null!;
+    internal static IServiceProvider _serviceProvider = null!;
 
     public async Task InitializeAsync()
     {
@@ -27,24 +32,51 @@ public class IntegrationTesting : ICollectionFixture<IntegrationTesting>, IAsync
         var services = new ServiceCollection();
         startup.ConfigureServices(services);
 
-        var serviceProvider = services.BuildServiceProvider();
-        _serviceScope = serviceProvider.CreateScope();
+        _serviceProvider = services.BuildServiceProvider();
 
         await Task.CompletedTask;
     }
 
-    public async Task DisposeAsync()
-    {
-        _serviceScope.Dispose();
-
-        await Task.CompletedTask;
-    }
+    public Task DisposeAsync() => Task.CompletedTask;
 
     public static async Task ResetStateAsync()
     {
-        var dbContext = _serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        using var scope = _serviceProvider.CreateScope();
+
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
         await dbContext.Database.EnsureDeletedAsync();
         await dbContext.Database.EnsureCreatedAsync();
     }
 
+    public static async Task AddAsync<TEntity>(TEntity entity)
+        where TEntity : class
+    {
+        using var scope = _serviceProvider.CreateScope();
+
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        context.Add(entity);
+
+        await context.SaveChangesAsync();
+    }
+
+    public static async Task<TEntity?> FirstOrDefaultAsync<TEntity>()
+        where TEntity : class
+    {
+        using var scope = _serviceProvider.CreateScope();
+
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        return await context.Set<TEntity>().FirstOrDefaultAsync();
+    }
+
+    public static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
+    {
+        using var scope = _serviceProvider.CreateScope();
+
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+        return await mediator.Send(request);
+    }
 }
