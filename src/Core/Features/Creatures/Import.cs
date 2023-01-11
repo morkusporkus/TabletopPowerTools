@@ -1,9 +1,4 @@
-﻿using DMPowerTools.Core.Infrastructure;
-using DMPowerTools.Core.Models;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-
-namespace DMPowerTools.Core.Features.Creatures;
+﻿namespace DMPowerTools.Core.Features.Creatures;
 
 // TODO: Map from/to a model not the database model.
 public class AcceptCreatureCommand : IRequest<Unit>
@@ -68,6 +63,6 @@ public class IsDuplicateCreatureQueryHandler : IRequestHandler<IsDuplicateCreatu
 
     public async Task<bool> Handle(IsDuplicateCreatureQuery request, CancellationToken cancellationToken)
     {
-        return await _dbContext.Creatures.AnyAsync(c => c.Name == request.Name);
+        return await _dbContext.Creatures.AnyAsync(c => c.Name == request.Name, cancellationToken);
     }
 }
