@@ -23,7 +23,7 @@
     </MudMainContent>  
 </MudLayout>
 
-<MudThemeProvider @ref=_mudThemeProvider IsDarkMode=_isDarkMode />
+<MudThemeProvider @ref=_mudThemeProvider Theme="_baseTheme" IsDarkMode=_isDarkMode />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -32,6 +32,20 @@
     private bool _isDarkMode;
     private ErrorBoundary? _errorBoundary;
     private bool _showNavMenu;
+    private static readonly string[] _headerFontFamily = new[] { "Cormorant" };
+    private MudTheme _baseTheme = new MudTheme
+    {
+        Typography = new Typography
+        {
+            Default = new Default { FontFamily = new[] { "CrimsonText" }, FontSize = "1rem" },
+            H1 = new H1 { FontFamily = _headerFontFamily },
+            H2 = new H2 { FontFamily = _headerFontFamily },
+            H3 = new H3 { FontFamily = _headerFontFamily },
+            H4 = new H4 { FontFamily = _headerFontFamily },
+            H5 = new H5 { FontFamily = _headerFontFamily },
+            H6 = new H6 { FontFamily = _headerFontFamily }
+        }
+    };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
