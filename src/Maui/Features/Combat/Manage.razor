@@ -21,8 +21,11 @@
                             <MudItem xs="12">
                                 <MudText Typo="Typo.h5">@initiatedCreature.Creature.Name</MudText>
                             </MudItem>
-                            <MudItem xs="6">
+                            <MudItem xs="3">
                                 <MudTextField Label="CR" @bind-Value="initiatedCreature.Creature.Cr" Disabled="true"></MudTextField>
+                            </MudItem>
+                            <MudItem xs="3">
+                                <MudTextField Label="AC" @bind-Value="initiatedCreature.Creature.AC" Disabled="true"></MudTextField>
                             </MudItem>
                             <MudItem xs="6">
                                 <MudNumericField Label="HP" @bind-Value="initiatedCreature.HitPoints" Min="0"></MudNumericField>

@@ -39,6 +39,7 @@ public class ManageCombatQueryResponse
         public required int DexPoints { get; set; }
         public required int ConPoints { get; set; }
         public required string Cr { get; set; }
+        public required int AC { get; set; }
     }
 }
 
