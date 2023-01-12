@@ -12,38 +12,18 @@
     </MudItem>
     <MudItem xs="12">
         <MudText Typo="Typo.h6">Abilities</MudText>
-        <MudStack>
+        <MudGrid>
             @foreach (var ability in _response.Creature.Abilities)
             {
-                <MudItem md="4">
-                    <MudTextField ReadOnly="ReadOnly" @bind-Value="@ability.Name" />
-                    @if (@ReadOnly)
-                    {
-                        @MarkdownDisplay(ability.Desc)
-                    }
-                    else
-                    {
-                        <MudTextField @bind-Value="@ability.Desc" Lines="5"></MudTextField>
-                    }
-                </MudItem>
+                <CreatureProperty Title="@ability.Name" Description="@ability.Desc" ReadOnly=@ReadOnly/>
             }
-        </MudStack>
+        </MudGrid>
 
         <MudText Typo="Typo.h6">Actions</MudText>
         <MudGrid>
             @foreach (var action in _response.Creature.Actions)
             {
-                <MudItem md="4">
-                    <MudTextField ReadOnly="ReadOnly" @bind-Value="@action.Name"></MudTextField>
-                    @if (@ReadOnly)
-                    {
-                    @MarkdownDisplay(action.Desc)
-                    }
-                    else
-                    {
-                    <MudTextField @bind-Value="@action.Desc" Lines="5"></MudTextField>
-                    }
-                </MudItem>
+                <CreatureProperty Title="@action.Name" Description="@action.Desc" ReadOnly=@ReadOnly />
             }
         </MudGrid>       
         
