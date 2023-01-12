@@ -9,6 +9,7 @@ public partial class CreatureDetail
 
     [Parameter] public int CreatureId { get; set; }
     [Parameter] public Creature Creature { get; set; }
+    [Parameter] public bool ReadOnly { get; set; } = true;
 
     private CreatureDetailQueryResponse _response;
 
