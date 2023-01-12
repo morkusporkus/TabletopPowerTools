@@ -9,10 +9,11 @@ public partial class Manage : IDisposable
 
     private readonly CancellationTokenSource _cts = new();
     private ManageCombatQueryResponse _response;
-    private List<InitiatedCreature> _initiatedCreatures = new();
+    private LinkedList<InitiatedCreature> _initiatedCreatures = new();
     private InitiatedCreature? _clickedCreature;
     private string _selectedCreatureName;
     private bool _creatureDetailsOpen;
+    private InitiatedCreature _activeCreature;
 
     protected override async Task OnInitializedAsync()
     {
@@ -40,17 +41,30 @@ public partial class Manage : IDisposable
 
         var selectedCreature = _response.Creatures.First(c => c.Name == _selectedCreatureName);
 
-        _initiatedCreatures.Add(new InitiatedCreature(0, selectedCreature));
+        _initiatedCreatures.AddLast(new InitiatedCreature(0, selectedCreature));
     }
 
     public void InitiativeRoll()
     {
-        foreach (InitiatedCreature a in _initiatedCreatures)
+        foreach (InitiatedCreature creature in _initiatedCreatures)
         {
-            a.InititiveRoll = a.Creature.RollInitiative();
+            creature.InitiativeRoll = creature.Creature.RollInitiative();
         }
 
-        _initiatedCreatures = _initiatedCreatures.OrderByDescending(x => x.InititiveRoll).ToList();
+        var creaturesOrderedByInitiative = _initiatedCreatures.OrderByDescending(x => x.InitiativeRoll).ToList();
+
+        _initiatedCreatures.Clear();
+        foreach (InitiatedCreature creature in creaturesOrderedByInitiative)
+        {
+            _initiatedCreatures.AddLast(creature);
+        }
+
+        if (_initiatedCreatures.Any()) _activeCreature = _initiatedCreatures.First();
+    }
+
+    public void EndTurn()
+    {
+        _activeCreature = _initiatedCreatures.Find(_activeCreature).Next is null ? _initiatedCreatures.First() : _initiatedCreatures.Find(_activeCreature).Next.Value;
     }
 
     void OpenDrawer(InitiatedCreature creature)
@@ -73,12 +87,12 @@ public partial class Manage : IDisposable
     {
         public InitiatedCreature(int initiativeRoll, ManageCombatQueryResponse.Creature creature)
         {
-            InititiveRoll = initiativeRoll;
+            InitiativeRoll = initiativeRoll;
             Creature = creature;
             HitPoints = creature.RollHitPoints();
         }
 
-        public int InititiveRoll { get; set; }
+        public int InitiativeRoll { get; set; }
         public ManageCombatQueryResponse.Creature Creature { get; set; }
         public int HitPoints { get; set; }
     }
