@@ -1,4 +1,5 @@
-﻿using DMPowerTools.Core.Features.Combat;
+﻿using Ardalis.SmartEnum;
+using DMPowerTools.Core.Features.Combat;
 using DMPowerTools.Core.Models;
 
 namespace DMPowerTools.Maui.Features.Combat;
@@ -88,6 +89,17 @@ public partial class Manage : IDisposable
         _initiatedCreatures.Remove(initiatedCreature);
     }
 
+
+    public void OnConditionRemoved(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
+    {
+        initiatedCreature.Conditions.Remove(condition);
+    }
+
+    public void OnConditionAdded(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
+    {
+        initiatedCreature.Conditions.Add(condition);
+    }
+
     public class InitiatedCreature
     {
         public InitiatedCreature(int initiativeRoll, ManageCombatQueryResponse.Creature creature)
@@ -100,5 +112,21 @@ public partial class Manage : IDisposable
         public int InitiativeRoll { get; set; }
         public ManageCombatQueryResponse.Creature Creature { get; set; }
         public int HitPoints { get; set; }
+
+        public List<Condition> Conditions { get; set; } = new();
+
+        public class Condition : SmartEnum<Condition>
+        {
+            public static readonly Condition Grappled = new(Icons.Material.Outlined.Link, nameof(Grappled), MudBlazor.Color.Dark, 0);
+
+            private Condition(string icon, string name, MudBlazor.Color color, int value) : base(name, value)
+            {
+                Icon = icon;
+                Color = color;
+            }
+
+            public string Icon { get; }
+            public MudBlazor.Color Color { get; }
+        }
     }
 }
