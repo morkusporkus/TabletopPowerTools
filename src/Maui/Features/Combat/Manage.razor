@@ -37,6 +37,22 @@
                         <MudText Typo="Typo.caption"><b>Initiative Roll:</b>:@initiatedCreature.InitiativeRoll</MudText>
                         <MudButton Color="Color.Secondary" OnClick="@(() => OpenDrawer(initiatedCreature))">Details</MudButton>
                     </MudCardContent>
+                    <MudCardActions>
+                        @foreach(var condition in initiatedCreature.Conditions)
+                        {
+                            <MudChip Color="condition.Color" Icon="@condition.Icon" title="@condition.Name" OnClick="() => OnConditionRemoved(initiatedCreature, condition)">
+                                @condition.Name
+                            </MudChip>
+                        }
+                        <MudMenu StartIcon="@Icons.Material.Filled.Add" Color="Color.Success" Variant="Variant.Outlined" Dense="true" Label="Cond.">
+                            @foreach(var condition in InitiatedCreature.Condition.List.Where(c => !initiatedCreature.Conditions.Any(icc => icc.Value == c.Value)))
+                            {
+                                <MudMenuItem Icon="@condition.Icon" IconColor="@condition.Color" OnClick="() => OnConditionAdded(initiatedCreature, condition)">
+                                    @condition.Name
+                                </MudMenuItem>
+                            }
+                        </MudMenu>
+                    </MudCardActions>
                 </MudCard>
             </div>
         </MudItem>
