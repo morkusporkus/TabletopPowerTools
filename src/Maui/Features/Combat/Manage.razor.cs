@@ -13,6 +13,8 @@ public partial class Manage : IDisposable
     private InitiatedCreature? _clickedCreature;
     private string _selectedCreatureName;
     private bool _creatureDetailsOpen;
+    private InitiatedCreature _activeCreature;
+    private int _activeCreatureIndex;
 
     protected override async Task OnInitializedAsync()
     {
@@ -47,10 +49,27 @@ public partial class Manage : IDisposable
     {
         foreach (InitiatedCreature a in _initiatedCreatures)
         {
-            a.InititiveRoll = a.Creature.RollInitiative();
+            a.InitiativeRoll = a.Creature.RollInitiative();
         }
 
-        _initiatedCreatures = _initiatedCreatures.OrderByDescending(x => x.InititiveRoll).ToList();
+        _initiatedCreatures = _initiatedCreatures.OrderByDescending(x => x.InitiativeRoll).ToList();
+
+        if (_initiatedCreatures.Any()) _activeCreature = _initiatedCreatures.First();
+        _activeCreatureIndex = 0;
+    }
+
+    public void EndTurn()
+    {
+        if (_activeCreatureIndex < _initiatedCreatures.Count() - 1)
+        {
+            _activeCreatureIndex++;
+        }
+        else
+        {
+            _activeCreatureIndex = 0;
+        }
+
+        _activeCreature = _initiatedCreatures[_activeCreatureIndex];
     }
 
     void OpenDrawer(InitiatedCreature creature)
@@ -73,12 +92,12 @@ public partial class Manage : IDisposable
     {
         public InitiatedCreature(int initiativeRoll, ManageCombatQueryResponse.Creature creature)
         {
-            InititiveRoll = initiativeRoll;
+            InitiativeRoll = initiativeRoll;
             Creature = creature;
             HitPoints = creature.RollHitPoints();
         }
 
-        public int InititiveRoll { get; set; }
+        public int InitiativeRoll { get; set; }
         public ManageCombatQueryResponse.Creature Creature { get; set; }
         public int HitPoints { get; set; }
     }

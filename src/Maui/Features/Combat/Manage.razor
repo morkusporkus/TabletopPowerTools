@@ -6,35 +6,40 @@
         <MudAutocomplete Label="Creature" @bind-Value="@_selectedCreatureName" SearchFunc="@Filter" Variant="Variant.Outlined" ResetValueOnEmptyText="true" />
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="InitiateCreature">Add To Combat</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="InitiativeRoll">Initiative Roll</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Tertiary" OnClick="EndTurn" Disabled=@(_activeCreature is null)>End Turn</MudButton>
     </MudItem>
 
     @foreach (var initiatedCreature in _initiatedCreatures)
     {
+        var activeClass = initiatedCreature == _activeCreature ? "activeCreature" : String.Empty;
+   
         <MudItem lg="3" xs="12">
-            <MudCard>
-                <MudCardHeader>
-                    <CardHeaderAvatar>
-                        <MudAvatar Image="" Size="Size.Large" />
-                    </CardHeaderAvatar>
-                    <CardHeaderContent>
-                        <MudGrid>
-                            <MudItem xs="12">
-                                <MudText Typo="Typo.h5">@initiatedCreature.Creature.Name</MudText>
-                            </MudItem>
-                            <MudItem xs="6">
-                                <MudTextField Label="CR" @bind-Value="initiatedCreature.Creature.Cr" Disabled="true"></MudTextField>
-                            </MudItem>
-                            <MudItem xs="6">
-                                <MudNumericField Label="HP" @bind-Value="initiatedCreature.HitPoints" Min="0"></MudNumericField>
-                            </MudItem>
-                        </MudGrid>                    
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudText Typo="Typo.caption"><b>Initiative Roll:</b>:@initiatedCreature.InititiveRoll</MudText>
-                    <MudButton Color="Color.Secondary" OnClick="@(() => OpenDrawer(initiatedCreature))">Details</MudButton>
-                </MudCardContent>
-            </MudCard>
+            <div>          
+                <MudCard Class="@activeClass">
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudAvatar Image="" Size="Size.Large" />
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                            <MudGrid>
+                                <MudItem xs="12">
+                                    <MudText Typo="Typo.h5">@initiatedCreature.Creature.Name</MudText>
+                                </MudItem>
+                                <MudItem xs="6">
+                                    <MudTextField Label="CR" @bind-Value="initiatedCreature.Creature.Cr" Disabled="true"></MudTextField>
+                                </MudItem>
+                                <MudItem xs="6">
+                                    <MudNumericField Label="HP" @bind-Value="initiatedCreature.HitPoints" Min="0"></MudNumericField>
+                                </MudItem>
+                            </MudGrid>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Typo="Typo.caption"><b>Initiative Roll:</b>:@initiatedCreature.InitiativeRoll</MudText>
+                        <MudButton Color="Color.Secondary" OnClick="@(() => OpenDrawer(initiatedCreature))">Details</MudButton>
+                    </MudCardContent>
+                </MudCard>
+            </div>
         </MudItem>
     }
 
