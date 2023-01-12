@@ -46,12 +46,18 @@ public partial class Manage : IDisposable
 
     public void InitiativeRoll()
     {
-        foreach (InitiatedCreature a in _initiatedCreatures)
+        foreach (InitiatedCreature creature in _initiatedCreatures)
         {
-            a.InitiativeRoll = a.Creature.RollInitiative();
+            creature.InitiativeRoll = creature.Creature.RollInitiative();
         }
 
-        _initiatedCreatures = new LinkedList<InitiatedCreature>(_initiatedCreatures.OrderByDescending(x => x.InitiativeRoll));
+        var creaturesOrderedByInitiative = _initiatedCreatures.OrderByDescending(x => x.InitiativeRoll).ToList();
+
+        _initiatedCreatures.Clear();
+        foreach (InitiatedCreature creature in creaturesOrderedByInitiative)
+        {
+            _initiatedCreatures.AddLast(creature);
+        }
 
         if (_initiatedCreatures.Any()) _activeCreature = _initiatedCreatures.First();
     }
