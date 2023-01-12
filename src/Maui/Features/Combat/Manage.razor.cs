@@ -9,7 +9,7 @@ public partial class Manage : IDisposable
 
     private readonly CancellationTokenSource _cts = new();
     private ManageCombatQueryResponse _response;
-    private LinkedList<InitiatedCreature> _initiatedCreatures = new();
+    private readonly LinkedList<InitiatedCreature> _initiatedCreatures = new();
     private InitiatedCreature? _clickedCreature;
     private string _selectedCreatureName;
     private bool _creatureDetailsOpen;
@@ -46,7 +46,7 @@ public partial class Manage : IDisposable
 
     public void InitiativeRoll()
     {
-        foreach (InitiatedCreature creature in _initiatedCreatures)
+        foreach (var creature in _initiatedCreatures)
         {
             creature.InitiativeRoll = creature.Creature.RollInitiative();
         }
@@ -54,7 +54,7 @@ public partial class Manage : IDisposable
         var creaturesOrderedByInitiative = _initiatedCreatures.OrderByDescending(x => x.InitiativeRoll).ToList();
 
         _initiatedCreatures.Clear();
-        foreach (InitiatedCreature creature in creaturesOrderedByInitiative)
+        foreach (var creature in creaturesOrderedByInitiative)
         {
             _initiatedCreatures.AddLast(creature);
         }
@@ -81,6 +81,11 @@ public partial class Manage : IDisposable
     {
         _cts.Cancel();
         _cts.Dispose();
+    }
+
+    public void RemoveFromCombat(InitiatedCreature initiatedCreature)
+    {
+        _initiatedCreatures.Remove(initiatedCreature);
     }
 
     public class InitiatedCreature
