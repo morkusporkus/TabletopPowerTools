@@ -1,4 +1,5 @@
-﻿using DMPowerTools.Core.Features.Combat;
+﻿using Ardalis.SmartEnum;
+using DMPowerTools.Core.Features.Combat;
 using DMPowerTools.Core.Models;
 
 namespace DMPowerTools.Maui.Features.Combat;
@@ -9,7 +10,7 @@ public partial class Manage : IDisposable
 
     private readonly CancellationTokenSource _cts = new();
     private ManageCombatQueryResponse _response;
-    private LinkedList<InitiatedCreature> _initiatedCreatures = new();
+    private readonly LinkedList<InitiatedCreature> _initiatedCreatures = new();
     private InitiatedCreature? _clickedCreature;
     private string _selectedCreatureName;
     private bool _creatureDetailsOpen;
@@ -46,7 +47,7 @@ public partial class Manage : IDisposable
 
     public void InitiativeRoll()
     {
-        foreach (InitiatedCreature creature in _initiatedCreatures)
+        foreach (var creature in _initiatedCreatures)
         {
             creature.InitiativeRoll = creature.Creature.RollInitiative();
         }
@@ -54,7 +55,7 @@ public partial class Manage : IDisposable
         var creaturesOrderedByInitiative = _initiatedCreatures.OrderByDescending(x => x.InitiativeRoll).ToList();
 
         _initiatedCreatures.Clear();
-        foreach (InitiatedCreature creature in creaturesOrderedByInitiative)
+        foreach (var creature in creaturesOrderedByInitiative)
         {
             _initiatedCreatures.AddLast(creature);
         }
@@ -83,6 +84,21 @@ public partial class Manage : IDisposable
         _cts.Dispose();
     }
 
+    public void RemoveFromCombat(InitiatedCreature initiatedCreature)
+    {
+        _initiatedCreatures.Remove(initiatedCreature);
+    }
+
+    public void OnConditionRemoved(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
+    {
+        initiatedCreature.Conditions.Remove(condition);
+    }
+
+    public void OnConditionAdded(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
+    {
+        initiatedCreature.Conditions.Add(condition);
+    }
+
     public class InitiatedCreature
     {
         public InitiatedCreature(int initiativeRoll, ManageCombatQueryResponse.Creature creature)
@@ -95,5 +111,21 @@ public partial class Manage : IDisposable
         public int InitiativeRoll { get; set; }
         public ManageCombatQueryResponse.Creature Creature { get; set; }
         public int HitPoints { get; set; }
+
+        public List<Condition> Conditions { get; set; } = new();
+
+        public class Condition : SmartEnum<Condition>
+        {
+            public static readonly Condition Grappled = new(Icons.Material.Outlined.Link, nameof(Grappled), MudBlazor.Color.Dark, 0);
+
+            private Condition(string icon, string name, MudBlazor.Color color, int value) : base(name, value)
+            {
+                Icon = icon;
+                Color = color;
+            }
+
+            public string Icon { get; }
+            public MudBlazor.Color Color { get; }
+        }
     }
 }
