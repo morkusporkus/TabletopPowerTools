@@ -9,12 +9,11 @@ public partial class Manage : IDisposable
 
     private readonly CancellationTokenSource _cts = new();
     private ManageCombatQueryResponse _response;
-    private List<InitiatedCreature> _initiatedCreatures = new();
+    private LinkedList<InitiatedCreature> _initiatedCreatures = new();
     private InitiatedCreature? _clickedCreature;
     private string _selectedCreatureName;
     private bool _creatureDetailsOpen;
     private InitiatedCreature _activeCreature;
-    private int _activeCreatureIndex;
 
     protected override async Task OnInitializedAsync()
     {
@@ -42,7 +41,7 @@ public partial class Manage : IDisposable
 
         var selectedCreature = _response.Creatures.First(c => c.Name == _selectedCreatureName);
 
-        _initiatedCreatures.Add(new InitiatedCreature(0, selectedCreature));
+        _initiatedCreatures.AddLast(new InitiatedCreature(0, selectedCreature));
     }
 
     public void InitiativeRoll()
@@ -52,24 +51,14 @@ public partial class Manage : IDisposable
             a.InitiativeRoll = a.Creature.RollInitiative();
         }
 
-        _initiatedCreatures = _initiatedCreatures.OrderByDescending(x => x.InitiativeRoll).ToList();
+        _initiatedCreatures = new LinkedList<InitiatedCreature>(_initiatedCreatures.OrderByDescending(x => x.InitiativeRoll));
 
         if (_initiatedCreatures.Any()) _activeCreature = _initiatedCreatures.First();
-        _activeCreatureIndex = 0;
     }
 
     public void EndTurn()
     {
-        if (_activeCreatureIndex < _initiatedCreatures.Count() - 1)
-        {
-            _activeCreatureIndex++;
-        }
-        else
-        {
-            _activeCreatureIndex = 0;
-        }
-
-        _activeCreature = _initiatedCreatures[_activeCreatureIndex];
+        _activeCreature = _initiatedCreatures.Find(_activeCreature).Next is null ? _initiatedCreatures.First() : _initiatedCreatures.Find(_activeCreature).Next.Value;
     }
 
     void OpenDrawer(InitiatedCreature creature)
