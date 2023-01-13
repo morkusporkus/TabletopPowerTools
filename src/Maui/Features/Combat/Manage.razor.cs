@@ -17,7 +17,7 @@ public partial class Manage : IDisposable
 
     protected override async Task OnInitializedAsync()
     {
-        _combatEncounter.OnCombatEndedEvent += StateHasChanged;
+        _combatEncounter.OnCombatEndedCallback += StateHasChanged;
 
         _response = await Mediator.Send(new ManageCombatQuery(), _cts.Token);
     }
@@ -85,7 +85,7 @@ public partial class Manage : IDisposable
     {
         _cts.Cancel();
         _cts.Dispose();
-        _combatEncounter.OnCombatEndedEvent -= StateHasChanged;
+        _combatEncounter.OnCombatEndedCallback -= StateHasChanged;
     }
 
     // TODO: Move this to Core.
@@ -123,7 +123,7 @@ public partial class Manage : IDisposable
     // TODO: tests
     public class CombatEncounter
     {
-        public System.Action OnCombatEndedEvent { get; set; }
+        public System.Action OnCombatEndedCallback { get; set; }
 
         private readonly LinkedList<InitiatedCreature> _initiatedCreatures = new();
         private InitiatedCreature? _currentTurnCreature;
@@ -179,7 +179,7 @@ public partial class Manage : IDisposable
 
         public void EndCombatEncounter()
         {
-            OnCombatEndedEvent.Invoke();
+            OnCombatEndedCallback.Invoke();
         }
 
         public bool IsCreaturesTurn(InitiatedCreature creature) => _currentTurnCreature == creature;
