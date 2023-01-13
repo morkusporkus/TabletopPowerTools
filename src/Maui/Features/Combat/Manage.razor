@@ -8,7 +8,7 @@
     </MudItem>
     <MudItem xs="12">
         <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnBeginCombatClicked">Begin Combat</MudButton>
-        <MudButton Variant="Variant.Outlined" Color="Color.Tertiary" OnClick="OnEndTurnClicked" Disabled=@(!_combatEncounter.HasCombatBegun())>End Turn</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Tertiary" OnClick="OnEndTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>End Turn</MudButton>
     </MudItem>
 
     @foreach (var initiatedCreature in _combatEncounter.Creatures)
