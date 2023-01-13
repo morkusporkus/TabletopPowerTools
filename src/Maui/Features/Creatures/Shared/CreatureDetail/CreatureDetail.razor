@@ -1,19 +1,32 @@
 ﻿
 <MudGrid>
     <MudItem xs="12">
-        <MudText Typo="Typo.h4">@_response.Creature.Name</MudText>
+        @if (@ReadOnly)
+        {
+            <MudText Typo="Typo.h4">@_response.Creature.Name</MudText>
+        }
+        else
+        {
+            <MudTextField Variant="Variant.Text" @bind-Value="@_response.Creature.Name" />
+        }
     </MudItem>
     <MudItem xs="12">
-        @foreach (var ability in _response.Creature.Abilities)
-        {
-            <MudText>@ability.Name</MudText>
-            @MarkdownDisplay(ability.Desc)
-        }
-        @foreach (var action in _response.Creature.Actions)
-        {
-            <MudText>@action.Name</MudText>
-            @MarkdownDisplay(action.Desc)
-        }
+        <MudText Typo="Typo.h6">Abilities</MudText>
+        <MudGrid>
+            @foreach (var ability in _response.Creature.Abilities)
+            {
+                <CreatureProperty Title="@ability.Name" Description="@ability.Desc" ReadOnly=@ReadOnly/>
+            }
+        </MudGrid>
+
+        <MudText Typo="Typo.h6">Actions</MudText>
+        <MudGrid>
+            @foreach (var action in _response.Creature.Actions)
+            {
+                <CreatureProperty Title="@action.Name" Description="@action.Desc" ReadOnly=@ReadOnly />
+            }
+        </MudGrid>       
+        
         <MudText Typo="Typo.h6">Attributes</MudText>
         <MudGrid>
             <AttributeScore Name="STR" RawPoints="@_response.Creature.StrPoints" />
