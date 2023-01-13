@@ -1,3 +1,3 @@
 ﻿::deep .activeCreature {
-    box-shadow: 0 0 5px red;
+    box-shadow: 0 0 5px var(--mud-palette-secondary);
 }
