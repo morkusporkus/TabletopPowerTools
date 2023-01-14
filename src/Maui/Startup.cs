@@ -1,6 +1,5 @@
 ﻿using DMPowerTools.Core.Features.Combat;
 using DMPowerTools.Core.Infrastructure;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MudBlazor.Services;

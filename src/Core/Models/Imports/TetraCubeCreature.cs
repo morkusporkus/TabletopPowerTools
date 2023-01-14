@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace DMPowerTools.Core.Models.Imports
 {
@@ -32,6 +27,11 @@ namespace DMPowerTools.Core.Models.Imports
         public string SpeedDesc { get; set; }
         public int StrPoints { get; set; }
         public int DexPoints { get; set; }
+        public int DexModifier
+        {
+            get { return (DexPoints - 10) / 2; }
+            set { DexPoints = value / 2; }
+        }
         public int ConPoints { get; set; }
         public int IntPoints { get; set; }
         public int WisPoints { get; set; }
@@ -70,4 +70,37 @@ namespace DMPowerTools.Core.Models.Imports
         public int SeparationPoint { get; set; }
 
     }
+    public static class TetraCubeCreatureExtensions
+    {
+        public static int CalculateACFromTetraCube(this TetraCubeCreature creature)
+        {
+            var modifierWithCap = creature.DexModifier;
+            if (modifierWithCap > 2)
+            {
+                modifierWithCap = 2;
+            }
+
+            return creature.ArmorName.ToLowerInvariant() switch
+            {
+                "none" => 10 + creature.DexModifier + creature.NatArmorBonus + creature.ShieldBonus,
+                "natural armor" => 10 + creature.DexModifier + creature.NatArmorBonus + creature.ShieldBonus,
+                "mage armor" => 13 + creature.DexModifier + creature.ShieldBonus,
+                "padded" => 11 + creature.DexModifier + creature.ShieldBonus,
+                "leather" => 11 + creature.DexModifier + creature.ShieldBonus,
+                "studdedleather" => 12 + creature.DexModifier + creature.ShieldBonus,
+                "hide" => 12 + modifierWithCap + creature.ShieldBonus,
+                "chain shirt" => 13 + modifierWithCap + creature.ShieldBonus,
+                "scale mail" => 14 + modifierWithCap + creature.ShieldBonus,
+                "breastplate" => 14 + modifierWithCap + creature.ShieldBonus,
+                "half plate" => 15 + modifierWithCap + creature.ShieldBonus,
+                "ring mail" => 14 + creature.ShieldBonus,
+                "chain mail" => 16 + creature.ShieldBonus,
+                "splint" => 17 + creature.ShieldBonus,
+                "plate" => 18 + creature.ShieldBonus,
+                "other" => 10 + creature.ShieldBonus,
+                _ => 10 + creature.ShieldBonus,
+            };
+        }
+    }
+
 }

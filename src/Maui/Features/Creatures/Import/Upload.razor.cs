@@ -20,7 +20,7 @@ public partial class Upload
             var config = new MapperConfiguration(cfg => cfg.CreateMap<TetraCubeCreature, Creature>());
             var mapper = config.CreateMapper();
             var creature = mapper.Map<Creature>(tetraCubeCreature);
-            creature.AC = creature.CalculateACFromTetraCube(tetraCubeCreature.ArmorName,tetraCubeCreature.DexPoints,tetraCubeCreature.NatArmorBonus);
+            creature.ArmorClass = tetraCubeCreature.CalculateACFromTetraCube();
             ImportState.InReviewCreatures.Add(creature);
         }
 

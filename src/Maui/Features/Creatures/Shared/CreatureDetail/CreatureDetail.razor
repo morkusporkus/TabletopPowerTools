@@ -1,8 +1,14 @@
 ﻿
 <MudGrid>
-    <MudItem xs="12">
+    <MudItem xs="5">
         <MudText Typo="Typo.h4">@_response.Creature.Name</MudText>
     </MudItem>
+    <MudItem xs="2">
+    <MudText Typo="Typo.h5">@_response.Creature.Alignment</MudText>
+      </MudItem>
+     <MudItem xs="2">
+    <MudText Typo="Typo.h5">AC:@_response.Creature.ArmorClass</MudText>
+      </MudItem>
     <MudItem xs="12">
         @foreach (var ability in _response.Creature.Abilities)
         {

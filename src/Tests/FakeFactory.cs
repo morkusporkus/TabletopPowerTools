@@ -1,4 +1,5 @@
 ﻿using DMPowerTools.Core.Models;
+using DMPowerTools.Core.Models.Imports;
 
 namespace DMPowerTools.Tests;
 
@@ -24,7 +25,16 @@ internal class FakeFactory
 
         return faker.Generate();
     }
+    public static TetraCubeCreature CreateFakeTetraCubeCreature()
+    {
+        var faker = new AutoFaker<TetraCubeCreature>()
+            .Ignore(c => c.Id)
+            .Ignore(c => c.Abilities)
+            .Ignore(c => c.Actions)
+            .Ignore(c => c.Skills);
 
+        return faker.Generate();
+    }
     public static string RandomString => AutoFaker.Generate<string>();
     public static int RandomNumber => AutoFaker.Generate<int>();
 }

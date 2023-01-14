@@ -1,5 +1,4 @@
 ﻿using DMPowerTools.Core.Features.Creatures;
-using MediatR;
 
 namespace DMPowerTools.Maui.Features.Creatures;
 public partial class List : IDisposable
