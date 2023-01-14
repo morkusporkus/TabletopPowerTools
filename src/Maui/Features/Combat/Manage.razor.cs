@@ -162,10 +162,13 @@ public partial class Manage : IDisposable
         {        
             if (_currentTurnCreature == creature)
             {
-                NextTurn();
-
-                if (_currentTurnCreature is null)
+                if (_initiatedCreatures.Count > 1)
                 {
+                    NextTurn();
+                }
+                else
+                {
+                    _currentTurnCreature = null;
                     EndCombatEncounter();
                 }
             }
@@ -198,7 +201,7 @@ public partial class Manage : IDisposable
 
         public bool IsCreaturesTurn(InitiatedCreature creature) => _currentTurnCreature == creature;
 
-        public bool IsCombatActive() => _initiatedCreatures.Any();
+        public bool IsCombatActive() => _currentTurnCreature is not null;
 
         public void AddCondition(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
         {
