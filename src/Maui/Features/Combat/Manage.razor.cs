@@ -51,9 +51,14 @@ public partial class Manage : IDisposable
         _combatEncounter.BeginCombat();
     }
 
-    public void OnEndTurnClicked()
+    public void OnPreviousTurnClicked()
     {
-        _combatEncounter.EndTurn();
+        _combatEncounter.PreviousTurn();
+    }
+
+    public void OnNextTurnClicked()
+    {
+        _combatEncounter.NextTurn();
     }
 
     public void OnRemoveFromCombatClicked(InitiatedCreature initiatedCreature)
@@ -154,21 +159,30 @@ public partial class Manage : IDisposable
         }
 
         public void Remove(InitiatedCreature creature)
-        {
-            _initiatedCreatures.Remove(creature);
-
+        {        
             if (_currentTurnCreature == creature)
             {
-                EndTurn();
+                NextTurn();
 
                 if (_currentTurnCreature is null)
                 {
                     EndCombatEncounter();
                 }
             }
+
+            _initiatedCreatures.Remove(creature);
         }
 
-        public void EndTurn()
+        public void PreviousTurn()
+        {
+            var previousActiveCreature = _initiatedCreatures.Find(_currentTurnCreature)?.Previous is null
+               ? _initiatedCreatures.LastOrDefault()
+               : _initiatedCreatures.Find(_currentTurnCreature).Previous.Value;
+
+            _currentTurnCreature = previousActiveCreature;
+        }
+
+        public void NextTurn()
         {
             var nextActiveCreature = _initiatedCreatures.Find(_currentTurnCreature)?.Next is null
                ? _initiatedCreatures.FirstOrDefault()
@@ -184,7 +198,7 @@ public partial class Manage : IDisposable
 
         public bool IsCreaturesTurn(InitiatedCreature creature) => _currentTurnCreature == creature;
 
-        public bool IsCombatActive() => _currentTurnCreature is not null;
+        public bool IsCombatActive() => _initiatedCreatures.Any();
 
         public void AddCondition(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
         {
