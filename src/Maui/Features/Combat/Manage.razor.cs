@@ -17,6 +17,8 @@ public partial class Manage : IDisposable
 
     protected override async Task OnInitializedAsync()
     {
+        _combatEncounter.OnCombatEndedCallback += StateHasChanged;
+
         _response = await Mediator.Send(new ManageCombatQuery(), _cts.Token);
     }
 
@@ -83,6 +85,7 @@ public partial class Manage : IDisposable
     {
         _cts.Cancel();
         _cts.Dispose();
+        _combatEncounter.OnCombatEndedCallback -= StateHasChanged;
     }
 
     // TODO: Move this to Core.
@@ -120,8 +123,10 @@ public partial class Manage : IDisposable
     // TODO: tests
     public class CombatEncounter
     {
+        public System.Action OnCombatEndedCallback { get; set; }
+
         private readonly LinkedList<InitiatedCreature> _initiatedCreatures = new();
-        private InitiatedCreature _currentTurnCreature;
+        private InitiatedCreature? _currentTurnCreature;
 
         public void BeginCombat()
         {
@@ -150,21 +155,36 @@ public partial class Manage : IDisposable
 
         public void Remove(InitiatedCreature creature)
         {
-            if (_currentTurnCreature == creature) EndTurn();
-
             _initiatedCreatures.Remove(creature);
+
+            if (_currentTurnCreature == creature)
+            {
+                EndTurn();
+
+                if (_currentTurnCreature is null)
+                {
+                    EndCombatEncounter();
+                }
+            }
         }
 
         public void EndTurn()
         {
-            _currentTurnCreature = _initiatedCreatures.Find(_currentTurnCreature).Next is null
-                ? _initiatedCreatures.First()
-                : _initiatedCreatures.Find(_currentTurnCreature).Next.Value;
+            var nextActiveCreature = _initiatedCreatures.Find(_currentTurnCreature)?.Next is null
+               ? _initiatedCreatures.FirstOrDefault()
+               : _initiatedCreatures.Find(_currentTurnCreature).Next.Value;
+
+            _currentTurnCreature = nextActiveCreature;
+        }
+
+        public void EndCombatEncounter()
+        {
+            OnCombatEndedCallback.Invoke();
         }
 
         public bool IsCreaturesTurn(InitiatedCreature creature) => _currentTurnCreature == creature;
 
-        public bool HasCombatBegun() => _currentTurnCreature is not null;
+        public bool IsCombatActive() => _currentTurnCreature is not null;
 
         public void AddCondition(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
         {
