@@ -28,6 +28,7 @@
                             <MudStack Row=true>
                                 <MudNumericField Label="HP" @bind-Value="initiatedCreature.HitPoints" Min="0"></MudNumericField>
                                 <MudTextField Label="CR" Value="initiatedCreature.Creature.Cr" ReadOnly="true"></MudTextField>
+                                <MudTextField Label="AC" Value="initiatedCreature.Creature.ArmorClass" ReadOnly="true"></MudTextField>
                             </MudStack>
                         </CardHeaderContent>
                         <CardHeaderActions>
