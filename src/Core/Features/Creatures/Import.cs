@@ -86,7 +86,6 @@ public class ProcessMonsterFileProfile : Profile
     public ProcessMonsterFileProfile()
     {
         CreateMap<TetraCubeCreature, Creature>()
-            .ForMember(c => c.ArmorClass, tcc => tcc.Ignore())
             .ForMember(c => c.Id, tcc => tcc.Ignore());
     }
 }
