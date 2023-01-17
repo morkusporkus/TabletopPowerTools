@@ -1,4 +1,8 @@
-﻿namespace DMPowerTools.Core.Features.Creatures;
+﻿using DMPowerTools.Core.Models.Imports;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Text.Json;
+
+namespace DMPowerTools.Core.Features.Creatures;
 
 // TODO: Map from/to a model not the database model.
 public class AcceptCreatureCommand : IRequest<Unit>
@@ -46,7 +50,37 @@ public class AcceptAllCreaturesCommandHandler : IRequestHandler<AcceptAllCreatur
         return Unit.Value;
     }
 }
+public class ProcessMonsterFileCommand : IRequest<Creature>
+{
+    public IBrowserFile File { get; set; }
+}
+public class ProcessMonsterFileHandler : IRequestHandler<ProcessMonsterFileCommand, Creature>
+{
+    private readonly IMapper _mapper;
 
+    public ProcessMonsterFileHandler(IMapper mapper)
+    {
+        _mapper = mapper;
+    }
+    public async Task<Creature> Handle(ProcessMonsterFileCommand request, CancellationToken cancellationToken)
+    {
+        var tetraCubeCreature = await JsonSerializer.DeserializeAsync<TetraCubeCreature>(request.File.OpenReadStream(512000, default), new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+        tetraCubeCreature.ArmorClass = tetraCubeCreature.CalculateArmorClass();
+        return  _mapper.Map<Creature>(tetraCubeCreature);
+    }
+}
+public class ProcessMonsterFileProfile : Profile
+{
+    public ProcessMonsterFileProfile()
+    {
+        CreateMap<TetraCubeCreature, Creature>()
+            .ForMember(c => c.ArmorClass, tcc => tcc.Ignore())
+            .ForMember(c => c.Id, tcc => tcc.Ignore());
+    }
+}
 public class IsDuplicateCreatureQuery : IRequest<bool>
 {
     public required string Name { get; set; }

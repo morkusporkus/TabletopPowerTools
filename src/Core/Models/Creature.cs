@@ -23,32 +23,15 @@ public class Creature : ICreature
     public int HitDice { get; set; }
     public string Alignment { get; set; }
     public int ArmorClass { get; set; }
-    public int ShieldBonus { get; set; }
     public int Speed { get; set; }
-    public int BurrowSpeed { get; set; }
-    public int ClimbSpeed { get; set; }
-    public int FlySpeed { get; set; }
-    public bool Hover { get; set; }
-    public int SwimSpeed { get; set; }
-    public bool CustomHP { get; set; }
-    public bool CustomSpeed { get; set; }
     public int StrPoints { get; set; }
     public int DexPoints { get; set; }
     public int ConPoints { get; set; }
     public int IntPoints { get; set; }
     public int WisPoints { get; set; }
     public int ChaPoints { get; set; }
-    public int Blindsight { get; set; }
-    public bool Blind { get; set; }
-    public int Darkvision { get; set; }
-    public int Tremorsense { get; set; }
-    public int Truesight { get; set; }
-    public int Telepathy { get; set; }
     [JsonPropertyName("cr")]
     public string Cr { get; set; }
-    public bool IsLegendary { get; set; }
-    public string LegendariesDescription { get; set; }
-
 
     public ICollection<Ability> Abilities { get; set; } = Array.Empty<Ability>();
     public ICollection<Action> Actions { get; set; } = Array.Empty<Action>();

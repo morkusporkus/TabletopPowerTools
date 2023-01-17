@@ -7,12 +7,10 @@ namespace DMPowerTools.Core.Models.Imports
 {
     public class TetraCubeCreature
     {
-        private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
 
-        public TetraCubeCreature(ApplicationDbContext dbContext, IMapper mapper)
+        public TetraCubeCreature(IMapper mapper)
         {
-            _dbContext = dbContext;
             _mapper = mapper;
         }
 
@@ -23,6 +21,7 @@ namespace DMPowerTools.Core.Models.Imports
         public string Alignment { get; set; }
         public int HitDice { get; set; }
         public string ArmorName { get; set; }
+        public int ArmorClass { get; set; }
         public int ShieldBonus { get; set; }
         public int NatArmorBonus { get; set; }
         public string OtherArmorDesc { get; set; }
@@ -67,7 +66,6 @@ namespace DMPowerTools.Core.Models.Imports
         public bool IsRegional { get; set; }
         public string RegionalDescription { get; set; }
         public string RegionalDescriptionEnd { get; set; }
-        public int ArmorClass { get; set; }
 
         public ICollection<Ability> Abilities { get; set; } = Array.Empty<Ability>();
         public ICollection<Action> Actions { get; set; } = Array.Empty<Action>();
@@ -80,17 +78,17 @@ namespace DMPowerTools.Core.Models.Imports
         public bool DoubleColumns { get; set; }
         public int SeparationPoint { get; set; }
 
-        public Creature ConvertTetraCubeCreatureToCreature( TetraCubeCreature tetraCubeCreature)
+        public Creature ConvertTetraCubeCreatureToCreature()
         {
-          Creature creature =  _mapper.Map(tetraCubeCreature, new Creature());
-            creature.ArmorClass =  tetraCubeCreature.CalculateACFromTetraCube();
-            return creature;
+           Creature creature =  _mapper.Map(this, new Creature());
+
+           return creature;
         }
     }
     public static class TetraCubeCreatureExtensions
     {
 
-        public static int CalculateACFromTetraCube(this TetraCubeCreature creature)
+        public static int CalculateArmorClass(this TetraCubeCreature creature)
         {
             var modifierWithCap = creature.DexModifier;
             if (modifierWithCap > 2)
@@ -125,7 +123,9 @@ namespace DMPowerTools.Core.Models.Imports
     {
         public TetraCubeCreatureProfile()
         {
-            CreateMap<TetraCubeCreature, Creature>();
+            CreateMap<TetraCubeCreature, Creature>()
+                .ForMember(c=> c.ArmorClass,tcc=>tcc.Ignore())
+                .ForMember(c => c.Id, tcc => tcc.Ignore());
         }
     }
 

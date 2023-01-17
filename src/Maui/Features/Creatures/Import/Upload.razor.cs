@@ -21,7 +21,7 @@ public partial class Upload
                 PropertyNameCaseInsensitive = true
             });
           
-            ImportState.InReviewCreatures.Add( tetraCubeCreature.ConvertTetraCubeCreatureToCreature(tetraCubeCreature));
+            ImportState.InReviewCreatures.Add( tetraCubeCreature.ConvertTetraCubeCreatureToCreature());
         }
 
         ImportState.TransitionStatus();
