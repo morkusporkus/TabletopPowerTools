@@ -50,28 +50,37 @@ public class AcceptAllCreaturesCommandHandler : IRequestHandler<AcceptAllCreatur
         return Unit.Value;
     }
 }
-public class ProcessMonsterFileCommand : IRequest<Creature>
-{
-    public IBrowserFile File { get; set; }
-}
-public class ProcessMonsterFileHandler : IRequestHandler<ProcessMonsterFileCommand, Creature>
+public record ProcessMonsterFileCommand(IEnumerable<IBrowserFile> Files) : IRequest<ProcessMonsterFileCommandResponse> { }
+
+public class ProcessMonsterFileCommandHandler : IRequestHandler<ProcessMonsterFileCommand, ProcessMonsterFileCommandResponse>
 {
     private readonly IMapper _mapper;
 
-    public ProcessMonsterFileHandler(IMapper mapper)
+    public ProcessMonsterFileCommandHandler(IMapper mapper)
     {
         _mapper = mapper;
     }
-    public async Task<Creature> Handle(ProcessMonsterFileCommand request, CancellationToken cancellationToken)
+    public async Task<ProcessMonsterFileCommandResponse> Handle(ProcessMonsterFileCommand request, CancellationToken cancellationToken)
     {
-        var tetraCubeCreature = await JsonSerializer.DeserializeAsync<TetraCubeCreature>(request.File.OpenReadStream(512000, default), new JsonSerializerOptions
+        var creatures = new List<Creature>();
+        foreach (var file in request.Files)
         {
-            PropertyNameCaseInsensitive = true
-        });
-        tetraCubeCreature.ArmorClass = tetraCubeCreature.CalculateArmorClass();
-        return  _mapper.Map<Creature>(tetraCubeCreature);
+            var tetraCubeCreature = await JsonSerializer.DeserializeAsync<TetraCubeCreature>(file.OpenReadStream(512000, default), new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            }, cancellationToken);
+
+            var creature = _mapper.Map<Creature>(tetraCubeCreature);
+
+            creatures.Add(creature);
+        }
+
+        return new ProcessMonsterFileCommandResponse(creatures);
     }
 }
+
+public record ProcessMonsterFileCommandResponse(List<Creature> Creatures) { }
+
 public class ProcessMonsterFileProfile : Profile
 {
     public ProcessMonsterFileProfile()
@@ -81,6 +90,7 @@ public class ProcessMonsterFileProfile : Profile
             .ForMember(c => c.Id, tcc => tcc.Ignore());
     }
 }
+
 public class IsDuplicateCreatureQuery : IRequest<bool>
 {
     public required string Name { get; set; }

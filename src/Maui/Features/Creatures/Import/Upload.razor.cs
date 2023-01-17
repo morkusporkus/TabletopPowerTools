@@ -1,28 +1,17 @@
-﻿using AutoMapper;
-using DMPowerTools.Core.Features.Combat;
-using DMPowerTools.Core.Infrastructure;
-using DMPowerTools.Core.Models;
-using DMPowerTools.Core.Models.Imports;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
+﻿using DMPowerTools.Core.Features.Creatures;
 
 namespace DMPowerTools.Maui.Features.Creatures.Import;
 
 public partial class Upload
 {
+    [Inject] private IMediator Mediator { get; set; } = null!;
     [CascadingParameter] public ImportState ImportState { get; set; }
 
     private async Task UploadFilesAsync(IReadOnlyList<IBrowserFile> files)
     {
-        foreach (var file in files)
-        {
-            var tetraCubeCreature = await JsonSerializer.DeserializeAsync<TetraCubeCreature>(file.OpenReadStream(512000, default), new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-          
-            ImportState.InReviewCreatures.Add( tetraCubeCreature.ConvertTetraCubeCreatureToCreature());
-        }
+        var response = await Mediator.Send(new ProcessMonsterFileCommand(files));
+
+        ImportState.InReviewCreatures.AddRange(response.Creatures);
 
         ImportState.TransitionStatus();
     }

@@ -1,6 +1,4 @@
-﻿using DMPowerTools.Core.Models.Imports;
-
-namespace DMPowerTools.Tests.Extensions
+﻿namespace DMPowerTools.Tests.Extensions
 {
     public class TetraCubeCreatureExtensionTests : IntegrationTestBase
     {
@@ -11,9 +9,8 @@ namespace DMPowerTools.Tests.Extensions
             var mockTetraCubeCreature = CreateFakeTetraCubeCreature();
             mockTetraCubeCreature.ArmorName = "padded";
             var expectedResult = 11 + mockTetraCubeCreature.DexModifier + mockTetraCubeCreature.ShieldBonus;
-            var result = mockTetraCubeCreature.CalculateACFromTetraCube();
 
-            result.Should().Be(expectedResult);
+            mockTetraCubeCreature.ArmorClass.Should().Be(expectedResult);
         }
     }
 }

@@ -78,6 +78,4 @@ public static class CreatureExtensions
             _ => 8,
         };
     }
-
-
 }
