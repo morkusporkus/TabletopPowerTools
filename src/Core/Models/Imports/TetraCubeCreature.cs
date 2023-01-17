@@ -1,10 +1,21 @@
-﻿using System.Text.Json.Serialization;
+﻿using DMPowerTools.Core.Features.Combat;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using System.Threading;
 
 namespace DMPowerTools.Core.Models.Imports
 {
     public class TetraCubeCreature
     {
-        public int Id { get; set; }
+        private readonly ApplicationDbContext _dbContext;
+        private readonly IMapper _mapper;
+
+        public TetraCubeCreature(ApplicationDbContext dbContext, IMapper mapper)
+        {
+            _dbContext = dbContext;
+            _mapper = mapper;
+        }
+
         public string Name { get; set; }
         public string Size { get; set; }
         public string Type { get; set; }
@@ -69,9 +80,16 @@ namespace DMPowerTools.Core.Models.Imports
         public bool DoubleColumns { get; set; }
         public int SeparationPoint { get; set; }
 
+        public Creature ConvertTetraCubeCreatureToCreature( TetraCubeCreature tetraCubeCreature)
+        {
+          Creature creature =  _mapper.Map(tetraCubeCreature, new Creature());
+            creature.ArmorClass =  tetraCubeCreature.CalculateACFromTetraCube();
+            return creature;
+        }
     }
     public static class TetraCubeCreatureExtensions
     {
+
         public static int CalculateACFromTetraCube(this TetraCubeCreature creature)
         {
             var modifierWithCap = creature.DexModifier;
@@ -100,6 +118,14 @@ namespace DMPowerTools.Core.Models.Imports
                 "other" => 10 + creature.ShieldBonus,
                 _ => 10 + creature.ShieldBonus,
             };
+        }
+    }
+
+    public class TetraCubeCreatureProfile : Profile
+    {
+        public TetraCubeCreatureProfile()
+        {
+            CreateMap<TetraCubeCreature, Creature>();
         }
     }
 

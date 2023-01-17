@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using DMPowerTools.Core.Features.Combat;
+using DMPowerTools.Core.Infrastructure;
 using DMPowerTools.Core.Models;
 using DMPowerTools.Core.Models.Imports;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace DMPowerTools.Maui.Features.Creatures.Import;
@@ -17,13 +20,11 @@ public partial class Upload
             {
                 PropertyNameCaseInsensitive = true
             });
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<TetraCubeCreature, Creature>());
-            var mapper = config.CreateMapper();
-            var creature = mapper.Map<Creature>(tetraCubeCreature);
-            creature.ArmorClass = tetraCubeCreature.CalculateACFromTetraCube();
-            ImportState.InReviewCreatures.Add(creature);
+          
+            ImportState.InReviewCreatures.Add( tetraCubeCreature.ConvertTetraCubeCreatureToCreature(tetraCubeCreature));
         }
 
         ImportState.TransitionStatus();
     }
+
 }
