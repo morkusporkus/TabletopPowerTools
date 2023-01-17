@@ -7,14 +7,14 @@ public partial class Upload
 {
     [CascadingParameter] public ImportState ImportState { get; set; }
 
-    private async Task UploadFilesAsync(IReadOnlyList<IBrowserFile> files)
+    private async Task UploadFilesAsync(IReadOnlyList<IBrowserFile> files, ImportSource importSource)
     {
         foreach (var file in files)
         {
-            var creature = await JsonSerializer.DeserializeAsync<Creature>(file.OpenReadStream(512000, default), new JsonSerializerOptions
+            var creature = importSource switch
             {
-                PropertyNameCaseInsensitive = true
-            });
+                ImportSource.TetraCube or ImportSource.TableTopPowerTools => await JsonSerializer.DeserializeAsync<Creature>(file.OpenReadStream(512000, default), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+            };
 
             ImportState.InReviewCreatures.Add(creature);
         }

@@ -58,3 +58,9 @@ public enum ImportStatus
     Review,
     Done
 }
+
+public enum ImportSource
+{
+    TetraCube,
+    TableTopPowerTools
+}

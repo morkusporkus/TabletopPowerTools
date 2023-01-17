@@ -58,4 +58,8 @@
     <ItemGroup>
       <ProjectReference Include="..\Core\DMPowerTools.Core.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\img\creatures\import\" />
+    </ItemGroup>
 </Project>
