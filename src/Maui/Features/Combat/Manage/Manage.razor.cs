@@ -1,8 +1,7 @@
 ﻿using Ardalis.SmartEnum;
-using DMPowerTools.Core.Features.Combat;
 using DMPowerTools.Core.Models;
 
-namespace DMPowerTools.Maui.Features.Combat;
+namespace DMPowerTools.Maui.Features.Combat.Manage;
 
 public partial class Manage : IDisposable
 {
@@ -10,87 +9,59 @@ public partial class Manage : IDisposable
 
     private readonly CancellationTokenSource _cts = new();
     private readonly CombatEncounter _combatEncounter = new();
-    private ManageCombatQueryResponse _response;
-    private string _selectedCreatureName;
-    private bool _creatureDetailsOpen;
+    private bool _showCreatureDetails;
     private int _clickedCreatureId;
-
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        _combatEncounter.OnCombatEndedCallback += StateHasChanged;
-
-        _response = await Mediator.Send(new ManageCombatQuery(), _cts.Token);
+        _combatEncounter.OnCombatEnded += StateHasChanged;
     }
 
-    private Task<IEnumerable<string>> Filter(string searchValue)
+    public void AddCreatureToEncounter(ICreature creature)
     {
-        var allCreatures = _response.Creatures.Select(n => n.Name);
-
-        if (string.IsNullOrEmpty(searchValue))
-        {
-            return Task.FromResult(allCreatures);
-        }
-
-        var lowerCaseSearchTerm = searchValue.Trim().ToLower();
-
-        return Task.FromResult(allCreatures
-            .Where(name => name.Contains(lowerCaseSearchTerm, StringComparison.InvariantCultureIgnoreCase)));
+        _combatEncounter.Add(creature);
     }
 
-    public void OnAddCreatureToEncounterClicked()
-    {
-        if (_selectedCreatureName == string.Empty || _selectedCreatureName is null) return;
-
-        var selectedCreature = _response.Creatures.First(c => c.Name == _selectedCreatureName);
-
-        _combatEncounter.Add(selectedCreature);
-    }
-
-    public void OnBeginCombatClicked()
+    private void OnBeginCombatClicked()
     {
         _combatEncounter.BeginCombat();
     }
 
-    public void OnPreviousTurnClicked()
+    private void OnPreviousTurnClicked()
     {
         _combatEncounter.PreviousTurn();
     }
 
-    public void OnNextTurnClicked()
+    private void OnNextTurnClicked()
     {
         _combatEncounter.NextTurn();
     }
 
-    public void OnRemoveFromCombatClicked(InitiatedCreature initiatedCreature)
+    private void OnRemoveFromCombatClicked(InitiatedCreature initiatedCreature)
     {
         _combatEncounter.Remove(initiatedCreature);
     }
-    public void OnConditionAddedClicked(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
+    private void OnConditionAddedClicked(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
     {
         _combatEncounter.AddCondition(initiatedCreature, condition);
     }
 
-    public void OnConditionRemovedClicked(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
+    private void OnConditionRemovedClicked(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
     {
         _combatEncounter.RemoveCondition(initiatedCreature, condition);
     }
 
-    void OpenDrawer(int creatureId)
+    private void CreatureDetailsClicked(int creatureId)
     {
         _clickedCreatureId = creatureId;
-        _creatureDetailsOpen = true;
-    }
-
-    void CloseDrawer()
-    {
-        _creatureDetailsOpen = false;
+        _showCreatureDetails = true;
     }
 
     public void Dispose()
     {
         _cts.Cancel();
         _cts.Dispose();
-        _combatEncounter.OnCombatEndedCallback -= StateHasChanged;
+
+        _combatEncounter.OnCombatEnded -= StateHasChanged;
     }
 
     // TODO: Move this to Core.
@@ -128,10 +99,10 @@ public partial class Manage : IDisposable
     // TODO: tests
     public class CombatEncounter
     {
-        public System.Action OnCombatEndedCallback { get; set; }
+        public System.Action OnCombatEnded { get; set; }
 
         private readonly LinkedList<InitiatedCreature> _initiatedCreatures = new();
-        private InitiatedCreature? _currentTurnCreature;
+        private InitiatedCreature _currentTurnCreature;
 
         public void BeginCombat()
         {
@@ -159,7 +130,7 @@ public partial class Manage : IDisposable
         }
 
         public void Remove(InitiatedCreature creature)
-        {        
+        {
             if (_currentTurnCreature == creature)
             {
                 if (_initiatedCreatures.Count > 1)
@@ -196,7 +167,7 @@ public partial class Manage : IDisposable
 
         public void EndCombatEncounter()
         {
-            OnCombatEndedCallback.Invoke();
+            OnCombatEnded.Invoke();
         }
 
         public bool IsCreaturesTurn(InitiatedCreature creature) => _currentTurnCreature == creature;

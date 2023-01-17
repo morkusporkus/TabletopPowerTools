@@ -4,8 +4,7 @@
 <div>
     <MudGrid>
         <MudItem xs="6">
-            <MudAutocomplete Label="Search Creatures" @bind-Value="@_selectedCreatureName" SearchFunc="@Filter" Variant="Variant.Text" ResetValueOnEmptyText="true"
-                             AdornmentIcon="@Icons.Material.Filled.AddCircle" OnAdornmentClick="OnAddCreatureToEncounterClicked" AdornmentColor="Color.Success" />
+            <CreatureSearch OnCreatureAdded="AddCreatureToEncounter" />
         </MudItem>
         <MudItem xs="12">
             <MudButtonGroup OverrideStyles=false>
@@ -38,7 +37,7 @@
                     </MudCardHeader>
                     <MudCardContent>
                         <MudText Typo="Typo.caption"><b>Initiative Roll:</b>:@initiatedCreature.InitiativeRoll</MudText>
-                        <MudButton Color="Color.Secondary" OnClick="@(() => OpenDrawer(initiatedCreature.Creature.Id))">Details</MudButton>
+                        <MudButton Color="Color.Secondary" OnClick="@(() => CreatureDetailsClicked(initiatedCreature.Creature.Id))">Details</MudButton>
                     </MudCardContent>
                     <MudCardActions>
                         @foreach (var condition in initiatedCreature.Conditions)
@@ -60,12 +59,10 @@
             </MudItem>
         }
 
-        @if (_creatureDetailsOpen)
+        @if(_showCreatureDetails)
         {
-            <MudDrawer Width="100%" Height="80%" @bind-Open="@_creatureDetailsOpen" Anchor="Anchor.Bottom" Elevation="1" Variant="@DrawerVariant.Temporary">
-                <CreatureDetail CreatureId="_clickedCreatureId" />
-                <MudButton Color="Color.Error" OnClick="@(() => CloseDrawer())">Close</MudButton>
-            </MudDrawer>
+            <CreatureDetailDrawer @bind-Open=_showCreatureDetails CreatureId="_clickedCreatureId"/>
         }
+
     </MudGrid>
 </div>

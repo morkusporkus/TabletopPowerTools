@@ -1,0 +1,22 @@
+﻿@using DMPowerTools.Maui.Features.Creatures.Shared.CreatureDetail
+
+<MudDrawer @bind-Open="@Open" Anchor="Anchor.Right" Variant="@DrawerVariant.Temporary" Width="50%">
+    <MudGrid Spacing="0" Class="pa-4">
+        <MudItem xs="12">
+            <CreatureDetail CreatureId="CreatureId" />
+        </MudItem>
+    </MudGrid>
+</MudDrawer>
+
+@code {
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
+    [Parameter, EditorRequired] public int CreatureId { get; set; }
+
+    private async Task CloseDrawerAsync()
+    {
+        Open = !Open;
+
+        await OpenChanged.InvokeAsync(Open);
+    }
+}
