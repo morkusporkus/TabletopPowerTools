@@ -33,7 +33,7 @@ public partial class CreatureSearch : IDisposable
             .Where(name => name.Contains(lowerCaseSearchTerm, StringComparison.InvariantCultureIgnoreCase)));
     }
 
-    private async Task OnCreatureAddedClickedAsync()
+    private async Task OnAddedClickedAsync()
     {
         if (_selectedCreatureName == string.Empty || _selectedCreatureName is null) return;
 

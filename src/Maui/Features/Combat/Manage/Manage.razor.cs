@@ -21,6 +21,11 @@ public partial class Manage : IDisposable
         _combatEncounter.Add(creature);
     }
 
+    private void OnRemoveFromCombatClicked(InitiatedCreature initiatedCreature)
+    {
+        _combatEncounter.Remove(initiatedCreature);
+    }
+
     private void OnBeginCombatClicked()
     {
         _combatEncounter.BeginCombat();
@@ -36,10 +41,16 @@ public partial class Manage : IDisposable
         _combatEncounter.NextTurn();
     }
 
-    private void OnRemoveFromCombatClicked(InitiatedCreature initiatedCreature)
+    private void OnReorderCreaturePreviousClicked(InitiatedCreature initiatedCreature)
     {
-        _combatEncounter.Remove(initiatedCreature);
+        _combatEncounter.ReorderCreaturePrevious(initiatedCreature);
     }
+
+    private void OnReorderCreatureNextClicked(InitiatedCreature initiatedCreature)
+    {
+        _combatEncounter.ReorderCreatureNext(initiatedCreature);
+    }
+
     private void OnConditionAddedClicked(InitiatedCreature initiatedCreature, InitiatedCreature.Condition condition)
     {
         _combatEncounter.AddCondition(initiatedCreature, condition);
@@ -50,7 +61,7 @@ public partial class Manage : IDisposable
         _combatEncounter.RemoveCondition(initiatedCreature, condition);
     }
 
-    private void CreatureDetailsClicked(int creatureId)
+    private void OnCreatureDetailsClicked(int creatureId)
     {
         _clickedCreatureId = creatureId;
         _showCreatureDetails = true;
@@ -163,6 +174,32 @@ public partial class Manage : IDisposable
                : _initiatedCreatures.Find(_currentTurnCreature).Next.Value;
 
             _currentTurnCreature = nextActiveCreature;
+        }
+
+        public void ReorderCreaturePrevious(InitiatedCreature initiatedCreature)
+        {
+            var node = _initiatedCreatures.Find(initiatedCreature);
+
+            if (node.Previous is not null)
+            {
+                var previousNode = node.Previous;
+
+                _initiatedCreatures.Remove(node);
+                _initiatedCreatures.AddBefore(previousNode, node);
+            }
+        }
+
+        public void ReorderCreatureNext(InitiatedCreature initiatedCreature)
+        {
+            var node = _initiatedCreatures.Find(initiatedCreature);
+
+            if (node.Next is not null)
+            {
+                var nextNode = node.Next;
+
+                _initiatedCreatures.Remove(node);
+                _initiatedCreatures.AddAfter(nextNode, node);
+            }
         }
 
         public void EndCombatEncounter()
