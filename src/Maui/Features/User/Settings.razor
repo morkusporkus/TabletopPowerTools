@@ -1,22 +1,13 @@
 ﻿@page "/user/settings"
 
+<MudText Typo="Typo.h3">
+    Settings
+</MudText>
+<MudText>
+    Manage various settings across the entire application.
+</MudText>
 <MudGrid>
     <MudItem xs="12">
-        <MudPaper Class="pa-4">
-            <MudText Typo="Typo.h3">
-                Settings
-            </MudText>
-            <MudText>
-                Manage various settings across the entire application.
-            </MudText>
-        </MudPaper>
-    </MudItem>
-    <MudItem xs="3">
         <MudSwitch @bind-Checked=UserSettingsProvider.PrefersDarkMode UnCheckedColor="Color.Warning" Color=Color.Dark ThumbIcon="@GetThemeIcon()" @bind-Checked:after="UserSettingsProvider.OnUserSettingsChanged.Invoke">Light / Dark Mode</MudSwitch>
-    </MudItem>
-    <MudItem xs="3">
-        <MudButton OnClick="OnExportAllCreatureDataClickedAsync" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.DownloadForOffline" Variant="Variant.Filled">
-            Export All Creature Data
-        </MudButton>
     </MudItem>
 </MudGrid>
