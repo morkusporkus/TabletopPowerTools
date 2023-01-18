@@ -35,7 +35,6 @@ public class ListQueryResponse
         public required int Id { get; set; }
         public required string Name { get; set; }
         public required string Cr { get; set; }
-        public required string HpText { get; set; }
     }
 }
 

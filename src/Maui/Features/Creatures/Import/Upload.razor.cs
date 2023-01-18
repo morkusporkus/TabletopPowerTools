@@ -1,24 +1,19 @@
-﻿using DMPowerTools.Core.Models;
-using System.Text.Json;
+﻿using DMPowerTools.Core.Features.Creatures;
 
 namespace DMPowerTools.Maui.Features.Creatures.Import;
 
 public partial class Upload
 {
+    [Inject] private IMediator Mediator { get; set; } = null!;
     [CascadingParameter] public ImportState ImportState { get; set; }
 
     private async Task UploadFilesAsync(IReadOnlyList<IBrowserFile> files)
     {
-        foreach (var file in files)
-        {
-            var creature = await JsonSerializer.DeserializeAsync<Creature>(file.OpenReadStream(512000, default), new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+        var response = await Mediator.Send(new ProcessMonsterFileCommand(files));
 
-            ImportState.InReviewCreatures.Add(creature);
-        }
+        ImportState.InReviewCreatures.AddRange(response.Creatures);
 
         ImportState.TransitionStatus();
     }
+
 }
