@@ -31,12 +31,12 @@
         
         <MudText Typo="Typo.h6">Attributes</MudText>
         <MudGrid>
-            <AttributeScore Name="STR" RawPoints="@_response.Creature.StrPoints" />
-            <AttributeScore Name="DEX" RawPoints="@_response.Creature.DexPoints" />
-            <AttributeScore Name="CON" RawPoints="@_response.Creature.ConPoints" />
-            <AttributeScore Name="WIS" RawPoints="@_response.Creature.WisPoints" />
-            <AttributeScore Name="INT" RawPoints="@_response.Creature.IntPoints" />
-            <AttributeScore Name="CHA" RawPoints="@_response.Creature.ChaPoints" />
+            <AbilityScore Name="STR" RawPoints="@_response.Creature.AbilityScores.Strength" />
+            <AbilityScore Name="DEX" RawPoints="@_response.Creature.AbilityScores.Dexterity" />
+            <AbilityScore Name="CON" RawPoints="@_response.Creature.AbilityScores.Constitution" />
+            <AbilityScore Name="WIS" RawPoints="@_response.Creature.AbilityScores.Wisdom" />
+            <AbilityScore Name="CHA" RawPoints="@_response.Creature.AbilityScores.Charisma" />
+            <AbilityScore Name="INT" RawPoints="@_response.Creature.AbilityScores.Intelligence" />
         </MudGrid>
     </MudItem>
 </MudGrid>

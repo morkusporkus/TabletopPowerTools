@@ -36,8 +36,7 @@ public class ManageCombatQueryResponse
         public required string Name { get; set; }
         public required int HitDice { get; set; }
         public required string Size { get; set; }
-        public required int DexPoints { get; set; }
-        public required int ConPoints { get; set; }
+        public required AbilityScores AbilityScores { get; set; }
         public required string Cr { get; set; }
         public required int ArmorClass { get; set; }
     }
