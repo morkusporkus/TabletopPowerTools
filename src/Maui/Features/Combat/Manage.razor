@@ -6,10 +6,12 @@
         <MudAutocomplete Label="Search Creatures" @bind-Value="@_selectedCreatureName" SearchFunc="@Filter" Variant="Variant.Text" ResetValueOnEmptyText="true" 
             AdornmentIcon="@Icons.Material.Filled.AddCircle" OnAdornmentClick="OnAddCreatureToEncounterClicked" AdornmentColor="Color.Success" />
     </MudItem>
-    <MudItem xs="12">
-        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnBeginCombatClicked">Begin Combat</MudButton>
-        <MudButton Variant="Variant.Outlined" Color="Color.Tertiary" OnClick="OnPreviousTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>Previous Turn</MudButton>
-        <MudButton Variant="Variant.Outlined" Color="Color.Tertiary" OnClick="OnNextTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>Next Turn</MudButton>
+    <MudItem xs="12">    
+        <MudButtonGroup OverrideStyles=false>
+            <MudButton StartIcon="@Icons.Material.Filled.FormatListNumbered" Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnBeginCombatClicked">Begin Combat</MudButton>
+            <MudButton StartIcon="@Icons.Material.Filled.ArrowLeft" Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnPreviousTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>Prev</MudButton>
+            <MudButton EndIcon="@Icons.Material.Filled.ArrowRight" Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnNextTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>Next</MudButton>
+        </MudButtonGroup>  
     </MudItem>
 
     @foreach (var initiatedCreature in _combatEncounter.Creatures)
