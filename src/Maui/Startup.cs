@@ -1,6 +1,5 @@
-﻿using DMPowerTools.Core.Features.Combat;
+﻿using DMPowerTools.Core.Features.Combat.Manage;
 using DMPowerTools.Core.Features.Creatures.Import;
-using DMPowerTools.Core.Features.Combat.Manage;
 using DMPowerTools.Core.Infrastructure;
 using DMPowerTools.Maui.Features.User;
 using Microsoft.EntityFrameworkCore;
