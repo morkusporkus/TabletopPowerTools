@@ -20,14 +20,12 @@
                 <MudTh></MudTh>
                 <MudTh>Name</MudTh>
                 <MudTh>CR</MudTh>
-                <MudTh>HP</MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd>
                     <MudIconButton Variant="Variant.Outlined" Size="Size.Small" Color="Color.Error" Icon="@Icons.Material.Outlined.Delete" OnClick="@(() => DeleteCreatureAsync(context.Id))" />
                 </MudTd>
                 <MudTd DataLabel="Name">@context.Name</MudTd>
-                <MudTd DataLabel="HP">@context.HpText</MudTd>
                 <MudTd DataLabel="CR">@context.Cr</MudTd>
             </RowTemplate>
             <PagerContent>
