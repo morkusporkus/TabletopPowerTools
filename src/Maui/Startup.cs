@@ -1,4 +1,4 @@
-﻿using DMPowerTools.Core.Features.Combat;
+﻿using DMPowerTools.Core.Features.Combat.Manage;
 using DMPowerTools.Core.Infrastructure;
 using DMPowerTools.Maui.Features.User;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +19,8 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddMudServices();
-        services.AddMediatR(typeof(ManageCombatQueryHandler));
-        services.AddAutoMapper(typeof(ManageCombatQueryResponse));
+        services.AddMediatR(typeof(CreatureSearchQueryHandler));
+        services.AddAutoMapper(typeof(CreatureSearchQueryHandler));
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseSqlite(_configuration.GetConnectionString("DMPowerTools"));

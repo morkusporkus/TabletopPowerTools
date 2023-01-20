@@ -1,0 +1,71 @@
+﻿@page "/combat"
+@using DMPowerTools.Maui.Features.Creatures.Shared.CreatureDetail
+
+<div>
+    <MudGrid>
+        <MudItem xs="6">
+            <CreatureSearch OnCreatureAdded="AddCreatureToEncounter" />
+        </MudItem>
+        <MudItem xs="12">
+            <MudButtonGroup OverrideStyles=false>
+                <MudButton StartIcon="@Icons.Material.Filled.FormatListNumbered" Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnBeginCombatClicked" Disabled=_combatEncounter.IsCombatActive()>Begin Combat</MudButton>
+                <MudButton StartIcon="@Icons.Material.Filled.ArrowLeft" Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnPreviousTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>Prev</MudButton>
+                <MudButton EndIcon="@Icons.Material.Filled.ArrowRight" Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnNextTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>Next</MudButton>
+            </MudButtonGroup>
+        </MudItem>
+
+        @foreach (var initiatedCreature in _combatEncounter.Creatures)
+        {
+            var activeClass = _combatEncounter.IsCreaturesTurn(initiatedCreature) ? "activeCreature" : string.Empty;
+
+            <MudItem md="3" xs="12">
+                <MudCard Class="@activeClass">
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudAvatar Image="" Size="Size.Large" />
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5">@initiatedCreature.Creature.Name</MudText>
+                            <MudStack Row=true>
+                                <MudNumericField Label="HP" @bind-Value="initiatedCreature.HitPoints" Min="0"></MudNumericField>
+                                <MudTextField Label="CR" Value="initiatedCreature.Creature.Cr" ReadOnly="true"></MudTextField>
+                                <MudTextField Label="AC" Value="initiatedCreature.Creature.ArmorClass" ReadOnly="true"></MudTextField>
+                            </MudStack>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudIconButton Icon="@Icons.Material.Filled.ArrowLeft" Color="Color.Primary" Variant="Variant.Text" Size="Size.Small" OnClick="() => OnReorderCreaturePreviousClicked(initiatedCreature)" />
+                            <MudIconButton Icon="@Icons.Material.Filled.ArrowLeft" Color="Color.Primary" Variant="Variant.Text" Size="Size.Small" OnClick="() => OnReorderCreatureNextClicked(initiatedCreature)" />
+                            <MudIconButton Icon="@Icons.Material.Outlined.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Small" OnClick="() => OnRemoveFromCombatClicked(initiatedCreature)" />
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Typo="Typo.caption"><b>Initiative Roll:</b>:@initiatedCreature.InitiativeRoll</MudText>
+                        <MudButton Color="Color.Secondary" OnClick="@(() => OnCreatureDetailsClicked(initiatedCreature.Creature.Id))">Details</MudButton>
+                    </MudCardContent>
+                    <MudCardActions>
+                        @foreach (var condition in initiatedCreature.Conditions)
+                        {
+                            <MudChip Color="condition.Color" Icon="@condition.Icon" title="@condition.Name" OnClick="() => OnConditionRemovedClicked(initiatedCreature, condition)">
+                                @condition.Name
+                            </MudChip>
+                        }
+                        <MudMenu StartIcon="@Icons.Material.Filled.Add" Color="Color.Tertiary" Variant="Variant.Outlined" Dense="true" Label="Cond." Size="Size.Small">
+                            @foreach (var condition in InitiatedCreature.Condition.List.Where(c => !initiatedCreature.Conditions.Any(icc => icc.Value == c.Value)))
+                            {
+                                <MudMenuItem Icon="@condition.Icon" IconColor="@condition.Color" OnClick="() => OnConditionAddedClicked(initiatedCreature, condition)">
+                                    @condition.Name
+                                </MudMenuItem>
+                            }
+                        </MudMenu>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+
+        @if(_showCreatureDetails)
+        {
+            <CreatureDetailDrawer @bind-Open=_showCreatureDetails CreatureId="_clickedCreatureId"/>
+        }
+
+    </MudGrid>
+</div>

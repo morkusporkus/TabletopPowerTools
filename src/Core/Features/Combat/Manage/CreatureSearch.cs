@@ -1,32 +1,32 @@
-﻿namespace DMPowerTools.Core.Features.Combat;
+﻿namespace DMPowerTools.Core.Features.Combat.Manage;
 
-public class ManageCombatQuery : IRequest<ManageCombatQueryResponse> { }
+public class CreatureSearchQuery : IRequest<CreatureSearchQueryResponse> { }
 
-public class ManageCombatQueryHandler : IRequestHandler<ManageCombatQuery, ManageCombatQueryResponse>
+public class CreatureSearchQueryHandler : IRequestHandler<CreatureSearchQuery, CreatureSearchQueryResponse>
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public ManageCombatQueryHandler(ApplicationDbContext dbContext, IMapper mapper)
+    public CreatureSearchQueryHandler(ApplicationDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
     }
 
-    public async Task<ManageCombatQueryResponse> Handle(ManageCombatQuery request, CancellationToken cancellationToken)
+    public async Task<CreatureSearchQueryResponse> Handle(CreatureSearchQuery request, CancellationToken cancellationToken)
     {
         var creatures = await _dbContext.Creatures
-            .ProjectTo<ManageCombatQueryResponse.Creature>(_mapper.ConfigurationProvider)
+            .ProjectTo<CreatureSearchQueryResponse.Creature>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
-        return new ManageCombatQueryResponse
+        return new CreatureSearchQueryResponse
         {
             Creatures = creatures
         };
     }
 }
 
-public class ManageCombatQueryResponse
+public class CreatureSearchQueryResponse
 {
     public List<Creature> Creatures { get; set; } = new();
 
@@ -42,10 +42,10 @@ public class ManageCombatQueryResponse
     }
 }
 
-public class ManageCombatQueryResponseProfile : Profile
+public class CreatureSearchQueryResponseProfile : Profile
 {
-    public ManageCombatQueryResponseProfile()
+    public CreatureSearchQueryResponseProfile()
     {
-        CreateMap<ICreature, ManageCombatQueryResponse.Creature>();
+        CreateMap<ICreature, CreatureSearchQueryResponse.Creature>();
     }
 }
