@@ -1,6 +1,8 @@
 ﻿using DMPowerTools.Core.Features.Combat;
 using DMPowerTools.Core.Features.Creatures.Import;
+using DMPowerTools.Core.Features.Combat.Manage;
 using DMPowerTools.Core.Infrastructure;
+using DMPowerTools.Maui.Features.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MudBlazor.Services;
@@ -19,8 +21,8 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddMudServices();
-        services.AddMediatR(typeof(ManageCombatQueryHandler));
-        services.AddAutoMapper(typeof(ManageCombatQueryResponse));
+        services.AddMediatR(typeof(CreatureSearchQueryHandler));
+        services.AddAutoMapper(typeof(CreatureSearchQueryHandler));
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseSqlite(_configuration.GetConnectionString("DMPowerTools"));
@@ -30,5 +32,7 @@ public class Startup
         services.AddSingleton<IUploadStrategy, TetraCubeUploadStrategy>();
         services.AddSingleton<IUploadStrategy, TableTopPowerToolsUploadStrategy>();
         services.AddSingleton<IUploadStrategyFactory, UploadStrategyFactory>();
+
+        services.AddSingleton<UserSettingsProvider>();
     }
 }

@@ -23,9 +23,7 @@
             </HeaderContent>
             <RowTemplate>
                 <MudTd>
-                    <MudButton Variant="Variant.Outlined" Size="Size.Small" Color="Color.Error" StartIcon="@Icons.Material.Outlined.Delete" OnClick="@(() => DeleteCreatureAsync(context.Id))">
-                        Delete
-                    </MudButton>
+                    <MudIconButton Variant="Variant.Outlined" Size="Size.Small" Color="Color.Error" Icon="@Icons.Material.Outlined.Delete" OnClick="@(() => DeleteCreatureAsync(context.Id))" />
                 </MudTd>
                 <MudTd DataLabel="Name">@context.Name</MudTd>
                 <MudTd DataLabel="CR">@context.Cr</MudTd>

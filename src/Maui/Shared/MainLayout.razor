@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using DMPowerTools.Maui.Features.User;
+@implements IDisposable
+@inherits LayoutComponentBase
 
 <MudLayout>
     <MudAppBar Color=Color.Transparent Elevation=0>
@@ -23,43 +25,31 @@
     </MudMainContent>  
 </MudLayout>
 
-<MudThemeProvider @ref=_mudThemeProvider Theme="_baseTheme" IsDarkMode=_isDarkMode />
+<MudThemeProvider @ref=UserThemeProvider.MudThemeProvider Theme="UserThemeProvider.Theme" IsDarkMode="UserThemeProvider.PrefersDarkMode" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 @code{
-    private MudThemeProvider? _mudThemeProvider;
-    private bool _isDarkMode;
+
+    [Inject] public UserSettingsProvider UserThemeProvider { get; set; } = null!;
+
     private ErrorBoundary? _errorBoundary;
     private bool _showNavMenu;
-    private static readonly string[] _headerFontFamily = new[] { "Cormorant" };
-    private MudTheme _baseTheme = new MudTheme
-    {
-        Typography = new Typography
-        {
-            Default = new Default { FontFamily = new[] { "CrimsonText" }, FontSize = "1rem" },
-            H1 = new H1 { FontFamily = _headerFontFamily },
-            H2 = new H2 { FontFamily = _headerFontFamily },
-            H3 = new H3 { FontFamily = _headerFontFamily },
-            H4 = new H4 { FontFamily = _headerFontFamily },
-            H5 = new H5 { FontFamily = _headerFontFamily },
-            H6 = new H6 { FontFamily = _headerFontFamily }
-        }
-    };
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _isDarkMode = await _mudThemeProvider!.GetSystemPreference();
-            StateHasChanged();
-        }
-    }
 
     protected override void OnParametersSet()
     {
         _errorBoundary?.Recover();
     }
 
+    protected override void OnInitialized()
+    {
+        UserThemeProvider.OnUserSettingsChanged += StateHasChanged;
+    }
+
     private void OnOpenChanged(bool open = true) => _showNavMenu = open;
+
+    public void Dispose()
+    {
+        UserThemeProvider.OnUserSettingsChanged -= StateHasChanged;
+    }
 }

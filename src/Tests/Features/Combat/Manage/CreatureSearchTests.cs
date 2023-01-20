@@ -1,7 +1,7 @@
-﻿using DMPowerTools.Core.Features.Combat;
+﻿using DMPowerTools.Core.Features.Combat.Manage;
 
-namespace DMPowerTools.Tests.Features.Combat;
-public class ManageCombatTests : IntegrationTestBase
+namespace DMPowerTools.Tests.Features.Combat.Manage;
+public class CreatureSearchTests : IntegrationTestBase
 {
     [Fact]
     public async Task GivenAnyCreaturesExist_ThenReturnsThem()
@@ -9,7 +9,7 @@ public class ManageCombatTests : IntegrationTestBase
         var mockCreature = CreateFakeCreature();
         await AddAsync(mockCreature);
 
-        var result = await SendAsync(new ManageCombatQuery());
+        var result = await SendAsync(new CreatureSearchQuery());
 
         result.Creatures.Should().HaveCount(1);
     }
