@@ -1,0 +1,13 @@
+﻿@page "/user/settings"
+
+<MudText Typo="Typo.h3">
+    Settings
+</MudText>
+<MudText>
+    Manage various settings across the entire application.
+</MudText>
+<MudGrid>
+    <MudItem xs="12">
+        <MudSwitch @bind-Checked=UserSettingsProvider.PrefersDarkMode UnCheckedColor="Color.Warning" Color=Color.Dark ThumbIcon="@GetThemeIcon()" @bind-Checked:after="UserSettingsProvider.OnUserSettingsChanged.Invoke">Light / Dark Mode</MudSwitch>
+    </MudItem>
+</MudGrid>

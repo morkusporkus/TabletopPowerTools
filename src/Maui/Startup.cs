@@ -1,5 +1,6 @@
 ﻿using DMPowerTools.Core.Features.Combat;
 using DMPowerTools.Core.Infrastructure;
+using DMPowerTools.Maui.Features.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MudBlazor.Services;
@@ -25,5 +26,7 @@ public class Startup
             options.UseSqlite(_configuration.GetConnectionString("DMPowerTools"));
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
+
+        services.AddSingleton<UserSettingsProvider>();
     }
 }
