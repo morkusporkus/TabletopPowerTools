@@ -47,6 +47,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Include="Features\User\Settings.razor.js" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Markdig" Version="0.30.4" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
@@ -57,5 +61,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Core\DMPowerTools.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\js\" />
     </ItemGroup>
 </Project>

@@ -1,10 +1,39 @@
-﻿namespace DMPowerTools.Maui.Features.User;
+﻿using DMPowerTools.Core.Features.Settings;
+using Microsoft.JSInterop;
 
-public partial class Settings
+namespace DMPowerTools.Maui.Features.User;
+
+public partial class Settings : IDisposable
 {
     [Inject] private UserSettingsProvider UserSettingsProvider { get; set; }
+    [Inject] private IMediator Mediator { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; } = null!;
+
+    private IJSObjectReference _blazorDownloadFileModule;
+    private readonly CancellationTokenSource _cts = new();
 
     private string GetThemeIcon() => UserSettingsProvider.PrefersDarkMode ? Icons.Material.Filled.DarkMode : Icons.Material.Filled.LightMode;
+
+    private async Task OnExportAllCreatureDataClickedAsync()
+    {
+        var response = await Mediator.Send(new ExportCreatureDataQuery(), _cts.Token);
+
+        await _blazorDownloadFileModule.InvokeVoidAsync("BlazorDownloadFile", _cts.Token, response.FileName, "text/json", response.ExportedCreatureFileBytes);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _blazorDownloadFileModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./Features/User/Settings.razor.js");
+        }
+    }
+
+    public void Dispose()
+    {
+        _cts.Cancel();
+        _cts.Dispose();
+    }
 }
 
 public class UserSettingsProvider
