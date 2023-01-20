@@ -17,7 +17,7 @@ public class ImportState
             _ => throw new NotImplementedException()
         };
 
-        NotifyStateChanged.Invoke();
+        NotifyStateChanged?.Invoke();
     }
 }
 

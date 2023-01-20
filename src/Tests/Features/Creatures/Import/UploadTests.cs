@@ -1,10 +1,10 @@
-﻿using DMPowerTools.Core.Features.Creatures;
+﻿using DMPowerTools.Core.Features.Creatures.Import;
 using DMPowerTools.Core.Infrastructure;
 using DMPowerTools.Core.Models;
 
-namespace DMPowerTools.Tests.Features.Creatures;
+namespace DMPowerTools.Tests.Features.Creatures.Import;
 
-public class ImportTests : IntegrationTestBase
+public class UploadTests : IntegrationTestBase
 {
     [Fact]
     public async Task GivenAnyCreature_WhenItIsAccepted_ThenIsSaved()
