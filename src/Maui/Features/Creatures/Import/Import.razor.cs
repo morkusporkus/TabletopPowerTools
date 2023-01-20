@@ -1,4 +1,4 @@
-﻿using DMPowerTools.Core.Models;
+﻿using DMPowerTools.Core.Features.Creatures.Import;
 
 namespace DMPowerTools.Maui.Features.Creatures.Import;
 public partial class Import : IDisposable
@@ -29,38 +29,4 @@ public partial class Import : IDisposable
     {
         _importState.NotifyStateChanged -= OnImportStatusChanged;
     }
-}
-
-public class ImportState
-{
-    public ImportStatus ImportStatus { get; private set; } = ImportStatus.Upload;
-    public List<Creature> InReviewCreatures = new();
-
-    public System.Action NotifyStateChanged;
-
-    public void TransitionStatus()
-    {
-        ImportStatus = ImportStatus switch
-        {
-            ImportStatus.Upload => ImportStatus.Review,
-            ImportStatus.Review => ImportStatus.Done,
-            ImportStatus.Done => ImportStatus.Upload,
-            _ => throw new NotImplementedException()
-        };
-
-        NotifyStateChanged.Invoke();
-    }
-}
-
-public enum ImportStatus
-{
-    Upload,
-    Review,
-    Done
-}
-
-public enum ImportSource
-{
-    TetraCube,
-    TableTopPowerTools
 }

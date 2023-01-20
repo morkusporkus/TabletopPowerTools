@@ -1,4 +1,6 @@
-﻿<MudGrid>
+﻿@using DMPowerTools.Core.Features.Creatures.Import
+
+<MudGrid>
     <MudItem xs="12">
         <MudText Typo="Typo.h5">Import From A Source</MudText>
         <MudAlert Severity="Severity.Info">
@@ -6,14 +8,14 @@
         </MudAlert>
     </MudItem>
     <MudItem md="4" xs="12">
-        <ImportSourceCard Title="Tetra-Cube" ImagePath="img/creatures/import/tetra-cube.webp" OnFilesChangedCallback="(files) => UploadFilesAsync(files, ImportSource.TetraCube)">
+        <ImportSourceCard Title="Tetra-Cube" ImagePath="img/creatures/import/tetra-cube.webp" OnFilesChangedCallback="(files) => UploadFilesAsync(files, UploadSource.TetraCube)">
             <Body>
                 Visit <MudLink Href="https://tetra-cube.com" Target="_blank">tetra-cube.com</MudLink> to create <code>.monster</code> files to import.
             </Body>
         </ImportSourceCard>
     </MudItem>
     <MudItem md="4" xs="12">
-        <ImportSourceCard Title="TableTop PowerTools" ImagePath="img/shared/logo.jpg" OnFilesChangedCallback="(files) => UploadFilesAsync(files, ImportSource.TableTopPowerTools)">
+        <ImportSourceCard Title="TableTop PowerTools" ImagePath="img/shared/logo.jpg" OnFilesChangedCallback="(files) => UploadFilesAsync(files, UploadSource.TableTopPowerTools)">
             <Body>
                 Exported from <MudIconButton Href="/user/settings" Icon="@Icons.Material.Outlined.Settings" Size="Size.Small" Variant="Variant.Outlined">Settings</MudIconButton>.
                 Files from yourself and shared from others can be imported here. 

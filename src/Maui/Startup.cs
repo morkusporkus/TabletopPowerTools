@@ -1,4 +1,5 @@
 ﻿using DMPowerTools.Core.Features.Combat;
+using DMPowerTools.Core.Features.Creatures.Import;
 using DMPowerTools.Core.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,5 +26,9 @@ public class Startup
             options.UseSqlite(_configuration.GetConnectionString("DMPowerTools"));
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
+
+        services.AddSingleton<IUploadStrategy, TetraCubeUploadStrategy>();
+        services.AddSingleton<IUploadStrategy, TableTopPowerToolsUploadStrategy>();
+        services.AddSingleton<IUploadStrategyFactory, UploadStrategyFactory>();
     }
 }
