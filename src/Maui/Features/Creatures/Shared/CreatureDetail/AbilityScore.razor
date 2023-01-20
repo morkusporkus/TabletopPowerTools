@@ -13,6 +13,6 @@
     [Parameter, EditorRequired] public string Name { get; set; }
     [Parameter] public bool ReadOnly { get; set; } = true;
 
-    private int Modifier => Creature.CalculateAbilityScoreModifier(RawPoints);
+    private int Modifier => AbilityScores.CalculateModifier(RawPoints);
     private Color ModifierColor => Modifier >= 0 ? Color.Success : Color.Error;
 }

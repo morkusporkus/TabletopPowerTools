@@ -159,7 +159,7 @@ public partial class Manage : IDisposable
         }
 
         public void Remove(InitiatedCreature creature)
-        {        
+        {
             if (_currentTurnCreature == creature)
             {
                 if (_initiatedCreatures.Count > 1)
