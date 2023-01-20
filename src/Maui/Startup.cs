@@ -19,7 +19,11 @@ public class Startup
     {
         services.AddMudServices();
         services.AddMediatR(typeof(CreatureSearchQueryHandler));
-        services.AddAutoMapper(typeof(CreatureSearchQueryResponse));
-        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(_configuration.GetConnectionString("DMPowerTools")));
+        services.AddAutoMapper(typeof(CreatureSearchQueryHandler));
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseSqlite(_configuration.GetConnectionString("DMPowerTools"));
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        });
     }
 }
