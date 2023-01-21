@@ -1,8 +1,8 @@
-﻿using DMPowerTools.Core.Infrastructure;
+﻿using TabletopPowerTools.Core.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace DMPowerTools.Maui;
+namespace TabletopPowerTools.Maui;
 
 public static class MauiProgram
 {
@@ -19,10 +19,10 @@ public static class MauiProgram
         // Non-test configuration/services.
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
-        var dbPath = Path.Join(path, "DMPowerTools.db");
+        var dbPath = Path.Join(path, "TabletopPowerTools.db");
         builder.Configuration.AddInMemoryCollection(new List<KeyValuePair<string, string>>
         {
-            new("ConnectionStrings:DMPowerTools", "DataSource=" + dbPath)
+            new("ConnectionStrings:TabletopPowerTools", "DataSource=" + dbPath)
         });
         builder.Services.AddMauiBlazorWebView();
 

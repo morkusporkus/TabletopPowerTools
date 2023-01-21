@@ -1,4 +1,4 @@
-﻿namespace DMPowerTools.Core.Features.Creatures;
+﻿namespace TabletopPowerTools.Core.Features.Creatures;
 
 public class ListQuery : IRequest<ListQueryResponse> { }
 

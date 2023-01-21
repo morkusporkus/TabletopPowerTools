@@ -1,4 +1,4 @@
-﻿namespace DMPowerTools.Core.Features.Creatures.Import;
+﻿namespace TabletopPowerTools.Core.Features.Creatures.Import;
 
 public class ImportState
 {

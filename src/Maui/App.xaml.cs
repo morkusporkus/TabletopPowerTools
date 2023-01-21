@@ -1,4 +1,4 @@
-﻿namespace DMPowerTools.Maui;
+﻿namespace TabletopPowerTools.Maui;
 
 public partial class App : Application
 {

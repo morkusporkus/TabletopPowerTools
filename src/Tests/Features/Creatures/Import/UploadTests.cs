@@ -1,8 +1,8 @@
-﻿using DMPowerTools.Core.Features.Creatures.Import;
-using DMPowerTools.Core.Infrastructure;
-using DMPowerTools.Core.Models;
+﻿using TabletopPowerTools.Core.Features.Creatures.Import;
+using TabletopPowerTools.Core.Infrastructure;
+using TabletopPowerTools.Core.Models;
 
-namespace DMPowerTools.Tests.Features.Creatures.Import;
+namespace TabletopPowerTools.Tests.Features.Creatures.Import;
 
 public class UploadTests : IntegrationTestBase
 {

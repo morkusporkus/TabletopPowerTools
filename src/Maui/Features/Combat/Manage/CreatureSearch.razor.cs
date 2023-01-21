@@ -1,7 +1,7 @@
-﻿using DMPowerTools.Core.Features.Combat.Manage;
-using DMPowerTools.Core.Models;
+﻿using TabletopPowerTools.Core.Features.Combat.Manage;
+using TabletopPowerTools.Core.Models;
 
-namespace DMPowerTools.Maui.Features.Combat.Manage;
+namespace TabletopPowerTools.Maui.Features.Combat.Manage;
 
 public partial class CreatureSearch : IDisposable
 {

@@ -1,4 +1,4 @@
-﻿namespace DMPowerTools.Core.Models;
+﻿namespace TabletopPowerTools.Core.Models;
 
 public class Action
 {

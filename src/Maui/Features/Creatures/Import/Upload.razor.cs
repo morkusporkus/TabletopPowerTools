@@ -1,6 +1,6 @@
-﻿using DMPowerTools.Core.Features.Creatures.Import;
+﻿using TabletopPowerTools.Core.Features.Creatures.Import;
 
-namespace DMPowerTools.Maui.Features.Creatures.Import;
+namespace TabletopPowerTools.Maui.Features.Creatures.Import;
 
 public partial class Upload
 {

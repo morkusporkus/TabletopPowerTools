@@ -1,11 +1,11 @@
-﻿using DMPowerTools.Core.Infrastructure;
-using DMPowerTools.Maui;
+﻿using TabletopPowerTools.Core.Infrastructure;
+using TabletopPowerTools.Maui;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DMPowerTools.Tests;
+namespace TabletopPowerTools.Tests;
 
 [Collection(nameof(Maui))]
 public class IntegrationTestBase : IAsyncLifetime

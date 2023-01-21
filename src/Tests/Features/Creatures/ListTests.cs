@@ -1,7 +1,7 @@
-﻿using DMPowerTools.Core.Features.Creatures;
-using DMPowerTools.Core.Models;
+﻿using TabletopPowerTools.Core.Features.Creatures;
+using TabletopPowerTools.Core.Models;
 
-namespace DMPowerTools.Tests.Features.Creatures;
+namespace TabletopPowerTools.Tests.Features.Creatures;
 
 public class ListTests : IntegrationTestBase
 {

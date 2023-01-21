@@ -1,4 +1,4 @@
-﻿namespace DMPowerTools.Maui.Shared;
+﻿namespace TabletopPowerTools.Maui.Shared;
 
 public class RpgIcons
 {

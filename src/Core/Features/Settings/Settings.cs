@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace DMPowerTools.Core.Features.Settings;
+namespace TabletopPowerTools.Core.Features.Settings;
 
 public record ExportCreatureDataQuery : IRequest<ExportCreatureDataQueryResponse> { }
 

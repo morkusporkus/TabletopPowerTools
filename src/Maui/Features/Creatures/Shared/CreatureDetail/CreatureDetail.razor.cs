@@ -1,7 +1,7 @@
-﻿using DMPowerTools.Core.Features.Creatures.Shared;
-using DMPowerTools.Core.Models;
+﻿using TabletopPowerTools.Core.Features.Creatures.Shared;
+using TabletopPowerTools.Core.Models;
 
-namespace DMPowerTools.Maui.Features.Creatures.Shared.CreatureDetail;
+namespace TabletopPowerTools.Maui.Features.Creatures.Shared.CreatureDetail;
 public partial class CreatureDetail
 {
     [Inject] private IMediator Mediator { get; set; } = null!;

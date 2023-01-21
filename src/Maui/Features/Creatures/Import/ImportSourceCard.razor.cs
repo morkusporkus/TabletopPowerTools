@@ -1,4 +1,4 @@
-﻿namespace DMPowerTools.Maui.Features.Creatures.Import;
+﻿namespace TabletopPowerTools.Maui.Features.Creatures.Import;
 
 public partial class ImportSourceCard : ComponentBase
 {

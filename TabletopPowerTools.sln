@@ -2,11 +2,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMPowerTools.Maui", "src\Maui\DMPowerTools.Maui.csproj", "{AF88285E-CC56-4F65-916C-916C0916C396}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabletopPowerTools.Maui", "src\Maui\TabletopPowerTools.Maui.csproj", "{AF88285E-CC56-4F65-916C-916C0916C396}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMPowerTools.Tests", "src\Tests\DMPowerTools.Tests.csproj", "{E87A6784-BA17-4D66-9518-FC9547499641}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabletopPowerTools.Tests", "src\Tests\TabletopPowerTools.Tests.csproj", "{E87A6784-BA17-4D66-9518-FC9547499641}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DMPowerTools.Core", "src\Core\DMPowerTools.Core.csproj", "{D007DCD8-1DF5-4484-809E-E2C75E53F79A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabletopPowerTools.Core", "src\Core\TabletopPowerTools.Core.csproj", "{D007DCD8-1DF5-4484-809E-E2C75E53F79A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,7 +33,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7EB19563-E91A-4012-9F04-F46BB0B777E1}
 		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+		SolutionGuid = {7EB19563-E91A-4012-9F04-F46BB0B777E1}
 	EndGlobalSection
 EndGlobal

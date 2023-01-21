@@ -1,4 +1,4 @@
-﻿namespace DMPowerTools.Core.Features.Creatures.Import;
+﻿namespace TabletopPowerTools.Core.Features.Creatures.Import;
 
 // TODO: Map from/to a model not the database model.
 public class AcceptCreatureCommand : IRequest<Unit>

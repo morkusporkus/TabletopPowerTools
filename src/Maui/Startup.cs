@@ -1,12 +1,12 @@
-﻿using DMPowerTools.Core.Features.Combat.Manage;
-using DMPowerTools.Core.Features.Creatures.Import;
-using DMPowerTools.Core.Infrastructure;
-using DMPowerTools.Maui.Features.User;
+﻿using TabletopPowerTools.Core.Features.Combat.Manage;
+using TabletopPowerTools.Core.Features.Creatures.Import;
+using TabletopPowerTools.Core.Infrastructure;
+using TabletopPowerTools.Maui.Features.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MudBlazor.Services;
 
-namespace DMPowerTools.Maui;
+namespace TabletopPowerTools.Maui;
 
 public class Startup
 {
@@ -24,7 +24,7 @@ public class Startup
         services.AddAutoMapper(typeof(CreatureSearchQueryHandler));
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlite(_configuration.GetConnectionString("DMPowerTools"));
+            options.UseSqlite(_configuration.GetConnectionString("TabletopPowerTools"));
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
 
