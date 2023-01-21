@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Action = DMPowerTools.Core.Models.Action;
+using Action = TabletopPowerTools.Core.Models.Action;
 
-namespace DMPowerTools.Core.Features.Creatures.Import;
+namespace TabletopPowerTools.Core.Features.Creatures.Import;
 
 public record UploadMonsterFileCommand(IEnumerable<IBrowserFile> Files, UploadSource UploadSource) : IRequest<UploadMonsterFileCommandResponse> { }
 

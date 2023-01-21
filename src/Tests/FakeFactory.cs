@@ -1,6 +1,6 @@
-﻿using DMPowerTools.Core.Models;
+﻿using TabletopPowerTools.Core.Models;
 
-namespace DMPowerTools.Tests;
+namespace TabletopPowerTools.Tests;
 
 internal class FakeFactory
 {

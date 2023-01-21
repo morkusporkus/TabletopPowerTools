@@ -1,7 +1,7 @@
-﻿using DMPowerTools.Core.Features.Settings;
+﻿using TabletopPowerTools.Core.Features.Settings;
 using Microsoft.JSInterop;
 
-namespace DMPowerTools.Maui.Features.User;
+namespace TabletopPowerTools.Maui.Features.User;
 
 public partial class Settings : IDisposable
 {

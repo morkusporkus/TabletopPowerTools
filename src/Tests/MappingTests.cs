@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using DMPowerTools.Core.Infrastructure;
+using TabletopPowerTools.Core.Infrastructure;
 
-namespace DMPowerTools.Tests;
+namespace TabletopPowerTools.Tests;
 public class MappingTests
 {
     [Fact]

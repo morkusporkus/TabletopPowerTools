@@ -1,7 +1,7 @@
 ﻿using Ardalis.SmartEnum;
-using DMPowerTools.Core.Models;
+using TabletopPowerTools.Core.Models;
 
-namespace DMPowerTools.Maui.Features.Combat.Manage;
+namespace TabletopPowerTools.Maui.Features.Combat.Manage;
 
 public partial class Manage : IDisposable
 {

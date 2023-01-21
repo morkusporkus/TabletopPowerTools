@@ -1,6 +1,6 @@
-﻿using Action = DMPowerTools.Core.Models.Action;
+﻿using Action = TabletopPowerTools.Core.Models.Action;
 
-namespace DMPowerTools.Core.Infrastructure;
+namespace TabletopPowerTools.Core.Infrastructure;
 
 public class ApplicationDbContext : DbContext
 {

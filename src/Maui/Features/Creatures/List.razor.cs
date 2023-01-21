@@ -1,6 +1,6 @@
-﻿using DMPowerTools.Core.Features.Creatures;
+﻿using TabletopPowerTools.Core.Features.Creatures;
 
-namespace DMPowerTools.Maui.Features.Creatures;
+namespace TabletopPowerTools.Maui.Features.Creatures;
 public partial class List : IDisposable
 {
     [Inject] public IMediator Mediator { get; set; }

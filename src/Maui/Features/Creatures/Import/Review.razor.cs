@@ -1,7 +1,7 @@
-﻿using DMPowerTools.Core.Features.Creatures.Import;
-using DMPowerTools.Core.Models;
+﻿using TabletopPowerTools.Core.Features.Creatures.Import;
+using TabletopPowerTools.Core.Models;
 
-namespace DMPowerTools.Maui.Features.Creatures.Import;
+namespace TabletopPowerTools.Maui.Features.Creatures.Import;
 public partial class Review
 {
     [Inject] public ISnackbar Snackbar { get; set; }

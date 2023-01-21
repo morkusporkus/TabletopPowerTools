@@ -1,4 +1,4 @@
-﻿namespace DMPowerTools.Core.Features.Creatures.Shared;
+﻿namespace TabletopPowerTools.Core.Features.Creatures.Shared;
 
 public class CreatureDetailQuery : IRequest<CreatureDetailQueryResponse>
 {

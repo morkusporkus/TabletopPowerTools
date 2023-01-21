@@ -1,4 +1,4 @@
-﻿namespace DMPowerTools.Core.Models;
+﻿namespace TabletopPowerTools.Core.Models;
 
 
 // TODO: shim? don't want to keep this if possible.

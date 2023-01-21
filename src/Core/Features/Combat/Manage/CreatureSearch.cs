@@ -1,4 +1,4 @@
-﻿namespace DMPowerTools.Core.Features.Combat.Manage;
+﻿namespace TabletopPowerTools.Core.Features.Combat.Manage;
 
 public class CreatureSearchQuery : IRequest<CreatureSearchQueryResponse> { }
 

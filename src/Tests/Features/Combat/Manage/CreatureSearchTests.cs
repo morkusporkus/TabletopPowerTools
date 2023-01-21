@@ -1,6 +1,6 @@
-﻿using DMPowerTools.Core.Features.Combat.Manage;
+﻿using TabletopPowerTools.Core.Features.Combat.Manage;
 
-namespace DMPowerTools.Tests.Features.Combat.Manage;
+namespace TabletopPowerTools.Tests.Features.Combat.Manage;
 public class CreatureSearchTests : IntegrationTestBase
 {
     [Fact]
