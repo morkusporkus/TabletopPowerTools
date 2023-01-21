@@ -1,7 +1,6 @@
-# DMPowerTools
+# TabletopPowerTools
 
-Playground to learn Maui/Blazor.  Goal is to create helpful tools for tabletop DMs
-DM Power Tools is a Maui application with the hope to alleviate some hassle with managing combat for a DM.
+Tabletop Power Tools is a Maui/Blazor application playground that aims to alleviate the hassle of managing combat for tabletop GMs.
 
 The Creatures can be imported from [Tetra-Cube Statblocks](https://tetra-cube.com/dnd/dnd-statblock.html) and managed internally.
 
