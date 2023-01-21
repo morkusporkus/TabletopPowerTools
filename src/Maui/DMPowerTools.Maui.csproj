@@ -59,11 +59,7 @@
 
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Core\DMPowerTools.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="wwwroot\js\" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Core\DMPowerTools.Core.csproj" />
+	</ItemGroup>
 </Project>
