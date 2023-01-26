@@ -1,5 +1,6 @@
 ﻿using Ardalis.SmartEnum;
 using TabletopPowerTools.Core.Models;
+using TabletopPowerTools.Maui.Shared;
 
 namespace TabletopPowerTools.Maui.Features.Combat.Manage;
 
@@ -93,7 +94,7 @@ public partial class Manage : IDisposable
         // TODO:  Will need to map colors either statically or store conditions in database.
         public class Condition : SmartEnum<Condition>
         {
-            public static readonly Condition Grappled = new(Icons.Material.Outlined.Link, nameof(Grappled), MudBlazor.Color.Dark, 0);
+            public static readonly Condition Grappled = new(RpgIcons.Creature.Condition.Grappled, nameof(Grappled), MudBlazor.Color.Dark, 0);
 
             private Condition(string icon, string name, MudBlazor.Color color, int value) : base(name, value)
             {

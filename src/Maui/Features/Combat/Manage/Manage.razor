@@ -8,7 +8,7 @@
         </MudItem>
         <MudItem xs="12">
             <MudButtonGroup OverrideStyles=false>
-                <MudButton StartIcon="@Icons.Material.Filled.FormatListNumbered" Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnBeginCombatClicked" Disabled=_combatEncounter.IsCombatActive()>Begin Combat</MudButton>
+                <MudButton StartIcon="@RpgIcons.Miscellaneous.D20" Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnBeginCombatClicked" Disabled=_combatEncounter.IsCombatActive()>Begin Combat</MudButton>
                 <MudButton StartIcon="@Icons.Material.Filled.ArrowLeft" Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnPreviousTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>Prev</MudButton>
                 <MudButton EndIcon="@Icons.Material.Filled.ArrowRight" Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnNextTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>Next</MudButton>
             </MudButtonGroup>
@@ -52,7 +52,7 @@
                         <MudMenu StartIcon="@Icons.Material.Filled.Add" Color="Color.Tertiary" Variant="Variant.Outlined" Dense="true" Label="Cond." Size="Size.Small">
                             @foreach (var condition in InitiatedCreature.Condition.List.Where(c => !initiatedCreature.Conditions.Any(icc => icc.Value == c.Value)))
                             {
-                                <MudMenuItem Icon="@condition.Icon" IconColor="@condition.Color" OnClick="() => OnConditionAddedClicked(initiatedCreature, condition)">
+                                <MudMenuItem Icon="@condition.Icon" IconColor="condition.Color" OnClick="() => OnConditionAddedClicked(initiatedCreature, condition)">
                                     @condition.Name
                                 </MudMenuItem>
                             }

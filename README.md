@@ -6,7 +6,9 @@ The Creatures can be imported from [Tetra-Cube Statblocks](https://tetra-cube.co
 
 # Getting Started
 
-Ensure you've installed all necessary prerequisites before running the project. When running locally, it's recommended to use the `Windows Machine` profile.s 
+Ensure you've installed all necessary prerequisites before running the project. When running locally, it's recommended to use the `Windows Machine` profile.
+
+Icons used are sourced from https://game-icons.net/.
 
 ## Prerequisites
 - Windows 10/11
