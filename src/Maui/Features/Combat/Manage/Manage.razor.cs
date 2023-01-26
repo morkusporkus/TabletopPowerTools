@@ -12,9 +12,11 @@ public partial class Manage : IDisposable
     private readonly CombatEncounter _combatEncounter = new();
     private bool _showCreatureDetails;
     private int _clickedCreatureId;
+
     protected override void OnInitialized()
     {
         _combatEncounter.OnCombatEnded += StateHasChanged;
+        _combatEncounter.OnRoundEnded += StateHasChanged;
     }
 
     public void AddCreatureToEncounter(ICreature creature)
@@ -112,9 +114,17 @@ public partial class Manage : IDisposable
     public class CombatEncounter
     {
         public System.Action OnCombatEnded { get; set; }
+        public System.Action OnRoundEnded { get; set; }
 
         private readonly LinkedList<InitiatedCreature> _initiatedCreatures = new();
         private InitiatedCreature _currentTurnCreature;
+
+        public int Round { get; private set; } = 1;
+
+        public CombatEncounter()
+        {
+            OnRoundEnded += EndRound;
+        }
 
         public void BeginCombat()
         {
@@ -170,11 +180,20 @@ public partial class Manage : IDisposable
 
         public void NextTurn()
         {
-            var nextActiveCreature = _initiatedCreatures.Find(_currentTurnCreature)?.Next is null
+            var isNewRound = _initiatedCreatures.Find(_currentTurnCreature)?.Next is null;
+
+            var nextActiveCreature = isNewRound
                ? _initiatedCreatures.FirstOrDefault()
                : _initiatedCreatures.Find(_currentTurnCreature).Next.Value;
 
             _currentTurnCreature = nextActiveCreature;
+
+            if (isNewRound) OnRoundEnded.Invoke();
+        }
+
+        private void EndRound()
+        {
+            Round++;
         }
 
         public void ReorderCreaturePrevious(InitiatedCreature initiatedCreature)

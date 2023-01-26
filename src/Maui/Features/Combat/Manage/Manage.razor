@@ -6,12 +6,15 @@
         <MudItem xs="6">
             <CreatureSearch OnCreatureAdded="AddCreatureToEncounter" />
         </MudItem>
-        <MudItem xs="12">
+        <MudItem xs="10">
             <MudButtonGroup OverrideStyles=false>
                 <MudButton StartIcon="@RpgIcons.Miscellaneous.D20" Variant="Variant.Outlined" Color="Color.Secondary" OnClick="OnBeginCombatClicked" Disabled=_combatEncounter.IsCombatActive()>Begin Combat</MudButton>
                 <MudButton StartIcon="@Icons.Material.Filled.ArrowLeft" Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnPreviousTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>Prev</MudButton>
                 <MudButton EndIcon="@Icons.Material.Filled.ArrowRight" Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnNextTurnClicked" Disabled=@(!_combatEncounter.IsCombatActive())>Next</MudButton>
             </MudButtonGroup>
+        </MudItem>
+        <MudItem xs="2">
+            <MudText Typo="Typo.h6" Color=Color.Secondary>Round @_combatEncounter.Round</MudText>
         </MudItem>
 
         @foreach (var initiatedCreature in _combatEncounter.Creatures)
@@ -34,7 +37,7 @@
                         </CardHeaderContent>
                         <CardHeaderActions>
                             <MudIconButton Icon="@Icons.Material.Filled.ArrowLeft" Color="Color.Primary" Variant="Variant.Text" Size="Size.Small" OnClick="() => OnReorderCreaturePreviousClicked(initiatedCreature)" />
-                            <MudIconButton Icon="@Icons.Material.Filled.ArrowLeft" Color="Color.Primary" Variant="Variant.Text" Size="Size.Small" OnClick="() => OnReorderCreatureNextClicked(initiatedCreature)" />
+                            <MudIconButton Icon="@Icons.Material.Filled.ArrowRight" Color="Color.Primary" Variant="Variant.Text" Size="Size.Small" OnClick="() => OnReorderCreatureNextClicked(initiatedCreature)" />
                             <MudIconButton Icon="@Icons.Material.Outlined.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Small" OnClick="() => OnRemoveFromCombatClicked(initiatedCreature)" />
                         </CardHeaderActions>
                     </MudCardHeader>
