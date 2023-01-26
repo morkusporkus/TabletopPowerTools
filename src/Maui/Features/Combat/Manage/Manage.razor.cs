@@ -11,9 +11,11 @@ public partial class Manage : IDisposable
     private readonly CombatEncounter _combatEncounter = new();
     private bool _showCreatureDetails;
     private int _clickedCreatureId;
+
     protected override void OnInitialized()
     {
         _combatEncounter.OnCombatEnded += StateHasChanged;
+        _combatEncounter.OnRoundEnded += StateHasChanged;
     }
 
     public void AddCreatureToEncounter(ICreature creature)
@@ -103,7 +105,6 @@ public partial class Manage : IDisposable
 
             public string Icon { get; }
             public MudBlazor.Color Color { get; }
-            public int? RoundsRemaining { get; set; }
         }
     }
 
