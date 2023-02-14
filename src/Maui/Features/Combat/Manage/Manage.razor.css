@@ -1,3 +1,8 @@
 ﻿::deep .activeCreature {
     box-shadow: 0 0 5px var(--mud-palette-secondary);
 }
+
+::deep .mud-card {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}

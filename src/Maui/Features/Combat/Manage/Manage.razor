@@ -23,10 +23,12 @@
 
             <MudItem md="3" xs="12">
                 <MudCard Class="@activeClass">
+                    <MudStack Row=true Justify="Justify.SpaceEvenly" Spacing="0">
+                        <MudButton StartIcon="@Icons.Material.Filled.ArrowLeft" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small" OnClick="() => OnReorderCreaturePreviousClicked(initiatedCreature)" FullWidth=true Style="border-radius: 0;" />
+                        <MudButton StartIcon="@Icons.Material.Outlined.Delete" Color="Color.Error" Variant="Variant.Filled" Size="Size.Small" OnClick="() => OnRemoveFromCombatClicked(initiatedCreature)" FullWidth=true Style="border-radius: 0;" />
+                        <MudButton StartIcon="@Icons.Material.Filled.ArrowRight" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small" OnClick="() => OnReorderCreatureNextClicked(initiatedCreature)" FullWidth=true Style="border-radius: 0;" />
+                    </MudStack>
                     <MudCardHeader>
-                        <CardHeaderAvatar>
-                            <MudAvatar Image="" Size="Size.Large" />
-                        </CardHeaderAvatar>
                         <CardHeaderContent>
                             <MudText Typo="Typo.h5">@initiatedCreature.Creature.Name</MudText>
                             <MudStack Row=true>
@@ -35,40 +37,41 @@
                                 <MudTextField Label="AC" Value="initiatedCreature.Creature.ArmorClass" ReadOnly="true"></MudTextField>
                             </MudStack>
                         </CardHeaderContent>
-                        <CardHeaderActions>
-                            <MudIconButton Icon="@Icons.Material.Filled.ArrowLeft" Color="Color.Primary" Variant="Variant.Text" Size="Size.Small" OnClick="() => OnReorderCreaturePreviousClicked(initiatedCreature)" />
-                            <MudIconButton Icon="@Icons.Material.Filled.ArrowRight" Color="Color.Primary" Variant="Variant.Text" Size="Size.Small" OnClick="() => OnReorderCreatureNextClicked(initiatedCreature)" />
-                            <MudIconButton Icon="@Icons.Material.Outlined.Delete" Color="Color.Error" Variant="Variant.Text" Size="Size.Small" OnClick="() => OnRemoveFromCombatClicked(initiatedCreature)" />
-                        </CardHeaderActions>
                     </MudCardHeader>
                     <MudCardContent>
                         <MudText Typo="Typo.caption"><b>Initiative Roll:</b>:@initiatedCreature.InitiativeRoll</MudText>
                         <MudButton Color="Color.Secondary" OnClick="@(() => OnCreatureDetailsClicked(initiatedCreature.Creature.Id))">Details</MudButton>
                     </MudCardContent>
                     <MudCardActions>
-                        @foreach (var condition in initiatedCreature.Conditions)
-                        {
-                            <MudChip Color="condition.Color" Icon="@condition.Icon" title="@condition.Name" OnClick="() => OnConditionRemovedClicked(initiatedCreature, condition)">
-                                @condition.Name
-                            </MudChip>
-                        }
-                        <MudMenu StartIcon="@Icons.Material.Filled.Add" Color="Color.Tertiary" Variant="Variant.Outlined" Dense="true" Label="Cond." Size="Size.Small">
-                            @foreach (var condition in InitiatedCreature.Condition.List.Where(c => !initiatedCreature.Conditions.Any(icc => icc.Value == c.Value)))
+                        <MudGrid Spacing="1">
+                            @foreach (var activeCondition in initiatedCreature.ActiveConditions)
                             {
-                                <MudMenuItem Icon="@condition.Icon" IconColor="condition.Color" OnClick="() => OnConditionAddedClicked(initiatedCreature, condition)">
-                                    @condition.Name
-                                </MudMenuItem>
+                                var infiniteRoundsIcons = activeCondition.RoundsRemaining is null ? @Icons.Material.Filled.Repeat : string.Empty;
+                                <MudItem xs="6">
+                                    <MudBadge Content="activeCondition.RoundsRemaining.ToString()" Overlap="true" Bordered="true" Color="Color.Secondary" Icon="@infiniteRoundsIcons" Style="width: 100%;">
+                                        <MudButton Color="activeCondition.Condition.Color" StartIcon="@activeCondition.Condition.Icon" OnClick="() => OnConditionRemovedClicked(initiatedCreature, activeCondition)" Variant="Variant.Filled" Size="Size.Small" FullWidth=true>
+                                            @activeCondition.Condition.Name
+                                        </MudButton>
+                                    </MudBadge>
+                                </MudItem>
                             }
-                        </MudMenu>
+                            <MudItem xs="6">
+                                <MudMenu StartIcon="@Icons.Material.Filled.Add" Color="Color.Tertiary" Variant="Variant.Outlined" Dense="true" Label="Cond." Size="Size.Small">
+                                    @foreach (var inactiveCondition in initiatedCreature.InactiveConditions)
+                                    {
+                                        <MudMenuItem Icon="@inactiveCondition.Icon" IconColor="inactiveCondition.Color" OnClick="() => OnConditionAddedClicked(initiatedCreature, inactiveCondition)">
+                                            @inactiveCondition.Name
+                                        </MudMenuItem>
+                                    }
+                                </MudMenu>
+                            </MudItem>
+                        </MudGrid>
+
                     </MudCardActions>
                 </MudCard>
             </MudItem>
         }
 
-        @if(_showCreatureDetails)
-        {
-            <CreatureDetailDrawer @bind-Open=_showCreatureDetails CreatureId="_clickedCreatureId"/>
-        }
-
+        <CreatureDetailDrawer @bind-Open=_showCreatureDetails CreatureId="_clickedCreatureId" />
     </MudGrid>
 </div>

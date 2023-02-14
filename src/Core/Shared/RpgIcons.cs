@@ -61,6 +61,7 @@ public class RpgIcons
         public class Condition
         {
             public const string Grappled = _baseClass + "grapple";
+            public const string Haste = _baseClass + "wingfoot";
         }
     }
 
