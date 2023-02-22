@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using TabletopPowerTools.Core.Features.Creatures.Import;
 using TabletopPowerTools.Core.Models;
@@ -9,11 +10,16 @@ public partial class Create
     [Inject] private ISnackbar Snackbar { get; set; }
     [Inject] private NavigationManager NavigationManager { get; set; }
     Creature creature = new();
+    DbContext _dbContext;
     string abilityName = "";
     string abilityDescription = "";
     string actionName = "";
     string actionDescription = "";
-    private  ImportState _importState = new();
+
+    public Create(DbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
 
     protected override void OnInitialized()
     {
@@ -21,7 +27,7 @@ public partial class Create
     }
     public void CreateCreature()
     {
-        
+        _dbContext.Add(creature);
     }
     public void AddAbility()
     {
