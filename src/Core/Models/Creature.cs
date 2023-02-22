@@ -20,7 +20,7 @@ public class Creature : ICreature
     public string Size { get; set; }
     public int HitDice { get; set; }
     public string Alignment { get; set; }
-    public AbilityScores AbilityScores { get; set; }
+    public AbilityScores AbilityScores { get; set; } = new();
     public Armor Armor { get; set; }
     public int Speed { get; set; }
     public string Cr { get; set; }

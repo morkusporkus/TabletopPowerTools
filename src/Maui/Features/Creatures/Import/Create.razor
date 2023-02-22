@@ -1,0 +1,73 @@
+﻿@page "/create"
+@using TabletopPowerTools.Maui.Features.Creatures.Shared.CreatureDetail
+
+<MudForm Model="@creature">
+<MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true"
+         ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
+    <MudTabPanel Text="Base Info">
+        <MudGrid>
+        <MudItem xs="9">
+        <MudPaper Class="pa-4">
+
+                <MudTextField T="string" @bind-Value="creature.Name" Label="Name" Required="true" RequiredError="Name is required!" />
+                <MudTextField T="string" @bind-Value="creature.Cr" Label="CR" Required="true" RequiredError="CR is required!" />
+                <MudTextField T="int" @bind-Value="creature.Speed" Label="Speed" Required="true" RequiredError="Speed is required!" />
+                <MudTextField T="string" @bind-Value="creature.Size" Label="Size" Required="true" RequiredError="Size is required!" />
+                <MudTextField T="int" @bind-Value="creature.HitDice" Label="Hit Dice" Required="true" RequiredError="Hit Dice is required!" />
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="3">
+                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Strength" Label="Strength" Required="true" RequiredError="Strength is required!" />
+                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Dexterity" Label="Dexterity" Required="true" RequiredError="Dexterity is required!" />
+                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Constitution" Label="Constitution" Required="true" RequiredError="Constitution is required!" />
+                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Intelligence" Label="Intelligence" Required="true" RequiredError="Intelligence is required!" />
+                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Wisdom" Label="Wisdom" Required="true" RequiredError="Wisdom is required!" />
+        <MudTextField T="int" @bind-Value="creature.AbilityScores.Charisma" Label="Charisma" Required="true" RequiredError="Charisma is required!" />
+        </MudItem>
+</MudGrid>
+
+    </MudTabPanel>
+    <MudTabPanel Text="Features">
+             <MudGrid>
+         <MudItem xs="6">
+                    <MudTextField @bind-Value="@abilityName" Label="Name" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                    <MudTextField T="string" @bind-Value="@abilityDescription" Label="Description" Variant="Variant.Text" Text="" Lines="5" />
+          </MudItem>
+            <MudItem xs="6">
+                 <MudStack>
+                @foreach(var ability in creature.Abilities)
+                    {
+                     <MudPaper Class="pa-3">@ability.Name</MudPaper>
+                    }
+                    </MudStack>
+                </MudItem>
+             <MudItem xs="3">
+                    <MudButton OnClick="AddAbility">Add Ability</MudButton>
+            </MudItem>
+            </MudGrid>
+    </MudTabPanel>
+    <MudTabPanel Text="Actions">
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="@actionName" Label="Name" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                    <MudTextField T="string" @bind-Value="@actionDescription" Label="Description" Variant="Variant.Text" Text="" Lines="5" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudStack>
+                        @foreach (var action in creature.Actions)
+                        {
+                            <MudPaper Class="pa-3">@action.Name</MudPaper>
+                        }
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="3">
+                    <MudButton OnClick="AddAction">Add Action</MudButton>
+                </MudItem>
+            </MudGrid>
+    </MudTabPanel>
+        <MudTabPanel Text="Review">
+            <CreatureDetail Creature="@creature"/>
+            <MudButton OnClick="CreateCreature">Create</MudButton>
+        </MudTabPanel>
+</MudTabs>
+</MudForm>
