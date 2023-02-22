@@ -1,5 +1,6 @@
 ﻿@page "/create"
-@using TabletopPowerTools.Maui.Features.Creatures.Shared.CreatureDetail
+@using TabletopPowerTools.Maui.Features.Creatures.Shared.CreatureDetail;
+@using TabletopPowerTools.Core.Models;
 
 <MudForm Model="@creature">
 <MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true"
@@ -14,6 +15,16 @@
                 <MudTextField T="int" @bind-Value="creature.Speed" Label="Speed" Required="true" RequiredError="Speed is required!" />
                 <MudTextField T="string" @bind-Value="creature.Size" Label="Size" Required="true" RequiredError="Size is required!" />
                 <MudTextField T="int" @bind-Value="creature.HitDice" Label="Hit Dice" Required="true" RequiredError="Hit Dice is required!" />
+                        <MudTextField T="int" @bind-Value="creature.Armor.BaseArmorClass" Label="Base Armor Class" Required="true" RequiredError="Base Armor Class is required!" />
+                <MudSelect @bind-Value="creature.Armor.ArmorClassType" Label="Armor Type" HelperText="Armor Type" AdornmentColor="Color.Secondary">
+                            @foreach (ArmorType item in Enum.GetValues(typeof(ArmorType)))
+                            {
+                                <MudSelectItem Value="@item">@item</MudSelectItem>
+                            }
+               </MudSelect> 
+               <MudTextField T="int" @bind-Value="creature.Armor.Shield.ArmorClass" Label="Shield Armor Class" />
+
+
         </MudPaper>
     </MudItem>
     <MudItem xs="3">
@@ -22,7 +33,7 @@
                     <MudTextField T="int" @bind-Value="creature.AbilityScores.Constitution" Label="Constitution" Required="true" RequiredError="Constitution is required!" />
                     <MudTextField T="int" @bind-Value="creature.AbilityScores.Intelligence" Label="Intelligence" Required="true" RequiredError="Intelligence is required!" />
                     <MudTextField T="int" @bind-Value="creature.AbilityScores.Wisdom" Label="Wisdom" Required="true" RequiredError="Wisdom is required!" />
-        <MudTextField T="int" @bind-Value="creature.AbilityScores.Charisma" Label="Charisma" Required="true" RequiredError="Charisma is required!" />
+                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Charisma" Label="Charisma" Required="true" RequiredError="Charisma is required!" />
         </MudItem>
 </MudGrid>
 
