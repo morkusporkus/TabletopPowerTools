@@ -1,9 +1,9 @@
-﻿using TabletopPowerTools.Core.Infrastructure;
-using TabletopPowerTools.Maui;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TabletopPowerTools.Core.Infrastructure;
+using TabletopPowerTools.Maui;
 
 namespace TabletopPowerTools.Tests;
 

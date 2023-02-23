@@ -1,33 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
-using TabletopPowerTools.Core.Features.Creatures.Import;
+﻿using TabletopPowerTools.Core.Features.Creatures.Import;
 using TabletopPowerTools.Core.Models;
 
 namespace TabletopPowerTools.Maui.Features.Creatures.Import;
 public partial class Create
 {
-    [Inject] private ISnackbar Snackbar { get; set; }
-    [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] public IMediator Mediator { get; set; }
     Creature creature = new();
-    DbContext _dbContext;
     string abilityName = "";
     string abilityDescription = "";
     string actionName = "";
     string actionDescription = "";
 
-    public Create(DbContext dbContext)
+    public async void CreateCreature()
     {
-        _dbContext = dbContext;
-    }
-
-    protected override void OnInitialized()
-    {
-        var cr = creature;
-    }
-    public void CreateCreature()
-    {
-        _dbContext.Add(creature);
+        await Mediator.Send(new AcceptCreatureCommand { Creature = creature });
     }
     public void AddAbility()
     {

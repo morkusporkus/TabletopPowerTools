@@ -1,5 +1,5 @@
-﻿using TabletopPowerTools.Core.Features.Settings;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
+using TabletopPowerTools.Core.Features.Settings;
 
 namespace TabletopPowerTools.Maui.Features.User;
 

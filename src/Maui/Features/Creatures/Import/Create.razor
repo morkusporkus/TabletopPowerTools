@@ -11,18 +11,19 @@
         <MudPaper Class="pa-4">
 
                 <MudTextField T="string" @bind-Value="creature.Name" Label="Name" Required="true" RequiredError="Name is required!" />
+                        <MudTextField T="string" @bind-Value="creature.Alignment" Label="Alignment" Required="true" RequiredError="Alignment is required!" />
                 <MudTextField T="string" @bind-Value="creature.Cr" Label="CR" Required="true" RequiredError="CR is required!" />
-                <MudTextField T="int" @bind-Value="creature.Speed" Label="Speed" Required="true" RequiredError="Speed is required!" />
+                <MudTextField T="int" @bind-Value="creature.Speed" Label="Speed" Required="true" RequiredError="Speed is required!"/>
                 <MudTextField T="string" @bind-Value="creature.Size" Label="Size" Required="true" RequiredError="Size is required!" />
                 <MudTextField T="int" @bind-Value="creature.HitDice" Label="Hit Dice" Required="true" RequiredError="Hit Dice is required!" />
                         <MudTextField T="int" @bind-Value="creature.Armor.BaseArmorClass" Label="Base Armor Class" Required="true" RequiredError="Base Armor Class is required!" />
-                <MudSelect @bind-Value="creature.Armor.ArmorClassType" Label="Armor Type" HelperText="Armor Type" AdornmentColor="Color.Secondary">
+                        <MudSelect @bind-Value="creature.Armor.ArmorClassType" Label="Armor Type" AdornmentColor="Color.Secondary" >
                             @foreach (ArmorType item in Enum.GetValues(typeof(ArmorType)))
                             {
                                 <MudSelectItem Value="@item">@item</MudSelectItem>
                             }
                </MudSelect> 
-               <MudTextField T="int" @bind-Value="creature.Armor.Shield.ArmorClass" Label="Shield Armor Class" />
+              <MudTextField T="int" @bind-Value="creature.Armor.Shield.ArmorClass" Label="Shield Armor Class" />
 
 
         </MudPaper>

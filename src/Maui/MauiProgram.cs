@@ -1,6 +1,6 @@
-﻿using TabletopPowerTools.Core.Infrastructure;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using TabletopPowerTools.Core.Infrastructure;
 
 namespace TabletopPowerTools.Maui;
 
