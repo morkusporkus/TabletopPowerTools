@@ -9,6 +9,7 @@
     <MudItem md="6" xs="12">
         <MudStack Row=true>
             <MudButton StartIcon="@Icons.Material.Outlined.Done" Color=Color.Success OnClick="AcceptAsync" Variant="Variant.Outlined">Accept</MudButton>
+            <MudButton StartIcon="@Icons.Material.Outlined.Edit" Color=Color.Warning OnClick="SetEdit" Variant="Variant.Outlined">@_editButtonName</MudButton>
             <MudButton StartIcon="@Icons.Material.Outlined.Delete" Color=Color.Error OnClick="DenyAsync" Variant="Variant.Outlined">Deny</MudButton>
             @if (_isDuplicate)
             {
@@ -28,6 +29,6 @@
         <MudDivider />
     </MudItem>
     <MudItem xs="12">
-        <CreatureDetail Creature="@_inReviewCreature"/>
+        <CreatureDetail @bind-Creature="_inReviewCreature" ReadOnly=_isReadOnly/>
     </MudItem>
 </MudGrid>

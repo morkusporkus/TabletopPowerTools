@@ -8,13 +8,15 @@ public partial class CreatureDetail
 
     [Parameter] public int CreatureId { get; set; }
     [Parameter] public Creature Creature { get; set; }
+    [Parameter] public EventCallback<Creature> CreatureChanged { get; set; }
     [Parameter] public bool ReadOnly { get; set; } = true;
 
-    private CreatureDetailQueryResponse _response;
-
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
-        if (Creature is null) _response = await Mediator.Send(new CreatureDetailQuery { Id = CreatureId });
-        else _response = new() { Creature = Creature };
+        if (Creature is null)
+        {
+            var response = await Mediator.Send(new CreatureDetailQuery { Id = CreatureId });
+            Creature = response.Creature;
+        }
     }
 }

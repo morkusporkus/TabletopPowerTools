@@ -10,6 +10,8 @@ public partial class Review
 
     private Creature _inReviewCreature;
     private bool _isDuplicate;
+    private bool _isReadOnly = true;
+    private string _editButtonName = "Edit";
 
     protected override async Task OnInitializedAsync()
     {
@@ -24,6 +26,13 @@ public partial class Review
     }
 
     private async Task DenyAsync() => await AssignNextCreatureAsync();
+
+    private void SetEdit()
+    {
+        _isReadOnly = !_isReadOnly;
+        if (_isReadOnly) _editButtonName = "Edit";
+        else _editButtonName = "Review Changes";
+    }
 
     private async Task AcceptAllAsync()
     {

@@ -1,9 +1,9 @@
 ﻿@using TabletopPowerTools.Maui.Features.Creatures.Shared.CreatureDetail
 
-@if(Open)
+@if (Open)
 {
     <MudDrawer Open=Open Anchor="Anchor.Right" Variant="@DrawerVariant.Temporary" Width="50%" OpenChanged="OpenChanged">
-        <MudGrid Spacing="0" Class="pa-4">
+        <MudGrid>
             <MudItem xs="12">
                 <CreatureDetail CreatureId="CreatureId" />
             </MudItem>
