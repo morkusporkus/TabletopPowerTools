@@ -1,14 +1,14 @@
 ﻿@using Markdig;
 
 <MudItem md="4">
-    <MudTextField T="string" ValueChanged="TitleChanged" ReadOnly="ReadOnly" Value="@Title" />
+    <MudTextField ValueChanged="TitleChanged" ReadOnly="ReadOnly" Value="@Title" />
     @if (@ReadOnly)
     {
         @MarkdownDisplay(@Description)
     }
     else
     {
-        <MudTextField T="string" ValueChanged="DescriptionChanged" Value="@Description" Lines="5"></MudTextField>
+        <MudTextField ValueChanged="DescriptionChanged" Value="@Description" Lines="5"></MudTextField>
     }
 </MudItem>
 
