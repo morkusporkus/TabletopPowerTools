@@ -15,7 +15,7 @@
         <MudGrid>
             @foreach (var ability in Creature.Abilities)
             {
-                <CreatureProperty @bind-Title="ability.Name" @bind-Description="ability.Desc" ReadOnly=ReadOnly/>
+                <CreatureProperty @bind-Title="@ability.Name" @bind-Description="@ability.Desc" ReadOnly=ReadOnly />
             }
         </MudGrid>
 
@@ -23,7 +23,7 @@
         <MudGrid>
             @foreach (var action in Creature.Actions)
             {
-                <CreatureProperty @bind-Title="action.Name" @bind-Description="action.Desc" ReadOnly=ReadOnly />
+                <CreatureProperty @bind-Title="@action.Name" @bind-Description="@action.Desc" ReadOnly=ReadOnly />
             }   
         </MudGrid>       
         

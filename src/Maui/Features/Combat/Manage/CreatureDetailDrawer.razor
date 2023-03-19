@@ -3,7 +3,7 @@
 @if (Open)
 {
     <MudDrawer Open=Open Anchor="Anchor.Right" Variant="@DrawerVariant.Temporary" Width="50%" OpenChanged="OpenChanged">
-        <MudGrid>
+        <MudGrid Spacing="0" Class="pa-4">
             <MudItem xs="12">
                 <CreatureDetail CreatureId="CreatureId" />
             </MudItem>
