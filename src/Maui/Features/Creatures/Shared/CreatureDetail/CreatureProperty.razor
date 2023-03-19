@@ -1,21 +1,23 @@
 ﻿@using Markdig;
 
 <MudItem md="4">
-    <MudTextField ReadOnly="ReadOnly" @bind-Value="@Title" />
+    <MudTextField ValueChanged="TitleChanged" ReadOnly="ReadOnly" Value="@Title" />
     @if (@ReadOnly)
     {
         @MarkdownDisplay(@Description)
     }
     else
     {
-        <MudTextField @bind-Value="@Description" Lines="5"></MudTextField>
+        <MudTextField ValueChanged="DescriptionChanged" Value="@Description" Lines="5"></MudTextField>
     }
 </MudItem>
 
 @code {
-    [Parameter, EditorRequired] public string Title { get; set; }
-    [Parameter, EditorRequired] public string Description { get; set; }
-    [Parameter, EditorRequired] public bool ReadOnly { get; set; }
+    [Parameter] public string Title { get; set; }
+    [Parameter] public EventCallback<string> TitleChanged { get; set; }
+    [Parameter] public string Description { get; set; }
+    [Parameter] public EventCallback<string> DescriptionChanged { get; set; }
+    [Parameter] public bool ReadOnly { get; set; } = true;
 
     public static MarkupString MarkdownDisplay(string item)
     {
