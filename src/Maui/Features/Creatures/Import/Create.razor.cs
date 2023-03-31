@@ -1,19 +1,25 @@
-﻿using TabletopPowerTools.Core.Features.Creatures.Import;
+﻿using AutoMapper;
+using TabletopPowerTools.Core.Features.Creatures.Import;
 using TabletopPowerTools.Core.Models;
+using TabletopPowerTools.Core.Models.ViewModels;
+
 
 namespace TabletopPowerTools.Maui.Features.Creatures.Import;
 public partial class Create
 {
     [Inject] public IMediator Mediator { get; set; }
-    Creature creature = new();
+    [Inject] public ISnackbar Snackbar { get; set; }
+    CreatureViewModel creature = new();
     string abilityName = "";
     string abilityDescription = "";
     string actionName = "";
     string actionDescription = "";
 
-    public async void CreateCreature()
+    public async Task CreateCreature()
     {
-        await Mediator.Send(new AcceptCreatureCommand { Creature = creature });
+        await Mediator.Send(new CreateCreatureCommand { Creature = creature });
+        Snackbar.Add("Creature created.", Severity.Success);
+
     }
     public void AddAbility()
     {

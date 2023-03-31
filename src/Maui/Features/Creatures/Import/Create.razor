@@ -77,9 +77,8 @@
                 </MudItem>
             </MudGrid>
     </MudTabPanel>
-        <MudTabPanel Text="Review">
-            <CreatureDetail Creature="@creature"/>
-            <MudButton OnClick="CreateCreature">Create</MudButton>
+     <MudTabPanel Text="Finalize">
+            <MudButton ButtonType=ButtonType.Submit OnClick="CreateCreature">Create</MudButton>
         </MudTabPanel>
 </MudTabs>
 </MudForm>
