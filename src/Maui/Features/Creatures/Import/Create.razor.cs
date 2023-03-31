@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using TabletopPowerTools.Core.Features.Creatures.Import;
+﻿using TabletopPowerTools.Core.Features.Creatures.Import;
 using TabletopPowerTools.Core.Models;
 using TabletopPowerTools.Core.Models.ViewModels;
 
