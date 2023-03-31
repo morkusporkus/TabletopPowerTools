@@ -20,7 +20,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddMudServices();
-        services.AddMediatR(typeof(CreatureSearchQueryHandler));
+        services.AddMediatR(a => a.RegisterServicesFromAssemblyContaining<CreatureSearchQueryHandler>());
         services.AddAutoMapper(typeof(CreatureSearchQueryHandler));
         services.AddDbContext<ApplicationDbContext>(options =>
         {
