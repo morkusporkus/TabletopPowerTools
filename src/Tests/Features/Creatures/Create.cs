@@ -1,5 +1,4 @@
-﻿using TabletopPowerTools.Core.Features.Creatures.Import;
-using TabletopPowerTools.Core.Infrastructure;
+﻿using TabletopPowerTools.Core.Infrastructure;
 
 namespace TabletopPowerTools.Tests.Features.Creatures
 {
