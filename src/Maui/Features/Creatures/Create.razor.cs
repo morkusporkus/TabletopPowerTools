@@ -2,7 +2,7 @@
 using TabletopPowerTools.Core.Models.ViewModels;
 using TabletopPowerTools.Core.Features.Creatures;
 
-namespace TabletopPowerTools.Maui.Features.Creatures.Import;
+namespace TabletopPowerTools.Maui.Features.Creatures;
 public partial class Create
 {
     [Inject] public IMediator Mediator { get; set; }
@@ -23,7 +23,7 @@ public partial class Create
     {
         if (creature.Abilities.Count == 0)
         {
-            creature.Abilities = new List<Ability>();
+            creature.Abilities = new List<AbilityViewModel>();
         }
         creature.Abilities.Add(new() { Name = abilityName, Desc = abilityDescription });
         abilityName = "";
@@ -33,7 +33,7 @@ public partial class Create
     {
         if (creature.Actions.Count == 0)
         {
-            creature.Actions = new List<Core.Models.Action>();
+            creature.Actions = new List<ActionViewModel>();
         }
         creature.Actions.Add(new() { Name = actionName, Desc = actionDescription });
         actionName = "";

@@ -30,11 +30,11 @@ internal class FakeFactory
         var faker = new AutoFaker<CreatureViewModel>()
             .Ignore(c => c.Id)
             .Ignore(c => c.Abilities)
-            .Ignore(c => c.Actions)
-            .Ignore(c => c.Skills);
+            .Ignore(c => c.Actions);
 
         return faker.Generate();
     }
+
 
     public static string RandomString => AutoFaker.Generate<string>();
     public static int RandomNumber => AutoFaker.Generate<int>();

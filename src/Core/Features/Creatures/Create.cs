@@ -1,4 +1,5 @@
 ﻿using TabletopPowerTools.Core.Models.ViewModels;
+using Action = TabletopPowerTools.Core.Models.Action;
 
 namespace TabletopPowerTools.Core.Features.Creatures;
 public class CreateCreatureCommand : IRequest<bool>
@@ -31,8 +32,12 @@ public class ViewModelCreatureProfile : Profile
     {
         CreateMap<CreatureViewModel, Creature>()
             .ForMember(d => d.Id, mo => mo.Ignore())
-            .ForMember(d => d.Abilities, mo => mo.MapFrom(vm => vm.Abilities))
-            .ForMember(d => d.Actions, mo => mo.MapFrom(vm => vm.Actions))
-            .ForMember(d => d.Skills, mo => mo.MapFrom(vm => vm.Skills));
+            .ForMember(d=>d.Skills, mo=>mo.Ignore());
+        CreateMap<AbilityViewModel, Ability>()
+            .ForMember(d => d.Id, mo => mo.Ignore())
+            .ForMember(d => d.CreatureId, mo => mo.Ignore());
+        CreateMap<ActionViewModel, Action>()
+            .ForMember(d => d.Id, mo => mo.Ignore())
+            .ForMember(d => d.CreatureId, mo => mo.Ignore());
     }
 }

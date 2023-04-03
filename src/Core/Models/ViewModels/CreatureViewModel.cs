@@ -12,8 +12,18 @@ public class CreatureViewModel
     public int Speed { get; set; }
     public string Cr { get; set; }
 
-    public List<Ability> Abilities { get; set; } = new();
-    public List<Action> Actions { get; set; } = new();
-    public List<Skill> Skills { get; set; } = new();
+    public List<AbilityViewModel> Abilities { get; set; } = new();
+    public List<ActionViewModel> Actions { get; set; } = new();
+}
+
+public class AbilityViewModel    
+{
+    public string Name { get; set; }
+    public string Desc { get; set; }
+}
+public class ActionViewModel
+{
+    public string Name { get; set; }
+    public string Desc { get; set; }
 }
 
