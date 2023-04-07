@@ -7,7 +7,7 @@ public partial class Create
 {
     [Inject] public IMediator Mediator { get; set; }
     [Inject] public ISnackbar Snackbar { get; set; }
-    CreatureViewModel creature = new();
+    CreatureViewModel creatureViewModel = new();
     string abilityName = "";
     string abilityDescription = "";
     string actionName = "";
@@ -15,27 +15,27 @@ public partial class Create
 
     public async Task CreateCreature()
     {
-        await Mediator.Send(new CreateCreatureCommand { Creature = creature });
+        await Mediator.Send(new CreateCreatureCommand { Creature = creatureViewModel });
         Snackbar.Add("Creature created.", Severity.Success);
 
     }
     public void AddAbility()
     {
-        if (creature.Abilities.Count == 0)
+        if (creatureViewModel.Abilities.Count == 0)
         {
-            creature.Abilities = new List<AbilityViewModel>();
+            creatureViewModel.Abilities = new List<AbilityViewModel>();
         }
-        creature.Abilities.Add(new() { Name = abilityName, Desc = abilityDescription });
+        creatureViewModel.Abilities.Add(new() { Name = abilityName, Desc = abilityDescription });
         abilityName = "";
         abilityDescription = "";
     }
     public void AddAction()
     {
-        if (creature.Actions.Count == 0)
+        if (creatureViewModel.Actions.Count == 0)
         {
-            creature.Actions = new List<ActionViewModel>();
+            creatureViewModel.Actions = new List<ActionViewModel>();
         }
-        creature.Actions.Add(new() { Name = actionName, Desc = actionDescription });
+        creatureViewModel.Actions.Add(new() { Name = actionName, Desc = actionDescription });
         actionName = "";
         actionDescription = "";
     }

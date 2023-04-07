@@ -2,7 +2,7 @@
 @using TabletopPowerTools.Maui.Features.Creatures.Shared.CreatureDetail;
 @using TabletopPowerTools.Core.Models;
 
-<MudForm Model="@creature">
+<MudForm Model="@creatureViewModel">
 <MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true"
          ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
     <MudTabPanel Text="Base Info">
@@ -10,36 +10,36 @@
         <MudItem xs="9">
         <MudPaper Class="pa-4">
 
-                <MudTextField T="string" @bind-Value="creature.Name" Label="Name" Required="true" RequiredError="Name is required!" />
-                        <MudTextField T="string" @bind-Value="creature.Alignment" Label="Alignment" Required="true" RequiredError="Alignment is required!" />
-                <MudTextField T="string" @bind-Value="creature.Cr" Label="CR" Required="true" RequiredError="CR is required!" />
-                <MudTextField T="int" @bind-Value="creature.Speed" Label="Speed" Required="true" RequiredError="Speed is required!"/>
-                <MudTextField T="string" @bind-Value="creature.Size" Label="Size" Required="true" RequiredError="Size is required!" />
-                <MudTextField T="int" @bind-Value="creature.HitDice" Label="Hit Dice" Required="true" RequiredError="Hit Dice is required!" />
-                        <MudTextField T="int" @bind-Value="creature.Armor.BaseArmorClass" Label="Base Armor Class" Required="true" RequiredError="Base Armor Class is required!" />
-                        <MudSelect @bind-Value="creature.Armor.ArmorClassType" Label="Armor Type" AdornmentColor="Color.Secondary" >
+                <MudTextField T="string" @bind-Value="creatureViewModel.Name" Label="Name" Required="true" RequiredError="Name is required!" />
+                        <MudTextField T="string" @bind-Value="creatureViewModel.Alignment" Label="Alignment" Required="true" RequiredError="Alignment is required!" />
+                <MudTextField T="string" @bind-Value="creatureViewModel.Cr" Label="CR" Required="true" RequiredError="CR is required!" />
+                <MudTextField T="int" @bind-Value="creatureViewModel.Speed" Label="Speed" Required="true" RequiredError="Speed is required!"/>
+                <MudTextField T="string" @bind-Value="creatureViewModel.Size" Label="Size" Required="true" RequiredError="Size is required!" />
+                <MudTextField T="int" @bind-Value="creatureViewModel.HitDice" Label="Hit Dice" Required="true" RequiredError="Hit Dice is required!" />
+                        <MudTextField T="int" @bind-Value="creatureViewModel.Armor.BaseArmorClass" Label="Base Armor Class" Required="true" RequiredError="Base Armor Class is required!" />
+                        <MudSelect @bind-Value="creatureViewModel.Armor.ArmorClassType" Label="Armor Type" AdornmentColor="Color.Secondary" >
                             @foreach (ArmorType item in Enum.GetValues(typeof(ArmorType)))
                             {
                                 <MudSelectItem Value="@item">@item</MudSelectItem>
                             }
                </MudSelect> 
-              <MudTextField T="int" @bind-Value="creature.Armor.Shield.ArmorClass" Label="Shield Armor Class" />
+              <MudTextField T="int" @bind-Value="creatureViewModel.Armor.Shield.ArmorClass" Label="Shield Armor Class" />
 
 
         </MudPaper>
     </MudItem>
     <MudItem xs="3">
-                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Strength" Label="Strength" Required="true" RequiredError="Strength is required!" />
-                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Dexterity" Label="Dexterity" Required="true" RequiredError="Dexterity is required!" />
-                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Constitution" Label="Constitution" Required="true" RequiredError="Constitution is required!" />
-                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Intelligence" Label="Intelligence" Required="true" RequiredError="Intelligence is required!" />
-                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Wisdom" Label="Wisdom" Required="true" RequiredError="Wisdom is required!" />
-                    <MudTextField T="int" @bind-Value="creature.AbilityScores.Charisma" Label="Charisma" Required="true" RequiredError="Charisma is required!" />
+                    <MudTextField T="int" @bind-Value="creatureViewModel.AbilityScores.Strength" Label="Strength" Required="true" RequiredError="Strength is required!" />
+                    <MudTextField T="int" @bind-Value="creatureViewModel.AbilityScores.Dexterity" Label="Dexterity" Required="true" RequiredError="Dexterity is required!" />
+                    <MudTextField T="int" @bind-Value="creatureViewModel.AbilityScores.Constitution" Label="Constitution" Required="true" RequiredError="Constitution is required!" />
+                    <MudTextField T="int" @bind-Value="creatureViewModel.AbilityScores.Intelligence" Label="Intelligence" Required="true" RequiredError="Intelligence is required!" />
+                    <MudTextField T="int" @bind-Value="creatureViewModel.AbilityScores.Wisdom" Label="Wisdom" Required="true" RequiredError="Wisdom is required!" />
+                    <MudTextField T="int" @bind-Value="creatureViewModel.AbilityScores.Charisma" Label="Charisma" Required="true" RequiredError="Charisma is required!" />
         </MudItem>
 </MudGrid>
 
     </MudTabPanel>
-    <MudTabPanel Text="Features">
+   @* <MudTabPanel Text="Features">
              <MudGrid>
          <MudItem xs="6">
                     <MudTextField @bind-Value="@abilityName" Label="Name" Variant="Variant.Outlined" Margin="Margin.Dense" />
@@ -47,7 +47,7 @@
           </MudItem>
             <MudItem xs="6">
                  <MudStack>
-                @foreach(var ability in creature.Abilities)
+                @foreach(var ability in creatureViewModel.Abilities)
                     {
                      <MudPaper Class="pa-3">@ability.Name</MudPaper>
                     }
@@ -66,7 +66,7 @@
                 </MudItem>
                 <MudItem xs="6">
                     <MudStack>
-                        @foreach (var action in creature.Actions)
+                        @foreach (var action in creatureViewModel.Actions)
                         {
                             <MudPaper Class="pa-3">@action.Name</MudPaper>
                         }
@@ -76,7 +76,7 @@
                     <MudButton OnClick="AddAction">Add Action</MudButton>
                 </MudItem>
             </MudGrid>
-    </MudTabPanel>
+    </MudTabPanel>*@
      <MudTabPanel Text="Finalize">
             <MudButton ButtonType=ButtonType.Submit OnClick="CreateCreature">Create</MudButton>
         </MudTabPanel>

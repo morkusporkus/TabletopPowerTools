@@ -20,8 +20,8 @@ public class Creature : ICreature
     public string Size { get; set; }
     public int HitDice { get; set; }
     public string Alignment { get; set; }
-    public AbilityScores AbilityScores { get; set; } = new();
-    public Armor Armor { get; set; } = new() { ArmorClassType = new(), BaseArmorClass = new() };
+    public AbilityScores AbilityScores { get; set; }
+    public Armor Armor { get; set; }
     public int Speed { get; set; }
     public string Cr { get; set; }
 
@@ -51,9 +51,9 @@ public class AbilityScores
 [Owned]
 public class Armor
 {
-    public required int BaseArmorClass { get; set; } = 0;
-    public required ArmorType ArmorClassType { get; set; } = new();
-    public Shield Shield { get; set; } = new() { ArmorClass = 0 };
+    public required int BaseArmorClass { get; set; }
+    public required ArmorType ArmorClassType { get; set; }
+    public Shield? Shield { get; set; }
 
     public int Calculate(int dexterityModifier)
     {
